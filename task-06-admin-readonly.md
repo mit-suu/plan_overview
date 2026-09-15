@@ -1,6 +1,6 @@
 # Task 06 — Admin read-only 10.1–10.3 (user list, metrics, AI cost)
 
-**Wave:** 1 · **Người phụ trách:** D · **Effort:** 6 điểm · **Trạng thái:** [ ] Chưa làm  [ ] Đang làm  [ ] Xong
+**Wave:** 1 · **Người phụ trách:** D · **Effort:** 6 điểm · **Trạng thái:** [ ] Chưa làm  [x] Đang làm  [ ] Xong
 
 ## Mục tiêu
 Bổ sung mặt admin đọc theo Phases §9.2 (10.1 user list, 10.2 metrics, 10.3 AI cost) trên nền `AiActionLog`, `CreditTransaction`, `User`, `Project` đã có. Không làm suspend/adjust credit (10.4–10.7 hoãn).
@@ -35,10 +35,10 @@ F3 (admin chỉ có prompt template). Phụ: trang admin prompt dùng raw fetch 
 - 4 endpoint admin đọc + 3 trang FE hiển thị dữ liệu thật.
 
 ## Tiêu chí hoàn thành (DoD)
-- [ ] User thường gọi `/admin/*` nhận 403; admin nhận 200.
-- [ ] `ai-cost` khớp tổng `CreditTransaction{type:deduct}` trong khoảng ngày trên DB dev.
-- [ ] Trang prompt-templates không còn `localStorage.accessToken` trực tiếp.
-- [ ] FE typecheck/lint xanh.
+- [x] User thường gọi `/admin/*` nhận 403; admin nhận 200. (`admin.test.ts`)
+- [ ] `ai-cost` khớp tổng `CreditTransaction{type:deduct}` trong khoảng ngày trên DB dev. (chưa chạy trên DB dev)
+- [x] Trang prompt-templates không còn `localStorage.accessToken` trực tiếp. (2026-09-14: đã gỡ hẳn `/admin/prompt-templates` FE + BE theo yêu cầu người điều phối)
+- [x] FE typecheck/lint xanh. (typecheck xanh; eslint trên file T06 xanh; `npm run lint` toàn repo còn 80 lỗi/cảnh báo có sẵn ở file ngoài T06)
 
 ## Ghi chú / rủi ro
 - 10.4–10.7 (suspend, adjust credit, feedback dashboard) hoãn theo Phases §9.2.

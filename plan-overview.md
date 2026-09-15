@@ -252,9 +252,9 @@ Cách cập nhật: người phụ trách đổi ô Trạng thái của task mì
 | 1 | T01 | A | Chưa làm | | |
 | 1 | T02 | B | Chưa làm | | |
 | 1 | T03 | B | Chưa làm | | |
-| 1 | T04 | C | Chưa làm | | |
+| 1 | T04 | C | Đang làm | 2026-09-14 | Đã thay mock gateway bằng payment_service thật (VietQR, callback + polling); test xanh; còn chạy thử với payment_service thật và kiểm UI bell trên trình duyệt |
 | 1 | T05 | A | Chưa làm | | |
-| 1 | T06 | D | Chưa làm | | |
+| 1 | T06 | D | Đang làm | 2026-09-14 | BE 5 endpoint `/admin/*` + 10 test xanh; FE users/metrics/ai-cost/feedback + sidebar, prompt-templates read-only qua `apiCall`; còn đối chiếu ai-cost với tổng deduct trên DB dev |
 | 1 | T07 | D | Chưa làm | | |
 | — | **M1** | A | [ ] | | |
 | 2 | T08 | A | Chưa làm | | |
