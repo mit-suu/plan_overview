@@ -5,6 +5,32 @@
 > **Vị trí trong plan tổng:** đây là bản chi tiết của "Wave 6 tuỳ chọn" (`plan-overview.md` §9), chỉ phần import + change request + release cho mode 1. Template khách hàng (mode 3) và vai trò Lead/Analyst/Viewer (E5) **không** nằm trong plan này.
 > **Cách chia:** 5 phase chạy lần lượt: **P0 kiểm tra hiện trạng → P1 schema/contract → P2 logic BE → P3 UI → P4 unit test.** Mỗi phase có DoD dạng checkbox; phase sau chỉ mở khi DoD phase trước tick đủ (riêng P3 được làm trên mock khi P1 đã đóng băng contract, xem §3).
 
+## 0. Trạng thái & bàn giao (đọc mục này trước khi làm tiếp — cập nhật mỗi khi đổi phase)
+
+**Cập nhật: 2026-09-18.**
+
+| Phase | Trạng thái | Ở đâu |
+|---|---|---|
+| P0 | **Xong, Go** (nhóm chốt G1–G9, G3 dùng bookmark ẩn `_ff_<blockId>` làm neo chính) | Báo cáo `reports/mode1-p0-report.md`; mã spike + ảnh `reports/mode1-p0/` |
+| P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#50](https://github.com/mit-suu/flintflow_be/pull/50), FE PR [#29](https://github.com/mit-suu/flintflow_fe/pull/29), nhánh `feat/FLF-171-mode1-p1-schema` (đã push, **chưa merge**) |
+| P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-171-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #50 merge) |
+| P3, P4 | Chưa | FE làm P3 trên mock `flintflow_fe/mocks/mode1/` |
+
+**Quy ước đã chốt với người dùng**
+- Ticket: **cả mode 1 dùng chung FLF-171**. Commit `flf-171: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By`. PR tiêu đề `[FLF-171] …`.
+- Mỗi phase/cụm một nhánh riêng (không commit tiếp vào nhánh đã có PR). P2 dự kiến 5 nhánh xếp chồng: `feat/FLF-171-mode1-p2-ooxml` (2A) → `-p2-import` (2B+2D) → `-p2-extract` (2C) → `-p2-change-request` (2E) → `-p2-release-guard` (2F+2G).
+- Kiểm tương thích file: máy hiện tại **chỉ có Word 16** (COM qua PowerShell). LibreOffice **không bỏ**, chỉ hoãn — là checkbox trong DoD P2.
+- Push/tạo PR: máy không có `gh`; đã tạo PR qua GitHub API bằng credential git. Repo chưa có nhãn `contract-change`.
+- Thay đổi trong `claude_plan` (plan này, `reports/`) **chưa commit** — chờ người dùng bảo.
+
+**Bước tiếp theo (chờ người dùng xác nhận)**
+1. Review + merge #50 (P1) rồi #51 (P2).
+2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
+3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
+4. Việc hoãn (người dùng chốt làm sau): **A** I-4 chạy nền + polling; **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc). Mô tả đủ để làm ở `reports/mode1-p2-report.md` §7.1.
+
+**Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
+
 ---
 
 ## 1. Luồng nghiệp vụ cần làm
@@ -40,12 +66,12 @@ Flow 4/5 bọc mọi bước AI: giữ credit trước, quyết toán sau, lỗi
 |---|---|---|
 | G1 | Chưa có Organization/role (Project chỉ có `userId`; E5 hoãn) | Người tạo project = **Lead** của tổ chức một người ⇒ **tự duyệt** (UC-52 không qua UC-51). Model CR vẫn có `submitted_at`, `decided_by` để khi có E5 chỉ thêm nhánh Analyst → Lead. |
 | G2 | Nguồn sự thật của nội dung ở mode 1 | **File .docx gốc + bảng block** là nguồn sự thật của văn bản; Spine chỉ là **chỉ mục trích ra** để check, tìm impact và đưa ngữ cảnh cho AI. Mode 1 **không** render lại tài liệu từ Spine (không dùng `assemble`/`docx-writer` cho bản chính). |
-| G3 | Neo block | Ưu tiên `w14:paraId`; kèm `text_hash` + vị trí trong cây heading để neo lại khi paraId đổi. Chốt sau spike P0 (có thể chuyển sang chèn bookmark `ff_<blockId>`). |
+| G3 | Neo block | **Đổi sau P0, nhóm đã chốt 2026-09-18:** neo chính là bookmark ẩn `_ff_<blockId>`, ghi vào bản lưu lúc import. Bookmark giữ 100% qua Word với mọi nguồn file. Neo phụ: `w14:paraId` (nếu có), `text_hash`, vị trí trong cây heading. Không dựa chính vào paraId vì file do docx lib sinh (kể cả file xuất từ FlintFlow mode 2) không có paraId, và Word sinh lại toàn bộ paraId, bỏ paraId tự gán. Xem `reports/mode1-p0-report.md` §4.1. |
 | G4 | Đánh số version | Import = `0.0` (baseline v0, type `imported`). Mỗi CR ghi xong = minor tiếp theo của draft (`0.1`, `0.2`…). Release = major tiếp theo (`1.0`, `2.0`…) kèm baseline type `release`. Khác quy ước `v1.N` của mode 2 (`baseline.service.ts:57`) ⇒ tách hàm đánh số theo mode. |
 | G5 | Waive cờ | Mode 1 **không** có waive (UC-42 đã bỏ, BR-04). Code hiện còn `flags.service.waive` + baseline `-conditional` cho mode 2 — không đụng trong plan này, ghi vào `docs/spec-gaps.md`. |
 | G6 | Gửi gì cho model | Chỉ gửi text của block (theo section), không gửi file — giữ giả định 10 của plan tổng. |
 | G7 | Bảng trong file | Bảng có cột khớp đủ field (ví dụ bảng Use Case, bảng NFR) được trích **deterministic**, không tốn credit; AI chỉ trích phần văn xuôi và bảng khớp một phần. |
-| G8 | Watermark DRAFT cho bản draft mode 1 | Chèn chữ "DRAFT" vào header của bản tải về (không sửa file lưu). Nếu spike P0 cho thấy header gốc phức tạp (nhiều section/header khác nhau) thì hạ xuống: custom property + tiền tố `DRAFT_` ở tên file. |
+| G8 | Watermark DRAFT cho bản draft mode 1 | Chèn chữ "DRAFT" vào header của bản tải về (không sửa file lưu). Nếu spike P0 cho thấy header gốc phức tạp (nhiều section/header khác nhau) thì hạ xuống: custom property + tiền tố `DRAFT_` ở tên file. **P0:** giữ nguyên phương án. Shape VML chèn vào mọi header part, tạo header nếu thiếu; chạy đúng trên Word với file nhiều section, header trang đầu riêng, header kế thừa và file không có header. LibreOffice chưa kiểm (hoãn, xem DoD P2). |
 | G9 | Chat ở mode 1 | Chat chỉ để hỏi đáp. Lệnh sửa trong chat trả `409 CHANGE_REQUIRES_CR` kèm gợi ý tạo CR điền sẵn (BR-03). |
 
 ---
@@ -115,11 +141,14 @@ Dùng `jszip` + `@xmldom/xmldom` (đã có trong `node_modules` qua `mammoth`/`d
 - Sửa lại bảng giả định §2 nếu kết quả spike khác.
 
 ### DoD P0
-- [ ] BE + FE: typecheck, lint, unit, integration, build xanh trên `develop` (hoặc có danh sách lỗi đã biết kèm issue).
-- [ ] Bảng 4.2 đủ 12 dòng có kết luận "dùng lại nguyên / cần mở rộng (ghi rõ) / không dùng".
-- [ ] Spike 4.3 bước 1–7 có kết quả; Track Changes + comment mở đúng ở Word **và** LibreOffice.
-- [ ] Token I-4 và 1 CR đã đo; nếu chi phí import 1 SRS > ngân sách credit gói free thì ghi đề xuất (trích bảng deterministic nhiều hơn, gộp section).
-- [ ] Nhóm chốt Go và G1–G9.
+- [x] BE + FE: typecheck, lint, unit, integration, build xanh trên `develop` (hoặc có danh sách lỗi đã biết kèm issue). *(2026-09-18: BE 784 unit + 61 integration xanh; FE 222 test xanh, lint 0 lỗi)*
+- [x] Bảng 4.2 đủ 12 dòng có kết luận "dùng lại nguyên / cần mở rộng (ghi rõ) / không dùng". *(báo cáo §3)*
+- [x] Spike 4.3 bước 1–7 có kết quả; Track Changes + comment mở đúng ở Word. *(2026-09-18)*
+- [ ] Như trên, trên LibreOffice. *(Hoãn: máy hiện chỉ có Word. Nhóm cho Go không chờ mục này; chuyển sang DoD P2, không bỏ.)*
+- [x] Token I-4 và 1 CR đã đo; nếu chi phí import 1 SRS > ngân sách credit gói free thì ghi đề xuất (trích bảng deterministic nhiều hơn, gộp section). *(ước vượt 100 credit; đề xuất ở báo cáo §4.8)*
+- [x] Nhóm chốt Go và G1–G9. *(2026-09-18, G3 theo phương án bookmark)*
+
+Báo cáo P0: `reports/mode1-p0-report.md`. Kết luận: **Go** (nhóm chốt 2026-09-18). P0 đóng; mục LibreOffice hoãn sang DoD P2. **P1 mở.**
 
 ---
 
@@ -203,12 +232,14 @@ Mã lỗi mới (thêm vào contract §0.3): `IMPORT_FILE_REJECTED`, `IMPORT_STA
 `flintflow_fe/types/import.ts`, `types/change-request.ts`, `types/doc-version.ts`, cập nhật `types/project.ts` (`mode`), `types/spine.ts` (5.5). Mock msw cho toàn bộ endpoint 5.6 trong `flintflow_fe/mocks/`.
 
 ### DoD P1
-- [ ] Các model/DTO/state machine ở 5.1–5.4 có mặt, `npm run typecheck` BE xanh; state machine là hàm thuần không phụ thuộc DB.
-- [ ] PR contract-change 5.5 merge sau 4/4 approve; `assets/schema/srs-spine.schema.json` xuất lại.
-- [ ] `docs/api/import-change-contract.md` đủ 5.6 kèm ví dụ request/response + mã lỗi; **đóng băng**.
-- [ ] ActionType + output schema + skill khung đăng ký, test registry skill hiện có vẫn xanh.
-- [ ] FE types + msw mock chạy được, `npm run typecheck` FE xanh.
-- [ ] `dependencies` BE thêm `jszip`, `@xmldom/xmldom` (nếu P0 Go).
+- [x] Các model/DTO/state machine ở 5.1–5.4 có mặt, `npm run typecheck` BE xanh; state machine là hàm thuần không phụ thuộc DB. *(FLF-171, 2026-09-18: test phủ 100% cạnh của cả hai máy trạng thái)*
+- [x] PR contract-change 5.5 merge sau 4/4 approve; `assets/schema/srs-spine.schema.json` xuất lại. *(Nhóm chốt 4/4 ngày 2026-09-18; code ở commit BE `64826a7`, FE `8c43c30`. **Chưa push/merge** — P2 làm tiếp trên nhánh FLF-171, merge khi push)*
+- [x] `docs/api/import-change-contract.md` đủ 5.6 kèm ví dụ request/response + mã lỗi; **đóng băng**. *(31 endpoint + 18 mã lỗi + 7 ví dụ; nhóm chốt, đóng băng 2026-09-18)*
+- [x] ActionType + output schema + skill khung đăng ký, test registry skill hiện có vẫn xanh. *(Test registry sửa số đếm 32→37 skill và cho 5 khung mode 1 là `stub` tới P2)*
+- [x] FE types + msw mock chạy được, `npm run typecheck` FE xanh. *(Mock đủ 31 endpoint, 13 ca test đi trọn luồng)*
+- [x] `dependencies` BE thêm `jszip`, `@xmldom/xmldom` (nếu P0 Go). *(npm nâng bản vá: 3.10.2, 0.8.15)*
+
+Nhánh `feat/FLF-171-mode1-p1-schema` (BE 10 commit, FE 2 commit, chưa push). **P1 đóng — P2 mở.** Việc chuyển sang P2 (logic, không phải schema): tách `snapshotBaseline` khỏi `signOff`, hook `excludeRules` cho `runDeterministicCheck`/`recompute`, `purgeProjectData` dọn collection mode 1 (ghi ở `docs/spec-gaps.md`).
 
 ---
 
@@ -266,15 +297,16 @@ Chia 7 cụm; cụm 2A là nền của mọi cụm còn lại nên làm trước
 - Chặn chat (G9, BR-03): trong `chat-session.service.ts`, project `mode = import` mà `isChangeInstruction` ⇒ `409 CHANGE_REQUIRES_CR` kèm `meta.prefill {title, description}`; `POST /changes`, `/undo` với project mode 1 ⇒ cùng mã.
 
 ### DoD P2
-- [ ] Import trọn trên 1 SRS thật: upload → preflight → map → trích → xác nhận → baseline v0 → check → gap report (Mongo thật + provider thật ít nhất 1 lần, token ghi `docs/measurements.md`).
-- [ ] 3 nhánh stamp của preflight chạy đúng; re-upload tạo diff, không tạo version.
-- [ ] CR trọn: log → làm rõ → impact → khoá → đề xuất → verify → duyệt một phần → file `0.1` mở bằng Word thấy Track Changes + comment author `CR-001`; block group bị từ chối mở khoá ngay.
-- [ ] Hai CR cùng chạm 1 block: CR thứ hai nhận `409 BLOCK_LOCKED`.
-- [ ] Verify trượt 3 lần ⇒ `manual_fix`; huỷ CR mở khoá block.
-- [ ] Release: đỏ > 0 bị chặn; đỏ = 0 ra `1.0` sạch (không còn `w:ins`/`w:del`), baseline `type: release`.
-- [ ] Hết credit giữa I-4 ⇒ paused, nạp xong resume không trích lại section đã xong; hold được hoàn khi AI lỗi.
-- [ ] Chat/`/changes`/`/undo` ở project mode 1 trả `409 CHANGE_REQUIRES_CR`.
-- [ ] Swagger cho mọi route mới; typecheck BE xanh; test cũ vẫn xanh.
+- [x] Import trọn trên 1 SRS thật: upload → preflight → map → trích → xác nhận → baseline v0 → check → gap report (Mongo thật + provider thật ít nhất 1 lần, token ghi `docs/measurements.md`). *(Report3 của nhóm, GLM thật, Mongo in-memory replica set: 98 section, 0 lỗi, 157 credit — vượt gói free, xem báo cáo P2 §7)*
+- [x] 3 nhánh stamp của preflight chạy đúng; re-upload tạo diff, không tạo version.
+- [x] CR trọn: log → làm rõ → impact → khoá → đề xuất → verify → duyệt một phần → file `0.1` mở bằng Word thấy Track Changes + comment author `CR-001`; block group bị từ chối mở khoá ngay. *(luồng HTTP ở test tích hợp; Word 16 kiểm trên thư viện 2A: 9/9 revision + comment `CR-001`, Accept/Reject all khớp code)*
+- [x] Hai CR cùng chạm 1 block: CR thứ hai nhận `409 BLOCK_LOCKED`.
+- [x] Verify trượt 3 lần ⇒ `manual_fix`; huỷ CR mở khoá block.
+- [x] Release: đỏ > 0 bị chặn; đỏ = 0 ra `1.0` sạch (không còn `w:ins`/`w:del`), baseline `type: release`.
+- [x] Hết credit giữa I-4 ⇒ paused, nạp xong resume không trích lại section đã xong; hold được hoàn khi AI lỗi.
+- [x] Chat/`/changes`/`/undo` ở project mode 1 trả `409 CHANGE_REQUIRES_CR`. *(kèm `/changes/preview`, `/reconcile`)*
+- [x] Swagger cho mọi route mới; typecheck BE xanh; test cũ vẫn xanh. *(31 endpoint trong swagger; unit 984 + integration 83 xanh, build xanh)*
+- [ ] Kiểm LibreOffice (hoãn từ P0 vì máy hiện chỉ có Word, **không bỏ**): file `0.1` có Track Changes + comment hiển thị đúng, Accept/Reject hoạt động, watermark DRAFT hiện, bookmark `_ff_` còn sau khi mở/lưu.
 
 ---
 
