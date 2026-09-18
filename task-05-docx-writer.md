@@ -1,6 +1,6 @@
 # Task 05 — Word export writer (docx) + watermark DRAFT
 
-**Wave:** 1 · **Người phụ trách:** A · **Effort:** 5 điểm · **Trạng thái:** [ ] Chưa làm  [x] Đang làm  [ ] Xong
+**Wave:** 1 · **Người phụ trách:** A · **Effort:** 5 điểm · **Trạng thái:** [ ] Chưa làm  [ ] Đang làm  [x] Xong
 
 ## Mục tiêu
 Có bộ ghi `.docx` độc lập với Spine: nhận `RenderedDocument` và xuất file Word đúng khung FPT, watermark DRAFT, đánh dấu tại chỗ section stale, chèn ảnh diagram, dấu version trong file và tên file. Assemble (T15) sẽ sinh `RenderedDocument`; task này định nghĩa interface đó.
@@ -37,7 +37,11 @@ F2 (không có export Word, không có lib docx), C8 phần BE (export không b�
 
 ## Tiêu chí hoàn thành (DoD)
 - [x] Test sinh docx từ JSON mẫu; kiểm `document.xml` có heading 5 chương, watermark, bảng §I. (Watermark VML nằm ở `word/header1.xml`; `document.xml` có nhãn `WORKING DRAFT` ở trang bìa.)
-- [ ] Mở thủ công bằng LibreOffice không cảnh báo hỏng file (ghi kết quả vào PR). — Máy dev chưa cài LibreOffice; mới kiểm bằng mammoth đọc lại được. File mẫu cần mở tay.
+- [x] Mở thủ công bằng LibreOffice không cảnh báo hỏng file (ghi kết quả vào PR). — Kiểm 2026-09-15 bằng **Microsoft Word 16.0 (build 16.0.20326)** thay LibreOffice (máy chưa cài). Sinh `writeDocx` từ `fixtures/rendered-document-sample.json` trên BE `develop` `17602c8`, bản `draft` và bản `baseline` (bỏ `watermark`, `flagsAppendix`). Mở qua COM `Documents.Open` với `OpenAndRepair=false`: cả 2 file mở không lỗi, không hộp thoại sửa file.
+  - Draft: 4 trang, 4 bảng, 1 ảnh, 1 TOC; header có 1 WordArt "DRAFT" xoay 315° (−45°), xám nhạt, hiện trên mọi trang; bìa có "WORKING DRAFT - NOT BASELINED"; §I Record of Changes 3 dòng; "Working Draft Status" với 2 cờ đỏ và 1 cờ waived; 2.2.2 `[STALE]` và 3.1.2 `[AWAITING RE-ACCEPT]` có shading vàng; heading 5 chương đúng số.
+  - Baseline: 4 trang, 2 bảng, không watermark, bìa "BASELINE", không có phụ lục cờ.
+  - Property: `title` = "Lumen Học Trực Tuyến - Software Requirement Specification", `subject` = `flintflow_version:v0.3`, custom `flintflow_project_id`, `flintflow_version`, `flintflow_source`.
+  - Chỉ còn lỗi trình bày nhỏ, không chặn: cột Date/Version/"A*, M, D" của bảng §I hẹp nên bị xuống dòng; heading không có khoảng cách phía trên.
 - [x] Tên file và property version đúng định dạng.
 
 ## Ghi chú / rủi ro
