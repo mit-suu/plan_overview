@@ -30,6 +30,7 @@
 2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
 4. Việc A (I-4 chạy nền) **xong** (#55). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
+5a. **Đổi tham số route import `/:projectId` → `/:id`** (người dùng yêu cầu 2026-09-19, URL không đổi): BE nhánh `feat/FLF-172-mode1-import-route-id` (tách từ `-async-extract`, commit `ce77142`, chưa push; `authorizeMode1` đọc `id ?? projectId` vì CR/version vẫn `/:projectId`); FE đổi thư mục `app/projects/[projectId]` → `[id]` (commit `41384f7` trên nhánh P3 — Next.js bắt buộc cùng tên slug ở một cấp).
 5. **P3 code xong (2026-09-19)** trên nhánh FE `feat/FLF-172-mode1-p3-ui`. Còn: push + mở PR FE (base `feat/FLF-172-mode1-p1-schema`, chờ người dùng cho phép); chạy luồng §1 trên trình duyệt với BE thật (cần chọn DB + tài khoản + credit AI). File chưa track `public/mockServiceWorker.js` do msw sinh — không commit.
 6. `claude_plan`: các commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
