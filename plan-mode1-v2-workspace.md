@@ -12,13 +12,66 @@
 |---|---|
 | V0 Chốt quyết định + contract-change | **Code xong, PR mở** — BE [#62](https://github.com/mit-suu/flintflow_be/pull/62), FE [#36](https://github.com/mit-suu/flintflow_fe/pull/36) (`feat/FLF-182-mode1-v2-contract`); **chờ nhóm duyệt 4/4 contract-change** |
 | V1 BE: import → Spine + kế hoạch step | **Xong** — BE [#63](https://github.com/mit-suu/flintflow_be/pull/63) `feat/FLF-183-mode1-v2-step-plan` (3 commit, 1415 test xanh). Chuyển sang V2: gap report nhóm theo layout, văn xuôi I-4 không trích được ⇒ `custom_sections`, render diagram khi finalize. Cờ thiếu đầu mục FPT = luật có sẵn `section_empty` giữ đỏ (không tạo luật mới) |
-| V2 BE: render theo template người dùng | **Xong** — BE [#64](https://github.com/mit-suu/flintflow_be/pull/64) `feat/FLF-184-mode1-v2-render` (3 commit, 1433 test xanh; FLF-184 In Review). Assemble theo layout (`render/layout-sections.ts`): thứ tự + tiêu đề gốc, số đánh lại theo cấp, mục FPT thiếu chèn cạnh anh em cùng nhóm / dưới heading nhóm, `custom:*` nguyên văn, nhãn VI theo `profile.language`. Văn xuôi I-4 không trích được (`ExtractionDraft.unmapped_block_ids`) + khối dưới heading nhóm ⇒ "phần nối" (mục riêng tiêu đề rỗng, gộp vào đầu section chủ). Finalize: vẽ diagram khi PlantUML có mặt, `DocVersion 0.0` = render + stamp, file gốc ở `original_ref` (`download?variant=original`, `has_original_file`), ghép sẵn bản làm việc. Gap report: `missing_fpt_sections[]` đứng đầu + `layout[]`. Contract §4.5 (chỉ thêm field). **Còn nợ:** so thủ công bản tải trên Word 16; **tạm tới V4:** #13 blocks, re-upload diff, CR ghi file vẫn dùng file gốc (`original_ref`) |
+| V2 BE: render theo template người dùng | **Xong** — BE [#64](https://github.com/mit-suu/flintflow_be/pull/64) `feat/FLF-184-mode1-v2-render` (3 commit, 1433 test xanh; FLF-184 In Review). Assemble theo layout (`render/layout-sections.ts`): thứ tự + tiêu đề gốc, số đánh lại theo cấp, mục FPT thiếu chèn cạnh anh em cùng nhóm / dưới heading nhóm, `custom:*` nguyên văn, nhãn VI theo `profile.language`. Văn xuôi I-4 không trích được (`ExtractionDraft.unmapped_block_ids`) + khối dưới heading nhóm ⇒ "phần nối" (mục riêng tiêu đề rỗng, gộp vào đầu section chủ). Finalize: vẽ diagram khi PlantUML có mặt, `DocVersion 0.0` = render + stamp, file gốc ở `original_ref` (`download?variant=original`, `has_original_file`), ghép sẵn bản làm việc. Gap report: `missing_fpt_sections[]` đứng đầu + `layout[]`. Contract §4.5 (chỉ thêm field). **Còn nợ:** so thủ công bản tải trên Word 16 (xem §0.1). Phần "tạm tới V4" (#13 blocks, re-upload diff, CR ghi file) đã chuyển sang đọc file render ở V4 |
 | V3 FE: workspace mode 2 cho project mode 1 | **Xong** — FE [#38](https://github.com/mit-suu/flintflow_fe/pull/38) `feat/FLF-185-mode1-v2-workspace` (tách từ V0 FE `feat/FLF-182-mode1-v2-contract`; 3 commit, 431 test xanh, lint/build OK; FLF-185 In Review). `page.tsx`: mode 1 import xong ⇒ `FptWorkspace mode1`, chưa xong ⇒ `/import`. Thanh step đỏ "Thiếu" (plan `missing` + chưa accepted), ẩn phase rỗng. Cột "Kế hoạch & version" (`Mode1WorkspaceTools`/`Mode1PlanPanel`/`useStepPlan`): thiếu mục FPT, Bật/Tắt step ẩn, **Ký baseline v1** (`POST /baseline`, khoá khi còn cờ đỏ), VersionsPanel + tải file gốc, link gap report/CR. DocumentPane: `custom:*`, heading nhóm, gợi ý "chạy step X". Gỡ `Mode1Workspace`, `DocBlockView` (tách `Revisions`). **Còn nợ:** e2e trình duyệt trên BE thật (V6); sau v1 chat vẫn là thẻ tạo CR điền sẵn (V4) |
 | V4 BE+FE: CR trên Spine, điều khiển bằng chat | **Xong** — BE [#65](https://github.com/mit-suu/flintflow_be/pull/65), FE [#39](https://github.com/mit-suu/flintflow_fe/pull/39), nhánh `feat/FLF-186-mode1-v2-cr-spine` (BE tách từ V2, FE tách từ V3; FLF-186 In Review). **Contract-change §4.6 chờ 4/4.** Vị trí CR = phần tử Spine (`spine-location.ts`), khoá theo path (`SpineLock`, `PATH_LOCKED`), C-4 = op Spine, C-5 so giá trị tại path (`CR_VALUE_CHANGED`) + op chỉ chạm phần tử đã khoá, PATCH vị trí `new_value`/`spine_ops`, C-7 ghi Spine (by = CR) + render version minor (Spine ghi cuối — FLF-178), release = render snapshot, blocks/so sánh/re-upload đọc file render (diff khớp theo text), chat sau v1 tạo CR nguồn `chat` (409 kèm `change_request`). BE 1423 / FE 432 test xanh. **Cắt (§11):** bản tải "có đánh dấu" theo section để sau; `comment` chỉ lưu ở CR |
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
 | V6 Test + e2e | Chưa |
 
 PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0 → [#63](https://github.com/mit-suu/flintflow_be/pull/63) V1 → [#64](https://github.com/mit-suu/flintflow_be/pull/64) V2 → [#65](https://github.com/mit-suu/flintflow_be/pull/65) V4. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0 → [#38](https://github.com/mit-suu/flintflow_fe/pull/38) V3 → [#39](https://github.com/mit-suu/flintflow_fe/pull/39) V4. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0; V2 `feat/FLF-184-mode1-v2-render` tách từ V1** (người dùng chọn làm tiếp trên nhánh chưa merge).
+
+### 0.1 Nợ tồn đọng (cập nhật 2026-09-19, sau V4)
+
+**Chờ người khác / chờ quyết định**
+
+| # | Việc | Ai / điều kiện | Ghi chú |
+|---|---|---|---|
+| N1 | Duyệt contract-change V0 (BE #62 / FE #36) | Nhóm 4/4 | Chặn merge cả chuỗi từ V0 trở lên |
+| N2 | Duyệt contract-change V4 §4.6 (`import-change-contract.md`) | Nhóm 4/4 | `PATH_LOCKED`, `CR_VALUE_CHANGED`, vị trí theo `path`, `meta.change_request` — **đổi mã lỗi, FE cũ gọi `BLOCK_LOCKED` sẽ vỡ** |
+| N3 | Merge chuỗi PR xếp chồng BE #53→#65, FE #30→#39 | Review + CI | Merge từ đáy lên; mỗi lần merge rebase nhánh trên. Chưa quyết định close #53–#55 (khuyên giữ) |
+| N4 | Push các commit claude_plan (`docs/FLF-172-mode1-p0-p2`, 5 commit V1→V4 + commit này) | Người dùng cho phép | Chưa push |
+
+**Nợ kỹ thuật (đã biết, chưa làm)**
+
+| # | Nợ | Từ phase | Mức | Hướng xử lý |
+|---|---|---|---|---|
+| T1 | Chưa so thủ công bản tải (render 0.0) trên Word 16 với file gốc | V2 | Trung bình | Làm cùng V6 với 2–3 SRS thật; ghi kết quả vào `reports/` |
+| T2 | Mất định dạng Word gốc (style, header/footer) | V2 | Chấp nhận (D1) | Mở rộng sau: lấy `styles.xml` + header/footer file gốc làm khung docx-writer |
+| T3 | Khối ảnh trong `custom_sections` chỉ render placeholder | V2 | Trung bình | V5 bước 6 (`image_ref` ⇒ nhúng ảnh gốc) |
+| T4 | Diagram chỉ vẽ ở finalize khi PlantUML reachable; không có ⇒ không vẽ, không báo | V2 | Thấp | Thêm cờ vàng "chưa vẽ diagram" hoặc vẽ lại khi assemble; làm ở V5 |
+| T5 | Sửa qua chat nhắm `custom:<id>` của "phần nối" (tiêu đề rỗng) nhưng bản render gộp nó vào section chủ ⇒ người dùng khó thấy vị trí | V2/V4 | Thấp | FE: hiện phần nối dưới section chủ với nhãn "phần nối"; hoặc BE trả `owner_section_id` |
+| T6 | Bản tải "có đánh dấu" (w:ins/w:del theo section) — cắt khỏi V4; `variant=tracked` hiện trả bản render | V4 | Trung bình | Task riêng sau V6: diff theo section giữa hai render ⇒ `docx-ooxml` (author = CR id) |
+| T7 | Vị trí `comment` của CR chỉ lưu ở CR, không ghi vào file | V4 | Thấp | Đi cùng T6 (comment OOXML) |
+| T8 | `/changes`, `/undo` trong chat sau v1 vẫn trả 409 prefill (chỉ lệnh sửa thường mới tạo CR) | V4 | Thấp | Cho `/changes` tạo CR nhiều vị trí; `/undo` sau v1 ⇒ CR revert |
+| T9 | `DocBlock` giờ chỉ còn dùng để truy vết import (`source_block_ids`); `DocBlock.locked_by_cr`, `ChangeLocation.block_id` là field chết | V4 | Thấp | Dọn + migration dữ liệu cho project cũ (P2–P4 đã có CR theo block) — task riêng, cần kiểm DB dev |
+| T10 | Tìm vị trí CR kiểu `mention` có thể gắn trùng với `spine_link` (cùng phần tử tham chiếu hai lần) | V4 | Thấp | Khử trùng theo path trước khi trả |
+| T11 | UI xem nội dung một version đã bỏ (V3), chỉ còn tải; `VersionCompare` dùng block đọc từ file render | V3/V4 | Thấp | Nếu cần: modal xem block của version qua `GET …/versions/:v/blocks` |
+| T12 | Test trượt: BE `mode1-extract` I-4 pause/resume (chạy cả suite song song); FE `page.test.tsx` (đã nới timeout 20 s) | V1/V3 | Trung bình | V6: tìm nguyên nhân (nghi chia sẻ Mongo memory server / timer), không chỉ nới timeout |
+| T13 | Chưa có e2e trình duyệt trên BE thật cho luồng v2 | V3 | Cao | V6 |
+
+### 0.2 Kế hoạch phiên tiếp theo
+
+Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; nếu nhóm chưa cấp key provider có vision thì làm V6 trước, V5 sau).
+
+**Trước khi code**
+1. Đọc §0 + §0.1; `git fetch` cả BE/FE, xem PR nào đã được review/merge (N1–N3) — nếu chuỗi đã merge thì tách nhánh từ `main` thay vì nhánh V4.
+2. Hỏi người dùng: provider vision nào (Gemini / Anthropic / OpenAI) + đã có key trong `.env` chưa — **chặn V5 bước 3**.
+
+**V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision` tách từ `feat/FLF-186-mode1-v2-cr-spine`**
+1. `DocxPackage.binary(name)` + `blocks.ts` lưu `image_ref` (kể cả ảnh trong đoạn có chữ) + caption kề ±1 — unit test với fixture docx có ảnh png.
+2. `AiActionInput.images`, đường gọi AI SDK có message part `image`, `ActionType.IMPORT_EXTRACT_DIAGRAM` + giá credit, `withMeteredAi` nhận ảnh.
+3. Skill `import-extract-diagram` (phân loại + trích theo schema) + `extract-targets` thêm `flow_to`, `includes/extends`.
+4. I-4: gọi vision theo section, `origin: vision`, gộp khử trùng theo tên, độ tin ≤ 0.7.
+5. Finalize: section có ảnh đọc được ⇒ diagram render thay ảnh; `other`/emf/wmf ⇒ giữ ảnh gốc qua `image_ref` (đóng T3) + cờ vàng.
+6. DoD §9 + đo token ghi `docs/measurements.md`. FE chỉ cần nếu 1.9 phải hiện nguồn "từ ảnh" (kiểm `origin` đã hiển thị chưa).
+
+**V6 (FLF-188) — BE + FE**
+1. Sửa `e2e/mode1.spec.ts` theo luồng v2: import ⇒ gap review ⇒ workspace ⇒ chạy step ⇒ chat sửa ⇒ ký v1 ⇒ chat tạo CR ⇒ duyệt ⇒ version 0.x ⇒ release 1.0 (đóng T13).
+2. Xử lý test trượt T12 tận gốc.
+3. Coverage ≥ 80% cho module mới/sửa (`render/layout-sections`, `import/step-plan`, `change-request/*`, `mode1/*` FE).
+4. So thủ công bản tải trên Word 16 (T1), ghi `reports/`.
+
+**Sau V6 (task mới, cần tạo ticket):** T6+T7 bản tải có đánh dấu; T9 dọn DocBlock + migration; T8 `/changes`–`/undo` sau v1.
 
 ---
 
