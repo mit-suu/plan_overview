@@ -3,8 +3,8 @@
 > Plan: `plan-mode1-import-edit-srs.md` §7. Ticket FLF-172. Nhánh FE `feat/FLF-172-mode1-p3-ui` tách từ `feat/FLF-172-mode1-p1-schema` (FE PR #30 chưa merge).
 
 ## 1. Trạng thái
-- Trạng thái: **Code xong 3.1–3.15 trên mock msw**; DoD 3/4 (còn đi trọn luồng trên trình duyệt với BE thật).
-- Nhánh FE `feat/FLF-172-mode1-p3-ui`, 4 commit, **chưa push**:
+- Trạng thái: **Xong — DoD 4/4** (e2e trình duyệt trên BE thật + provider AI thật xanh ngày 2026-09-19, §6.1).
+- Nhánh FE `feat/FLF-172-mode1-p3-ui`, 6 commit, **chưa push**. BE thêm 2 nhánh chưa push: `feat/FLF-172-mode1-import-route-id` (đổi tham số route import `/:id`) → `feat/FLF-172-mode1-e2e-fixes` (sửa C-4 thấy khi e2e).
 
 | Commit | Nội dung |
 |---|---|
@@ -12,6 +12,8 @@
 | `cc27916` | Gap report, tài liệu theo block, so sánh version, re-upload, version/release, workspace mode 1, chat 409 (3.7–3.9, 3.12, 3.13) |
 | `7670213` | Change request: danh sách + form, workspace CR (3.10–3.11) |
 | `ad8783f` | Tạo dự án chọn mode, thẻ dự án mode 1 (3.1, 3.14) |
+| `41384f7` | Đổi segment `app/projects/[projectId]` → `[id]` (người dùng yêu cầu) |
+| `b260dbb` | e2e mode 1 trên BE thật (`e2e/mode1.spec.ts`) + sửa nhỏ thấy khi chạy thật |
 
 ## 2. Đã làm
 | # | Màn | File chính | Ghi chú |
@@ -60,18 +62,35 @@ Mock: #6/#10 trả ngay `extracting`, mỗi lần poll #4 trích thêm một sec
 | `npm run build` | xanh, 5 route mới |
 
 ## 6. DoD P3
-- [ ] Đi trọn luồng trên trình duyệt với BE thật — **chưa làm** (xem §7).
-- [x] Paused/lỗi AI có banner + nút tiếp tục; lỗi API hiện thông báo, không màn trắng *(kiểm trên mock: import hết credit, CR hết credit, 409 BLOCK_LOCKED, 422 release)*.
-- [x] Workspace mode 2 không đổi hành vi *(test cũ xanh; thân workspace không đổi — nên xác nhận thêm khi chạy trình duyệt)*.
+- [x] Đi trọn luồng trên trình duyệt với BE thật (§6.1).
+- [x] Paused/lỗi AI có banner + nút tiếp tục; lỗi API hiện thông báo, không màn trắng *(mock: import hết credit, CR hết credit, 409 BLOCK_LOCKED, 422 release; thật: 422 stamp project khác, 409 CHANGE_REQUIRES_CR)*.
+- [x] Workspace mode 2 không đổi hành vi *(e2e `workspace.spec.ts` có sẵn chạy trên cùng BE thật: 2/2 xanh)*.
+
+### 6.1 E2E trên BE thật (2026-09-19)
+- Môi trường: BE nhánh `feat/FLF-172-mode1-e2e-fixes` (gồm I-4 chạy nền + route `/:id`), FE nhánh P3 `next dev`, **Mongo local** `flintflow_v2`, provider AI thật theo `.env`, tài khoản `seed:e2e-user` (1000 credit). File: `doc/sample-baseline.docx` gỡ stamp (70 đoạn); bản còn stamp dùng thử nhánh từ chối.
+- Chạy tay: `E2E_MODE1=1 E2E_MODE1_DOCX=<file> [E2E_MODE1_FOREIGN_DOCX=<file stamp>] npx playwright test e2e/mode1.spec.ts`.
+- Luồng qua UI: đăng nhập → tạo dự án mode 1 → file stamp project khác bị từ chối → upload → xác nhận bản mới nhất → mapping (11 heading, 1 dòng 65%) → trích nền (poll) → baseline 0.0 → gap report (0 đỏ, 22 vàng, 12 section bắt buộc thiếu) + tải .docx → CR từ gap report → làm rõ → vị trí + khoá → đề xuất → kiểm → nộp → **3 nhóm, duyệt 1, từ chối 2** → bản 0.1 hiện Track Changes → tải `_v0.1_DRAFT.docx` → so sánh 0.0→0.1 → **release 1.0** → tải bản sạch → chat ra lệnh sửa ⇒ thẻ tạo CR → thẻ dự án ở /home. **Lượt 6 xanh, 48,6 giây, 0 lỗi console / 5xx.** ~45 credit/lượt.
+- Kiểm file tải về: `v0.1_DRAFT` có 1 `w:ins` + 1 `w:del` tác giả `CR-001`, watermark DRAFT, stamp `0.1 cr_revision`; `v1.0` 0 ins/del, stamp `1.0 release`.
+- Ảnh từng bước + file: scratchpad phiên này (`e2e/run6/`), không commit. Dự án e2e để lại trong Mongo local.
+
+### 6.2 Lỗi thấy khi chạy thật và đã sửa
+| Lỗi | Nguyên nhân | Sửa |
+|---|---|---|
+| CR kẹt ở "Đề xuất": 2/6 vị trí không bao giờ có kết luận, bấm lại 8 lần vẫn vậy (tốn 10 lượt C-4) | Model đôi khi **đánh số lại `location_id`** trong lô (trả `L001`, `L002` cho lô `L005`, `L006`); BE chỉ khớp theo id nên bỏ qua lặng lẽ | BE `d8e49d5`: `matchProposals` khớp id → block_id → thứ tự (chỉ khi số lượng bằng nhau); gọi lại 1 lượt cho vị trí còn sót; + 4 unit test. FE: báo rõ "AI chưa kết luận N vị trí", gợi ý Sửa tay |
+| Ô chat mode 1 dùng placeholder "lệnh yêu cầu chỉnh sửa" của mode 2 | — | `ChatPane.inputPlaceholder` |
+| `console.error` mỗi lần chat bị chặn `CHANGE_REQUIRES_CR` | Luồng bình thường nhưng `onError` log như lỗi | Bỏ log cho mã này |
+
+### 6.3 Ghi nhận, chưa sửa
+- Comment do CR ghi (kết luận "chỉ comment") **không hiện** ở tài liệu theo block: DTO block chỉ có `revisions[]` (ins/del), không có comment — cần contract-change nếu muốn hiện.
+- Chất lượng C-4: AI đề xuất đổi tiêu đề cột bảng "Actor" → "Learner" khi CR đổi tên actor Student. Verify không bắt được (không vi phạm luật). Việc của skill `cr-propose`.
+- Sau release, nút Release vẫn bật (BE cho release lại); hộp xác nhận có cảnh báo.
 - [x] typecheck, lint, build xanh; nhãn UI tiếng Việt.
 
 ## 7. Bị chặn / cần quyết định
 | Vấn đề | Đề xuất |
 |---|---|
-| E2E trình duyệt với BE thật cần BE nhánh `-async-extract` + Mongo + tài khoản đăng nhập + credit AI thật; `flintflow_be/.env` có thể trỏ DB dùng chung | Người dùng chọn DB (local/in-memory hay DB dev) và tài khoản rồi chạy; hoặc chạy sau khi BE #53–#55 merge |
 | Push nhánh + mở PR FE (xếp chồng trên #30) | Chờ người dùng cho phép |
 
 ## 8. Bước tiếp theo
-1. Push `feat/FLF-172-mode1-p3-ui`, mở PR `[FLF-172] Mode 1 P3 — UI` base `feat/FLF-172-mode1-p1-schema`.
-2. Chạy luồng §1 trên trình duyệt với BE thật (DoD P3 mục 1).
-3. P4: phần FE còn thiếu theo §8.4 (`PausedBanner`, `MappingReviewTable`, `FieldsReview` riêng lẻ, `lib/api/endpoints.test.ts` thêm endpoint mới).
+1. Push `feat/FLF-172-mode1-p3-ui` (PR base `feat/FLF-172-mode1-p1-schema`) và 2 nhánh BE mới (PR xếp chồng trên #55).
+2. P4: phần FE còn thiếu theo §8.4 (`PausedBanner`, `MappingReviewTable`, `FieldsReview` riêng lẻ, `lib/api/endpoints.test.ts` thêm endpoint mới).
