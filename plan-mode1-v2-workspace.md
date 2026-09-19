@@ -6,7 +6,7 @@
 
 ## 0. Trạng thái & bàn giao
 
-**Cập nhật: 2026-09-19.** Plan mới viết xong, **chờ người dùng duyệt** các quyết định ở §1 (đặc biệt D3) trước khi mở V1.
+**Cập nhật: 2026-09-19.** Plan mới viết xong; D6 (3 mức quan trọng của section) đã chốt. **Chờ người dùng xác nhận D3** (sửa tự do tới baseline v1) trước khi mở V1.
 
 | Phase | Trạng thái |
 |---|---|
@@ -27,10 +27,23 @@ Nhánh code hiện có (chưa push, chưa merge): P1 #53, P2 #54, việc A #55, 
 | # | Quyết định | Thay cho v1 |
 |---|---|---|
 | D1 | **Spine là nguồn sự thật.** Tài liệu render từ Spine bằng assemble/docx-writer như mode 2, **theo thứ tự + tiêu đề mục của chính file người dùng upload** (file đó đóng vai template). Mất định dạng Word gốc — chấp nhận. | G2 (file gốc là nguồn sự thật) |
-| D2 | **Step lấy theo template người dùng** — áp luật lọc step của mode 3 (`business-flow.md` §5) lên profile dựng từ file upload. Step có section trong template ⇒ có trong workspace; step đã có nội dung từ import ⇒ `accepted`; step có section nhưng chưa có nội dung ⇒ `pending` (chạy để AI soạn cho đủ); step **không** có section trong template ⇒ **ẩn**, người dùng **bật thêm** được. | Mode 1 không chạy step (§4.3 business-flow) |
+| D2 | **Step lấy theo template người dùng** — áp luật lọc step của mode 3 (`business-flow.md` §5) lên profile dựng từ file upload. Step có section trong template ⇒ có trong workspace; step đã có nội dung từ import ⇒ `accepted`; step có section nhưng chưa có nội dung ⇒ `pending` (chạy để AI soạn cho đủ). Step **không** có section trong template ⇒ xử lý theo **mức quan trọng của section** (D6). | Mode 1 không chạy step (§4.3 business-flow) |
+| D6 | **Mục quan trọng phải báo thiếu, chỉ mục không quan trọng mới ẩn** (người dùng chốt 2026-09-19, 3 mức — bảng §1.1): **Cốt lõi** thiếu ⇒ không ẩn, step `pending` hiện "Thiếu", **cờ đỏ chặn sign-off v1** tới khi chạy step hoặc viết tay; **Nên có** thiếu ⇒ hiện "Nên bổ sung", **cờ vàng**, người dùng "Bỏ qua" được (⇒ ẩn); **Tuỳ chọn** ⇒ ẩn, bật thêm được. | registry FPT đánh `required` 18/20 mục — quá chặt cho template lạ |
 | D3 | **Sửa như workspace mode 2 cho tới baseline v1**: chạy step + gate, sửa qua chat (`/changes` preview → áp → undo). Import tạo baseline `imported` (v0) chỉ để đối chiếu gap; **bản làm việc vẫn sửa tự do** tới khi Lead sign-off **baseline v1** (như Flow 2). **Sau v1 mọi sửa đi qua CR (Flow 3, BR-03)**, CR khởi tạo từ chat. *(Suy từ yêu cầu "khi sửa cũng như workspace" + nguyên tắc "sau baseline mọi thay đổi qua C-\*" — **cần người dùng xác nhận**.)* | G9 (chat chỉ hỏi đáp), BR-03 áp ngay sau import |
 | D4 | **CR = một commit**: duyệt (3.12) xong **ghi ngay** (3.14), không gom ghi sau — tránh khoá lâu, C-5 kiểm trên dữ liệu cũ, C-3 tìm vị trí trên dữ liệu cũ. | giữ như v1 |
 | D5 | **Diagram từ ảnh**: model có vision đọc ảnh use case / ERD / screen flow / context trong file ⇒ trích phần tử Spine (actor, use case + include/extend, entity + quan hệ, màn + flow_to) ⇒ vẽ lại bằng renderer PlantUML có sẵn ⇒ sửa được qua chat. Loại không có renderer (sequence, activity, class…) ⇒ giữ ảnh gốc làm nội dung tĩnh của section. | mới |
+
+### 1.1 Mức quan trọng của section (D6)
+
+Căn cứ: tầng kiểm "Nội dung" (`business-flow.md` §5 — phạm vi, actor, yêu cầu chức năng, NFR theo ISO/IEC/IEEE 29148). Khai báo một chỗ: `src/modules/import/section-importance.ts` (map section FPT → `core | recommended | optional`), không đổi cờ `required` của registry FPT (mode 2 giữ nguyên).
+
+| Mức | Section FPT (step sở hữu) | Template không có mục này |
+|---|---|---|
+| **core** — Cốt lõi | `fixed:1` Product Overview (S-2.1/2.2) · `fixed:2.1` Actors (S-3.1) · `fixed:2.2.2` Use Case Descriptions (S-3.5) · chức năng: `function:*` / `fixed:3.1.4` Non-Screen Functions (S-4.4, S-5.x) · `fixed:4.2.1`–`4.2.3` Usability / Reliability / Performance (S-6.x) · `fixed:5.1` Business Rules (S-7.1) | Không ẩn. Step `pending`, nhãn "Thiếu". **Cờ đỏ `core_section_missing`** — chặn sign-off v1 tới khi chạy step (AI soạn) hoặc viết tay |
+| **recommended** — Nên có | `fixed:2.2.1` Use Case Diagram · `fixed:3.1.1` Screens Flow · `fixed:3.1.2` Screen Descriptions · `fixed:3.1.3` Screen Authorization · `fixed:3.1.5` ERD · `fixed:4.1` External Interfaces · `fixed:5.2` Common Requirements · `fixed:5.3` Messages · `fixed:5.5` Glossary | Hiện trong "Nên bổ sung", **cờ vàng `recommended_section_missing`**, không chặn v1. "Bỏ qua" ⇒ step `skipped` (ẩn), cờ đóng |
+| **optional** — Tuỳ chọn | `fixed:I` Record of Changes · `fixed:4.2.4` Domain-Specific · `fixed:5.4` Other Requirements · S-5.3 Screen Layout · Brief B-\*, S-1.x | Ẩn (`skipped`), bật thêm được |
+
+Mục có trong template nhưng **trống** (chỉ có heading): step `pending`; mức core/recommended ⇒ cờ như trên, optional ⇒ không cờ.
 
 **Giữ nguyên từ v1:** G1 (người tạo project = Lead, tự duyệt), G4 đánh số version (`0.0` import, minor khi ghi CR, major khi release), G5 không waive, Flow 4/5 (credit, lỗi AI), preflight I-1 + stamp, re-upload diff (1.4), release (Flow 6).
 
@@ -53,6 +66,46 @@ Tạo project mode 1 (UC-13)
     ─► sau v1: lệnh sửa trong chat ⇒ CR (3.1 nguồn "chat", người yêu cầu = user) ─► 3.2…3.14 (ghi ngay khi duyệt)
     ─► Flow 6 Release ⇒ major, bản sạch
 ```
+
+### 2.1 Hành trình người dùng (ví dụ)
+
+File `SRS_Lumen.docx`: 1 Giới thiệu · 2 Actors (bảng) · 3 Use Cases (bảng + **ảnh use case diagram**) · 4 Chức năng (4.1 Đăng ký, 4.2 Đăng nhập) · 5 NFR (5.3 Bảo mật chỉ có tiêu đề) · Phụ lục A Biên bản họp. **Không có** Business Rules, Screen Flow, Record of Changes.
+
+**Giai đoạn 1 — Upload + tách (wizard, một lần)**
+
+| Bước | Người dùng | Hệ thống |
+|---|---|---|
+| Upload | Kéo thả | Preflight (định dạng, mật khẩu, Track Changes lạ, stamp) |
+| Xác nhận | "Bản mới nhất?" → Có | — |
+| Mapping | Sửa dòng độ tin thấp; "Phụ lục A → mục riêng" | Tách block, khớp heading/cột, **ghi thứ tự + tiêu đề mục làm layout** |
+| Trích | Thanh tiến độ | Bảng: tất định. Văn xuôi: AI theo mục. **Ảnh: vision ⇒ actor, UC, include/extend** |
+| Xem field | Chỉ field độ tin thấp (kể cả từ ảnh) | — |
+| Chọn step | Thanh step (bảng dưới) | Luật lọc §5 V1 + mức quan trọng §1.1 |
+| Gap report | "Thiếu mục quan trọng" / "Nên bổ sung" | Baseline v0 `imported` + check |
+
+| Step | Trạng thái | Lý do |
+|---|---|---|
+| Giới thiệu, Actors, Use Cases, chức năng 4.1/4.2, NFR | ✅ Đã xong | Có mục + có nội dung |
+| Use case diagram (S-3.6) | ✅ Đã xong | Vẽ lại PlantUML từ dữ liệu đọc được trong ảnh |
+| 5.3 Bảo mật | ⏳ Chờ chạy | Có mục, chưa có nội dung |
+| **Business Rules (S-7.1)** | 🔴 **Thiếu** — chờ chạy | Core, template không có ⇒ cờ đỏ, chặn v1 |
+| Screen Flow (S-4.2) | 🟡 Nên bổ sung | Recommended ⇒ cờ vàng, "Bỏ qua" được |
+| Record of Changes, Brief B-\* | 🙈 Ẩn | Optional, bật thêm được |
+| Phụ lục A | 📝 Mục riêng | Không có field Spine, giữ nguyên văn |
+
+**Giai đoạn 2 — Workspace trước baseline v1 (sửa tự do như mode 2 — D3)**
+Màn = workspace mode 2 (chat trái, tài liệu phải, thanh step trên — chỉ step áp dụng). Tài liệu luôn render từ Spine theo layout file gốc.
+- **Chạy step thiếu:** "Chạy" ở S-7.1 ⇒ AI hỏi phần thiếu ⇒ nháp ⇒ Accept / Revise.
+- **Sửa bằng chat:** *"Đổi thời gian phản hồi NFR-01 từ 2 giây thành 1 giây"* ⇒ xem trước (`nfrs[NFR-01].threshold: 2 s → 1 s`, mục ảnh hưởng) ⇒ Áp dụng ⇒ tài liệu render lại ⇒ Undo được. Lệnh kéo theo phụ thuộc (*"Đổi actor Student thành Learner"*) ⇒ xem trước liệt kê UC/bảng/diagram liên quan, diagram vẽ lại.
+- **Bật / bỏ qua step:** "Bật" Screen Flow ⇒ chờ chạy; hoặc "Bỏ qua" ⇒ ẩn, cờ vàng đóng. Không bỏ qua được step core.
+- **Mục riêng:** *"Phụ lục A: thêm dòng họp ngày 20/09"* ⇒ xem trước ⇒ áp dụng.
+- Cờ đỏ = 0 (mọi mục core có nội dung) ⇒ **sign-off ⇒ baseline v1**.
+
+**Giai đoạn 3 — Sau v1: mỗi lệnh sửa trong chat là một CR (commit)**
+*"Khoá tài khoản sau 5 lần đăng nhập sai"* ⇒ CR-001 (nguồn chat) ⇒ AI hỏi lại nếu mơ hồ ⇒ vị trí theo Spine (`functions[4.2].validations`, NFR bảo mật, mục 5.3) **bị khoá** ⇒ đề xuất từng chỗ (sửa / chỉ comment / không liên quan + lý do) ⇒ kiểm (giá trị chưa bị đổi, luật Spine; AI chỉ vàng) ⇒ duyệt từng nhóm ⇒ **ghi ngay**: Spine đổi, render lại, version 1.1 nháp, mở khoá. Tải: bản sạch hoặc bản có Track Changes 1.0→1.1 (tác giả CR-001).
+
+**Giai đoạn 4 — Release + upload lại**
+Release (cờ đỏ = 0) ⇒ gom CR đã ghi ⇒ 2.0, bản sạch có stamp. File người ngoài sửa ⇒ upload ⇒ stamp của dự án ⇒ diff theo block với bản render mới nhất, không tạo version ⇒ "Tạo CR từ khác biệt".
 
 ---
 
@@ -93,7 +146,9 @@ Tạo project mode 1 (UC-13)
    3. Step không ra section (B-\*, S-1.x, S-5.1, S-5.5, S-8.4, S-9.x): S-8.4/S-9.x luôn `applied`; **B-\*, S-1.x mặc định `hidden`** với mode 1 (đã có tài liệu, không cần brief) — bật được.
    4. Thứ tự theo id step.
    5. Section bắt buộc trong profile không có field ⇒ `custom_sections` giữ nội dung import; trống ⇒ cờ đỏ "cần viết tay".
-   Còn lại ⇒ `hidden`. Lưu `TemplateProfile.step_plan: { step_id, state: applied|hidden|enabled, reason }[]`.
+   6. **(D6)** Step sở hữu section **core** mà template không có ⇒ `applied` + `missing: core`; section **recommended** ⇒ `suggested` (hiện "Nên bổ sung"); **optional** ⇒ `hidden`.
+   Còn lại ⇒ `hidden`. Lưu `TemplateProfile.step_plan: { step_id, state: applied|suggested|hidden|enabled|dismissed, missing: core|recommended|null, reason }[]`.
+   Cờ: `core_section_missing` (đỏ, luật code, không waive — G5), `recommended_section_missing` (vàng); đóng khi section có nội dung hoặc (vàng) khi người dùng "Bỏ qua".
 3. **Finalize** (`finalize.service.ts`, `spine-builder.ts`), một txn `by: import`:
    - op thực thể như hiện tại (+ `custom_sections` từ block unmapped và `unmapped_block_ids` của I-4 — tránh mất văn xuôi khi render từ Spine);
    - `steps[]`: step `applied` có ≥ 1 field được trích ⇒ `accepted` (`last_seq` = seq cuối của lô); `applied` chưa có nội dung ⇒ `pending`; `hidden` ⇒ `skipped`;
@@ -101,12 +156,12 @@ Tạo project mode 1 (UC-13)
    - `progress.current_step = nextStep(step_plan)`;
    - `renderAll` diagram + `assemble` (V2) ⇒ bản làm việc; baseline `imported` (v0) + `DocVersion 0.0` = file **render**, lưu kèm file gốc (`original_ref`) để tải lại.
 4. **Step engine tôn trọng plan** (`step-registry.ts` `orderedSteps/nextStep/totalSteps`, `section-status.ts` `progressByStep`, `gate.service.ts` `phaseFullyAccepted`, `pipeline.controller.ts GET /steps`): bỏ step `skipped`; tổng step = số step applied/enabled.
-5. **Bật/tắt step**: `PATCH /step-plan` `{ step_id, enabled }` — bật ⇒ `pending` (chạy được, render section FPT tương ứng vào cuối chương gần nhất trong layout); tắt step chưa có nội dung ⇒ `skipped`. Không cho tắt step đã có dữ liệu (409).
+5. **Bật/tắt step**: `PATCH /step-plan` `{ step_id, enabled }` — bật step hidden/suggested ⇒ `pending` (chạy được, render section FPT tương ứng vào cuối chương gần nhất trong layout); "Bỏ qua" step suggested ⇒ `dismissed`/`skipped`, đóng cờ vàng. **Không cho tắt step core** (409 `CORE_STEP_REQUIRED`) và step đã có dữ liệu (409).
 6. **Flag profile theo mode**: mọi `recompute` (step-runner, change.service, reconcile) chọn `MODE1_RULE_PROFILE` khi `project.mode = import`; tầng 1 "hình thức" so với `required_sections` của profile thay cho FPT.
 7. **Guard**: `mode1-guard` chỉ áp khi đã có baseline `v1`/release (không phải `imported`).
-8. Gap report: nhóm theo `layout` người dùng; thêm danh sách step `pending` (chưa có nội dung) và step `hidden`.
+8. Gap report: nhóm theo `layout` người dùng; hai danh sách riêng **"Thiếu mục quan trọng"** (core, đỏ) và **"Nên bổ sung"** (recommended, vàng); step `hidden` liệt kê cuối.
 
-**DoD V1:** import SRS mẫu ⇒ `GET /steps` chỉ trả step applied, đúng trạng thái accepted/pending; `nextStep` đúng; chạy một step pending qua `/run` + gate được; `/changes` preview/apply/undo chạy trên project mode 1 trước v1; test luật lọc 1–5 (bảng ví dụ `business-flow.md` §7.4 làm fixture).
+**DoD V1:** import SRS mẫu thiếu Business Rules (core) + Screen Flow (recommended) + Record of Changes (optional) ⇒ lần lượt: step S-7.1 `pending` + cờ đỏ chặn sign-off; S-4.2 "Nên bổ sung" + cờ vàng, bỏ qua được; `fixed:I` ẩn. `GET /steps` trả step applied/suggested, đúng trạng thái accepted/pending; `nextStep` đúng; chạy một step pending qua `/run` + gate được; `/changes` preview/apply/undo chạy trên project mode 1 trước v1; test luật lọc 1–5 (bảng ví dụ `business-flow.md` §7.4 làm fixture).
 
 ## 6. Phase V2 — BE: render theo template người dùng (5 điểm)
 
@@ -122,7 +177,8 @@ Tạo project mode 1 (UC-13)
 
 - `app/projects/[id]/page.tsx`: mode `import` + import xong ⇒ `FptWorkspace` (thêm tab Version/Release + CR); chưa xong ⇒ wizard `/import` (giữ).
 - `lib/constants/step-registry.ts`, `StepProgressBar`, `PhaseNavBar`, `PhaseHeader`: dựng từ danh sách step BE trả (không cứng 51/56, ẩn phase rỗng).
-- Panel "Step theo template": danh sách step ẩn + nút **Bật** (gọi `PATCH /step-plan`), ghi lý do ẩn.
+- Thanh step: step core thiếu hiện nhãn đỏ **"Thiếu"**; panel **"Nên bổ sung"** (step recommended: nút Bật / Bỏ qua); panel **"Step ẩn"** (optional: nút Bật, ghi lý do ẩn) — gọi `PATCH /step-plan`.
+- Nút sign-off khoá khi còn cờ đỏ `core_section_missing`, liệt kê mục cốt lõi còn thiếu.
 - `DocumentPane`: section `custom:*`, nhãn "Chưa có nội dung — chạy step X" cho section của step pending; bỏ nút "xem tại S-8.2" với mode 1.
 - Chat: trước v1 ⇒ luồng `/changes` như mode 2 (`DiffPreviewModal`); sau v1 ⇒ V4.
 - Gỡ `Mode1Workspace`, `DocBlockView`; giữ `VersionsPanel`, `GapReportView`, CR workspace.
