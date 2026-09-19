@@ -60,17 +60,29 @@ Helper mới: `test/helpers/mode1-{import,cr,release}-p4.ts` (không sửa helpe
 
 FE chưa đo coverage: máy không có `@vitest/coverage-v8` ở FE (DoD chỉ yêu cầu coverage cho 4 module BE).
 
-## 4. Lỗi sản phẩm tìm thấy (chưa sửa — cần quyết định)
+## 4. Lỗi sản phẩm tìm thấy (#1, #2 đã sửa ở FLF-178 — §4.1; còn lại chưa sửa)
 | # | Mức | Chỗ | Lỗi | Test |
 |---|---|---|---|---|
-| 1 | **Trung bình** | `change-request/write.service.ts` ~545–582 | C-7 không nguyên tử: `applyTransaction` + `recompute` chạy ngoài transaction; lỗi sau đó (vd `DocVersion.create`) ⇒ CR vẫn `in_review`, không có 0.1, **nhưng Spine đã đổi** (+1 version, có Change `by: CR-001`). Huỷ/đóng CR sau đó ⇒ Spine lệch tài liệu mãi | `write.int.test.ts` `it.fails` |
-| 2 | **Trung bình** | `import/parse.service.ts` `assignBlockIds` | Block **bảng** không có bookmark neo ⇒ parse lại bản đã lưu nhận id mới (0.0 `B0005` → 0.1 `B0049`). DocBlock bảng ở version mới mất `section_id`; FieldAnchor của thực thể trích từ bảng (actor/UC/BR) trỏ vào id không còn | `parse.test.ts` `it.fails` |
+| 1 | **Trung bình** — ✅ FLF-178 | `change-request/write.service.ts` ~545–582 | C-7 không nguyên tử: `applyTransaction` + `recompute` chạy ngoài transaction; lỗi sau đó (vd `DocVersion.create`) ⇒ CR vẫn `in_review`, không có 0.1, **nhưng Spine đã đổi** (+1 version, có Change `by: CR-001`). Huỷ/đóng CR sau đó ⇒ Spine lệch tài liệu mãi | `write.int.test.ts` `it.fails` |
+| 2 | **Trung bình** — ✅ FLF-178 | `import/parse.service.ts` `assignBlockIds` | Block **bảng** không có bookmark neo ⇒ parse lại bản đã lưu nhận id mới (0.0 `B0005` → 0.1 `B0049`). DocBlock bảng ở version mới mất `section_id`; FieldAnchor của thực thể trích từ bảng (actor/UC/BR) trỏ vào id không còn | `parse.test.ts` `it.fails` |
 | 3 | Thấp | `import/mentions.ts:23` | `FR-3.2.1` bị bắt thành `FR-3.2`, trong khi I-4 đặt id function theo số mục nhiều cấp ⇒ nguồn `mention` của C-3 trượt | `mentions.test.ts` `it.fails` |
 | 4 | Thấp | `import/metered-ai.ts:39–50` | `finalizeCall` lỗi **sau khi** ví đã bị trừ ⇒ nhánh catch đánh usage `refunded`, bỏ kết quả AI, ví không hoàn; chạy lại bị trừ lần hai | ca unit ghi hành vi hiện tại |
 | 5 | Thấp | `change-request/verify.service.ts:336` | Chuyển `verifying` trước khi kiểm; old text lệch ⇒ 409 và CR kẹt ở `verifying` (propose/PATCH không nhận trạng thái này, verify/resume lại 409) — chỉ còn huỷ. Khó xảy ra vì block đang bị chính CR khoá | ghi ở test 409, không khoá cứng |
 | 6 | Thấp | `import/extract.service.ts` `runExtraction` nhánh `!result.ok` | Lưu `doc.paused` trước `draft.status = failed` ⇒ poll có thể thấy paused mà section còn `pending`; làm `mode1-extract.int.test.ts:113` thỉnh thoảng đỏ khi máy tải nặng | — |
 
 Ghi nhận khác: `mode1-guard.ts` `assertChangesAllowed` không nơi nào gọi (code chết); mock FE `mocks/mode1/handlers.ts:357` dùng `\b` sau chữ có dấu nên "Xoá…"/"Bỏ…" không bị mock chặn 409; FE `UploadStep` không lọc đuôi file khi kéo thả (chủ ý — BE kiểm magic bytes).
+
+### 4.1 Sửa FLF-178 (2026-09-19)
+Bug Jira [FLF-178](https://fpt-team-eokn4lpy.atlassian.net/browse/FLF-178), BE nhánh `bugfix/FLF-178-mode1-cr-write-table-block-id` (tách từ `feat/FLF-172-mode1-p4-tests`, **chưa push**).
+
+| Commit | Sửa |
+|---|---|
+| `f29cd33` | Bảng cấp 1 neo bằng bookmark `_fft_<blockId>` đặt ở đầu đoạn đầu tiên của ô đầu (tiền tố khác `_ff_` để ô đầu giữ neo riêng); bookmark `_fft_` Word dời ra ngay trước bảng vẫn nhận; bảng lồng không neo. **Word 16:** mở + lưu lại bản đã neo ⇒ 3/3 bảng giữ `block_id` |
+| `37edd03` | C-7: chạy khô op Spine trước khi ghi gì ⇒ lưu file ⇒ block + `DocVersion` ⇒ **op Spine cuối cùng** (khoá lạc quan `base_version`); lỗi ở bất kỳ bước nào tới Spine ⇒ xoá version + block + file, Spine và CR giữ nguyên. Recompute cờ lỗi sau khi Spine đã ghi ⇒ chỉ log (cờ là giá trị suy diễn). Không dùng Mongo transaction vì op engine (vùng spine) không nhận session |
+
+Test: `it.fails` của #1, #2 đổi thành `it`; thêm ca Spine đổi ở phiên khác sau khi tạo version ⇒ 409 + dọn sạch, ca bảng ở 0.1 giữ `block_id`/`section_id`, ca neo `_fft_` (trước bảng, bảng lồng). BE unit + integration: **1381 xanh**, 1 expected fail (#3), 14 skip có sẵn; coverage dòng `change-request` 99,2%, `docx-ooxml` 98,5%.
+
+Ghi nhận khi kiểm Word (có từ trước, chưa sửa): chèn đoạn rỗng ở đầu một đoạn trong Word có thể kéo bookmark `_ff_` sang đoạn rỗng — parser bỏ đoạn rỗng nên đoạn gốc mất neo (nhận id mới). Dữ liệu 0.0 đã import trước bản sửa không có neo `_fft_`: bảng của chúng nhận neo ở lần ghi CR kế tiếp (id đổi một lần).
 
 ## 5. Lệch so với plan
 - Test cần DB ở `test/integration/mode1/` thay vì `npm run test:unit` (lý do §2.1). DoD mục 1 hiểu là `test:unit` + `test:integration`.
@@ -85,5 +97,5 @@ Ghi nhận khác: `mode1-guard.ts` `assertChangesAllowed` không nơi nào gọi
 - [ ] CI xanh trên PR tổng; báo cáo dán vào PR — chờ push.
 
 ## 7. Bước tiếp theo
-1. Người dùng quyết: sửa lỗi #1, #2 (trung bình) trong nhánh riêng (đề xuất `bugfix/FLF-<số>-…` hoặc tiếp FLF-172) — sửa xong đổi `it.fails` → `it`.
+1. ~~Sửa lỗi #1, #2~~ — xong ở FLF-178 (§4.1). Còn #3–#6 mức thấp.
 2. Push các nhánh P3 + e2e-fixes + P4 (BE, FE), mở PR xếp chồng, chờ CI.
