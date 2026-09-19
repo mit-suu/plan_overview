@@ -15,7 +15,7 @@
 | P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#53](https://github.com/mit-suu/flintflow_be/pull/53), FE PR [#30](https://github.com/mit-suu/flintflow_fe/pull/30), nhánh `feat/FLF-172-mode1-p1-schema` (đã push, **chưa merge**) |
 | P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-172-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#54](https://github.com/mit-suu/flintflow_be/pull/54) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #53 merge). Việc A (I-4 chạy nền): nhánh `feat/FLF-172-mode1-p2-async-extract`, PR [#55](https://github.com/mit-suu/flintflow_be/pull/55) |
 | P3 | **Xong, DoD 4/4** (e2e trình duyệt trên BE thật + AI thật xanh 2026-09-19) | Báo cáo `reports/mode1-p3-report.md`; FE nhánh `feat/FLF-172-mode1-p3-ui` (6 commit, **chưa push**); BE sửa thấy khi e2e ở nhánh `feat/FLF-172-mode1-e2e-fixes` (từ `-import-route-id`, **chưa push**) |
-| P4 | Chưa | |
+| P4 | **Xong, DoD 3/4** (còn CI trên PR — chưa push); tìm thấy 6 lỗi sản phẩm, ghi bằng `it.fails`/ghi chú, chưa sửa | Báo cáo `reports/mode1-p4-report.md`; BE + FE nhánh `feat/FLF-172-mode1-p4-tests` (tách từ `-e2e-fixes` / `-p3-ui`, **chưa push**) |
 
 **Quy ước đã chốt với người dùng**
 - Ticket: **cả mode 1 dùng chung FLF-172** (đổi từ FLF-171 ngày 2026-09-19). Nhánh `feat/FLF-172-mode1-…`, PR tiêu đề `[FLF-172] …`. Commit mới `flf-172: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By` (commit cũ P1/P2 vẫn ghi `flf-171`, chưa viết lại lịch sử).
@@ -31,7 +31,8 @@
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
 4. Việc A (I-4 chạy nền) **xong** (#55). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
 5a. **Đổi tham số route import `/:projectId` → `/:id`** (người dùng yêu cầu 2026-09-19, URL không đổi): BE nhánh `feat/FLF-172-mode1-import-route-id` (tách từ `-async-extract`, commit `ce77142`, chưa push; `authorizeMode1` đọc `id ?? projectId` vì CR/version vẫn `/:projectId`); FE đổi thư mục `app/projects/[projectId]` → `[id]` (commit `41384f7` trên nhánh P3 — Next.js bắt buộc cùng tên slug ở một cấp).
-5. **P3 xong (2026-09-19)**, e2e `flintflow_fe/e2e/mode1.spec.ts` (chạy tay, Mongo local + `seed:e2e-user`). Còn: push + mở PR FE (base `feat/FLF-172-mode1-p1-schema`) và BE `-import-route-id` → `-e2e-fixes` — chờ người dùng cho phép. **Tiếp theo: P4.** File chưa track `public/mockServiceWorker.js` do msw sinh — không commit.
+5. **P3 xong (2026-09-19)**, e2e `flintflow_fe/e2e/mode1.spec.ts` (chạy tay, Mongo local + `seed:e2e-user`). Còn: push + mở PR FE (base `feat/FLF-172-mode1-p1-schema`) và BE `-import-route-id` → `-e2e-fixes` — chờ người dùng cho phép. P4 xong (xem 7). File chưa track `public/mockServiceWorker.js` do msw sinh — không commit.
+7. **P4 xong 2026-09-19** (DoD 3/4): BE 1376 test xanh + 3 `it.fails`, coverage dòng 4 module 97–100%; FE 426 test xanh. **Chờ người dùng quyết** sửa 2 lỗi mức trung bình (C-7 ghi Spine ngoài transaction; block bảng đổi `block_id` khi parse lại) — `reports/mode1-p4-report.md` §4. Sau đó push nhánh P3 / e2e-fixes / P4 và mở PR để chạy CI (DoD cuối).
 6. `claude_plan`: các commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
 **Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
@@ -395,9 +396,9 @@ Chỉ viết file test (logic đã xong ở P2/P3). Fixture .docx đặt ở `fl
 `CreateProjectDialog.test.tsx`, `UploadStep.test.tsx`, `PreflightIssues.test.tsx`, `MappingReviewTable.test.tsx`, `FieldsReview.test.tsx`, `ExtractProgress.test.tsx`, `PausedBanner.test.tsx`, `GapReport.test.tsx`, `DocBlockView.test.tsx` (render ins/del, huy hiệu khoá), `VersionCompare.test.tsx`, `ReuploadDiffView.test.tsx`, `ChangeRequestForm.test.tsx` (nguồn bắt buộc), `ImpactList.test.tsx`, `ProposalCard.test.tsx`, `ChangeGroupPanel.test.tsx` (lý do bắt buộc khi từ chối), `VerifyResult.test.tsx`, `VersionsPanel.test.tsx` (Release tắt khi đỏ > 0), `ChatPane.test.tsx` (thẻ tạo CR khi 409), `lib/api/endpoints.test.ts` (thêm endpoint mới).
 
 ### DoD P4
-- [ ] Mọi file ở 8.1–8.4 có mặt và xanh trong `npm run test:unit` (BE) và `npm test` (FE).
-- [ ] Coverage dòng ≥ 80% cho `docx-ooxml`, `import`, `change-request`, `doc-version` (`npm run test:coverage`).
-- [ ] State machine import + CR: 100% cạnh chuyển trạng thái có test.
+- [x] Mọi file ở 8.1–8.4 có mặt và xanh trong `npm run test:unit` (BE) và `npm test` (FE). *(ca cần DB đặt ở `test/integration/mode1/` — project unit không có Mongo; báo cáo P4 §2.1)*
+- [x] Coverage dòng ≥ 80% cho `docx-ooxml`, `import`, `change-request`, `doc-version` (`npm run test:coverage`). *(98,4 / 97,7 / 99,4 / 100%)*
+- [x] State machine import + CR: 100% cạnh chuyển trạng thái có test.
 - [ ] CI xanh trên PR tổng; báo cáo theo `task-report-template.md` dán vào PR.
 
 ---
