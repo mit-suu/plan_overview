@@ -18,20 +18,20 @@
 | P4 | Chưa | |
 
 **Quy ước đã chốt với người dùng**
-- Ticket: **cả mode 1 dùng chung FLF-171**. Commit `flf-171: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By`. PR tiêu đề `[FLF-171] …`.
+- Ticket: **cả mode 1 dùng chung FLF-172** (đổi từ FLF-171 ngày 2026-09-19). Nhánh `feat/FLF-172-mode1-…`, PR tiêu đề `[FLF-172] …`. Commit mới `flf-172: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By` (commit cũ P1/P2 vẫn ghi `flf-171`, chưa viết lại lịch sử).
 - Mỗi phase/cụm một nhánh riêng (không commit tiếp vào nhánh đã có PR). P2 dự kiến 5 nhánh xếp chồng: `feat/FLF-172-mode1-p2-ooxml` (2A) → `-p2-import` (2B+2D) → `-p2-extract` (2C) → `-p2-change-request` (2E) → `-p2-release-guard` (2F+2G).
 - Kiểm tương thích file: máy hiện tại **chỉ có Word 16** (COM qua PowerShell). LibreOffice **không bỏ**, chỉ hoãn — là checkbox trong DoD P2.
 - Push/tạo PR: máy không có `gh`; đã tạo PR qua GitHub API bằng credential git. Repo chưa có nhãn `contract-change`.
-- **Nhánh đổi tên `FLF-171` → `FLF-172`** (người dùng yêu cầu 2026-09-19). GitHub tự đóng PR cũ #50/#51/#52 (BE), #29 (FE) ⇒ đã mở lại thành #53/#54/#55 (BE), #30 (FE). Commit và tiêu đề PR vẫn ghi `flf-171` / `[FLF-171]`.
-- Thay đổi trong `claude_plan` (plan này, `reports/`) **chưa commit** — chờ người dùng bảo.
+- **Nhánh đổi tên `FLF-171` → `FLF-172`** (người dùng yêu cầu 2026-09-19). GitHub tự đóng PR cũ #50/#51/#52 (BE), #29 (FE) ⇒ đã mở lại thành #53/#54/#55 (BE), #30 (FE). Tiêu đề PR mới đã đổi `[FLF-172]`; commit cũ vẫn ghi `flf-171`.
+- `claude_plan`: commit trên nhánh local `docs/FLF-172-mode1-p0-p2` (**chưa push** — xem bước 6).
 
 **Bước tiếp theo (chờ người dùng xác nhận)**
 1. Review + merge BE #53 (P1) → #54 (P2) → #55 (việc A); FE #30.
 2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
 4. Việc A (I-4 chạy nền) **xong** (#55). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
-5. Bắt đầu P3: tách nhánh FE `feat/FLF-172-mode1-p3-ui` từ `feat/FLF-172-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
-6. `claude_plan`: 2 commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
+5. **Bắt đầu P3 (session mới):** FE `flintflow_fe` đang ở `feat/FLF-172-mode1-p1-schema` (có file chưa track `public/mockServiceWorker.js` do msw sinh — không commit). Tách nhánh FE `feat/FLF-172-mode1-p3-ui` từ `feat/FLF-172-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
+6. `claude_plan`: các commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
 **Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
 
