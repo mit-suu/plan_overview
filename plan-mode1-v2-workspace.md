@@ -10,7 +10,7 @@
 
 | Phase | Trạng thái |
 |---|---|
-| V0 Chốt quyết định + contract-change | **Code xong** — BE `feat/FLF-182-mode1-v2-contract` `1438f22` (từ nhánh FLF-179), FE cùng tên `249f0f7`; chưa push; **chờ nhóm duyệt 4/4 contract-change** |
+| V0 Chốt quyết định + contract-change | **Code xong, PR mở** — BE [#62](https://github.com/mit-suu/flintflow_be/pull/62), FE [#36](https://github.com/mit-suu/flintflow_fe/pull/36) (`feat/FLF-182-mode1-v2-contract`); **chờ nhóm duyệt 4/4 contract-change** |
 | V1 BE: import → Spine + kế hoạch step | Chưa |
 | V2 BE: render theo template người dùng | Chưa |
 | V3 FE: workspace mode 2 cho project mode 1 | Chưa |
@@ -18,7 +18,7 @@
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
 | V6 Test + e2e | Chưa |
 
-Nhánh code hiện có (chưa push, chưa merge): P1 #53, P2 #54, việc A #55, P3 FE, `-import-route-id`, `-e2e-fixes`, P4, FLF-178, FLF-179. **V1 tách từ nhánh FLF-179** (đã gồm mọi thứ trên).
+PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0** (người dùng chọn làm tiếp trên nhánh chưa merge).
 
 ---
 
