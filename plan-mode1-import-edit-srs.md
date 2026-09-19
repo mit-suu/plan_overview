@@ -14,7 +14,7 @@
 | P0 | **Xong, Go** (nhóm chốt G1–G9, G3 dùng bookmark ẩn `_ff_<blockId>` làm neo chính) | Báo cáo `reports/mode1-p0-report.md`; mã spike + ảnh `reports/mode1-p0/` |
 | P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#53](https://github.com/mit-suu/flintflow_be/pull/53), FE PR [#30](https://github.com/mit-suu/flintflow_fe/pull/30), nhánh `feat/FLF-172-mode1-p1-schema` (đã push, **chưa merge**) |
 | P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-172-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#54](https://github.com/mit-suu/flintflow_be/pull/54) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #53 merge). Việc A (I-4 chạy nền): nhánh `feat/FLF-172-mode1-p2-async-extract`, PR [#55](https://github.com/mit-suu/flintflow_be/pull/55) |
-| P3 | **Sắp làm** (người dùng chốt 2026-09-19: làm việc A trước rồi qua P3) | FE trên nhánh P1 `feat/FLF-172-mode1-p1-schema` (PR #30 chưa merge), mock `flintflow_fe/mocks/mode1/`; #6/#10 trả ngay `extracting`, màn 3.5 poll `GET /import` |
+| P3 | **Code xong 3.1–3.15 trên mock**; DoD 3/4, còn đi trọn luồng trên trình duyệt với BE thật | Báo cáo `reports/mode1-p3-report.md`; FE nhánh `feat/FLF-172-mode1-p3-ui` (tách từ nhánh P1, 4 commit, **chưa push**); 266 test FE xanh, build xanh |
 | P4 | Chưa | |
 
 **Quy ước đã chốt với người dùng**
@@ -30,7 +30,7 @@
 2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
 4. Việc A (I-4 chạy nền) **xong** (#55). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
-5. **Bắt đầu P3 (session mới):** FE `flintflow_fe` đang ở `feat/FLF-172-mode1-p1-schema` (có file chưa track `public/mockServiceWorker.js` do msw sinh — không commit). Tách nhánh FE `feat/FLF-172-mode1-p3-ui` từ `feat/FLF-172-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
+5. **P3 code xong (2026-09-19)** trên nhánh FE `feat/FLF-172-mode1-p3-ui`. Còn: push + mở PR FE (base `feat/FLF-172-mode1-p1-schema`, chờ người dùng cho phép); chạy luồng §1 trên trình duyệt với BE thật (cần chọn DB + tài khoản + credit AI). File chưa track `public/mockServiceWorker.js` do msw sinh — không commit.
 6. `claude_plan`: các commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
 **Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
@@ -337,10 +337,10 @@ Làm trên msw từ khi P1 đóng băng, nối API thật khi cụm P2 tương �
 | 3.15 | Lớp API | `lib/api/import.ts`, `lib/api/change-requests.ts`, `lib/api/versions.ts`, cập nhật `lib/api/index.ts`, `projects.ts` | — |
 
 ### DoD P3
-- [ ] Đi trọn luồng §1 trên trình duyệt với BE thật (không mock): tạo project mode 1 → import → gap report → CR → duyệt một phần → tải `0.1` → release `1.0` → tải bản sạch.
-- [ ] Mọi trạng thái paused/lỗi AI có banner và nút tiếp tục; không có màn trắng khi API lỗi.
-- [ ] Workspace mode 2 (luồng cũ) không đổi hành vi: project cũ vẫn mở đúng.
-- [ ] `npm run typecheck`, `npm run lint`, `npm run build` FE xanh; nhãn UI có i18n như phần còn lại.
+- [ ] Đi trọn luồng §1 trên trình duyệt với BE thật (không mock): tạo project mode 1 → import → gap report → CR → duyệt một phần → tải `0.1` → release `1.0` → tải bản sạch. *(chưa làm — báo cáo P3 §7)*
+- [x] Mọi trạng thái paused/lỗi AI có banner và nút tiếp tục; không có màn trắng khi API lỗi. *(kiểm trên mock)*
+- [x] Workspace mode 2 (luồng cũ) không đổi hành vi: project cũ vẫn mở đúng. *(`page.tsx` chỉ rẽ theo `mode`, thân workspace không đổi; test cũ xanh)*
+- [x] `npm run typecheck`, `npm run lint`, `npm run build` FE xanh; nhãn UI có i18n như phần còn lại. *(266 test xanh)*
 
 ---
 
