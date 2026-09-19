@@ -7,14 +7,15 @@
 
 ## 0. Trạng thái & bàn giao (đọc mục này trước khi làm tiếp — cập nhật mỗi khi đổi phase)
 
-**Cập nhật: 2026-09-18.**
+**Cập nhật: 2026-09-19.**
 
 | Phase | Trạng thái | Ở đâu |
 |---|---|---|
 | P0 | **Xong, Go** (nhóm chốt G1–G9, G3 dùng bookmark ẩn `_ff_<blockId>` làm neo chính) | Báo cáo `reports/mode1-p0-report.md`; mã spike + ảnh `reports/mode1-p0/` |
 | P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#50](https://github.com/mit-suu/flintflow_be/pull/50), FE PR [#29](https://github.com/mit-suu/flintflow_fe/pull/29), nhánh `feat/FLF-171-mode1-p1-schema` (đã push, **chưa merge**) |
-| P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-171-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #50 merge) |
-| P3, P4 | Chưa | FE làm P3 trên mock `flintflow_fe/mocks/mode1/` |
+| P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-171-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #50 merge). Việc A (I-4 chạy nền): nhánh `feat/FLF-171-mode1-p2-async-extract`, PR [#52](https://github.com/mit-suu/flintflow_be/pull/52) |
+| P3 | **Sắp làm** (người dùng chốt 2026-09-19: làm việc A trước rồi qua P3) | FE trên nhánh P1 `feat/FLF-171-mode1-p1-schema` (PR #29 chưa merge), mock `flintflow_fe/mocks/mode1/`; #6/#10 trả ngay `extracting`, màn 3.5 poll `GET /import` |
+| P4 | Chưa | |
 
 **Quy ước đã chốt với người dùng**
 - Ticket: **cả mode 1 dùng chung FLF-171**. Commit `flf-171: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By`. PR tiêu đề `[FLF-171] …`.
@@ -24,10 +25,12 @@
 - Thay đổi trong `claude_plan` (plan này, `reports/`) **chưa commit** — chờ người dùng bảo.
 
 **Bước tiếp theo (chờ người dùng xác nhận)**
-1. Review + merge #50 (P1) rồi #51 (P2).
+1. Review + merge BE #50 (P1) → #51 (P2) → #52 (việc A); FE #29.
 2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
-4. Việc hoãn (người dùng chốt làm sau): **A** I-4 chạy nền + polling; **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc). Mô tả đủ để làm ở `reports/mode1-p2-report.md` §7.1.
+4. Việc A (I-4 chạy nền) **xong** (#52). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
+5. Bắt đầu P3: tách nhánh FE `feat/FLF-171-mode1-p3-ui` từ `feat/FLF-171-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
+6. `claude_plan`: 2 commit trên nhánh `docs/FLF-171-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
 **Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
 

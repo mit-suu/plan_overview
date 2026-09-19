@@ -66,14 +66,14 @@ SRS Report3 của nhóm (md → .docx, 3 450 block), GLM-5.3-Flash, Mongo in-mem
 |---|---|---|
 | Kiểm LibreOffice (DoD P2 cuối) | Người có LibreOffice mở file `0.1`/`1.0` do test sinh | Trung bình |
 | Import SRS đầy đủ tốn 157 credit > gói free 100 | Gộp section nhỏ vào một lượt; trích tất định bảng dọc (đặc tả UC/function) | Trung bình |
-| `/import/extract` đồng bộ ~5,6 phút trên SRS đầy đủ | Chuyển thành job nền: trả `extracting` ngay, FE poll `GET /import` (không đổi contract) | Cao trước khi lên production |
+| `/import/extract` đồng bộ ~5,6 phút trên SRS đầy đủ | **Đã làm** (việc A, PR #52): trả `extracting` ngay, FE poll `GET /import` | Xong |
 | C-3 chạm trần 80 vị trí khi từ khoá rộng | Xếp hạng vị trí (spine_link > mention > keyword), trần theo nguồn | Thấp |
 | Lượt đầu chạy thật: một section ~2,9 triệu token (ảnh base64 trong text) | **Đã sửa**: trần 24k ký tự/lượt, 6k/block | Xong |
 | Push 5 nhánh + mở PR | Chờ người dùng cho phép | — |
 
 ### 7.1 Việc hoãn — làm ở phiên sau (người dùng chốt 2026-09-18)
 
-**Việc A — I-4 chạy nền (job + polling), ưu tiên cao trước production**
+**Việc A — I-4 chạy nền (job + polling)** — ✅ **Xong 2026-09-19**, nhánh `feat/FLF-171-mode1-p2-async-extract`, BE PR [#52](https://github.com/mit-suu/flintflow_be/pull/52). Làm đúng theo mô tả dưới; `finalize` vẫn đồng bộ (bước check chỉ 1 lượt AI). Contract #6/#10 đổi thời điểm trả (hình không đổi) ⇒ cần nhóm duyệt như contract-change.
 - Hiện tại: `POST /import/extract` và `/import/resume` chạy đồng bộ, SRS đầy đủ mất ~5,6 phút trong một request (nguy cơ timeout proxy/trình duyệt).
 - Cách làm: controller đặt trạng thái rồi trả ngay `extractResponseSchema` với `import.status = "extracting"`; `runExtraction` chạy nền (hàng đợi in-process có khoá theo `import_id`, chống chạy trùng; khởi động lại server ⇒ job dở được tiếp tục bằng `/import/resume` nhờ `extract_cursor`). FE poll `GET /import` (đã có `extraction.sections`). Áp tương tự cho `finalize` (bước check AI) nếu chậm.
 - Contract không đổi (response vẫn là `extractResponseSchema`); chỉ đổi nghĩa "trả khi chạy xong" ⇒ "trả ngay, xem tiến độ qua GET". Cần báo FE (P3).
