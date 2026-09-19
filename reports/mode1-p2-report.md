@@ -4,7 +4,7 @@
 
 ## 1. Trạng thái
 - Trạng thái: **Xong phần code 2A–2G**; DoD 9/10 (còn kiểm LibreOffice — máy chưa có).
-- Nhánh BE (xếp chồng, **chưa push**):
+- Nhánh BE (xếp chồng, đã push; PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) từ nhánh cuối → `develop`; việc A ở PR [#52](https://github.com/mit-suu/flintflow_be/pull/52)):
 
 | Nhánh | Cụm | Commit cuối |
 |---|---|---|
@@ -69,7 +69,7 @@ SRS Report3 của nhóm (md → .docx, 3 450 block), GLM-5.3-Flash, Mongo in-mem
 | `/import/extract` đồng bộ ~5,6 phút trên SRS đầy đủ | **Đã làm** (việc A, PR #52): trả `extracting` ngay, FE poll `GET /import` | Xong |
 | C-3 chạm trần 80 vị trí khi từ khoá rộng | Xếp hạng vị trí (spine_link > mention > keyword), trần theo nguồn | Thấp |
 | Lượt đầu chạy thật: một section ~2,9 triệu token (ảnh base64 trong text) | **Đã sửa**: trần 24k ký tự/lượt, 6k/block | Xong |
-| Push 5 nhánh + mở PR | Chờ người dùng cho phép | — |
+| Push 5 nhánh + mở PR | **Đã làm**: PR #51 → `develop` (gồm commit P1 tới khi #50 merge) | Xong |
 
 ### 7.1 Việc hoãn — làm ở phiên sau (người dùng chốt 2026-09-18)
 
