@@ -11,14 +11,14 @@
 | Phase | Trạng thái |
 |---|---|
 | V0 Chốt quyết định + contract-change | **Code xong, PR mở** — BE [#62](https://github.com/mit-suu/flintflow_be/pull/62), FE [#36](https://github.com/mit-suu/flintflow_fe/pull/36) (`feat/FLF-182-mode1-v2-contract`); **chờ nhóm duyệt 4/4 contract-change** |
-| V1 BE: import → Spine + kế hoạch step | Chưa |
+| V1 BE: import → Spine + kế hoạch step | **Xong** — BE [#63](https://github.com/mit-suu/flintflow_be/pull/63) `feat/FLF-183-mode1-v2-step-plan` (3 commit, 1415 test xanh). Chuyển sang V2: gap report nhóm theo layout, văn xuôi I-4 không trích được ⇒ `custom_sections`, render diagram khi finalize. Cờ thiếu đầu mục FPT = luật có sẵn `section_empty` giữ đỏ (không tạo luật mới) |
 | V2 BE: render theo template người dùng | Chưa |
 | V3 FE: workspace mode 2 cho project mode 1 | Chưa |
 | V4 BE+FE: CR trên Spine, điều khiển bằng chat | Chưa |
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
 | V6 Test + e2e | Chưa |
 
-PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0** (người dùng chọn làm tiếp trên nhánh chưa merge).
+PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0 → [#63](https://github.com/mit-suu/flintflow_be/pull/63) V1. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0** (người dùng chọn làm tiếp trên nhánh chưa merge).
 
 ---
 
@@ -39,7 +39,7 @@ Khai báo một chỗ: `src/modules/import/section-importance.ts` — mọi sect
 
 | Mức | Section FPT (step sở hữu) | Template không có mục này |
 |---|---|---|
-| **core** — mọi đầu mục mẫu FPT | Product Overview · Actors · Use Case Diagram · Use Case Descriptions · Screens Flow · Screen Descriptions · Screen Authorization · Non-Screen Functions · ERD · External Interfaces · Usability · Reliability · Performance · Domain-Specific Attributes · Business Rules · Common Requirements · Application Messages · Other Requirements · Glossary · Record of Changes · feature/function (chương 3) | Không ẩn. Step `pending`, nhãn đỏ "Thiếu". **Cờ đỏ `core_section_missing`**, chặn sign-off v1. Riêng Record of Changes (sinh từ lịch sử CR) và Glossary (S-8.1) là mục suy dẫn: hệ thống tự điền, chỉ báo thiếu nếu S-8.1 chưa chạy |
+| **core** — mọi đầu mục mẫu FPT | Product Overview · Actors · Use Case Diagram · Use Case Descriptions · Screens Flow · Screen Descriptions · Screen Authorization · Non-Screen Functions · ERD · External Interfaces · Usability · Reliability · Performance · Domain-Specific Attributes · Business Rules · Common Requirements · Application Messages · Other Requirements · Glossary · Record of Changes · feature/function (chương 3) | Không ẩn. Step `pending`, nhãn đỏ "Thiếu". **Cờ đỏ `section_empty`** (luật có sẵn, hồ sơ mode 1 giữ đỏ — FLF-183), chặn sign-off v1. Riêng Record of Changes (sinh từ lịch sử CR) và Glossary (S-8.1) là mục suy dẫn: hệ thống tự điền, chỉ báo thiếu nếu S-8.1 chưa chạy |
 | **optional** — mục ngoài mẫu FPT | Heading của file không khớp section FPT nào (`custom:*`) | Giữ nguyên văn (kể cả bảng, ảnh) trong `custom_sections`, render đúng vị trí, sửa qua chat. Không cờ thiếu |
 | (ẩn) — step không sinh đầu mục | Brief B-*, S-1.x | Ẩn (`skipped`), bật thêm được |
 
@@ -172,7 +172,7 @@ Release (cờ đỏ = 0) ⇒ gom CR đã ghi ⇒ 2.0, bản sạch có stamp. Fi
    5. Section bắt buộc trong profile không có field ⇒ `custom_sections` giữ nội dung import; trống ⇒ cờ đỏ "cần viết tay".
    6. **(D6)** Step sở hữu section FPT mà file không có (hoặc trống) ⇒ `applied` + `missing: true` (không bao giờ `hidden`); B-*, S-1.x ⇒ `hidden`.
    Lưu `TemplateProfile.step_plan: { step_id, state: applied|hidden|enabled, missing: boolean, reason }[]`.
-   Cờ: `core_section_missing` (đỏ, luật code, không waive — G5); đóng khi section có nội dung.
+   Cờ: dùng luật có sẵn `section_empty`, hồ sơ luật mode 1 **không hạ** xuống vàng nữa (đỏ, luật code, không waive — G5); tự đóng khi section có dữ liệu. *(Thay cho tên `core_section_missing` dự kiến ban đầu — FLF-183.)*
    Thêm từ điển heading IEEE 830 vào `section-catalog.ts` (§1.2).
 3. **Finalize** (`finalize.service.ts`, `spine-builder.ts`), một txn `by: import`:
    - op thực thể như hiện tại (+ `custom_sections` từ block unmapped và `unmapped_block_ids` của I-4 — tránh mất văn xuôi khi render từ Spine);
@@ -203,7 +203,7 @@ Release (cờ đỏ = 0) ⇒ gom CR đã ghi ⇒ 2.0, bản sạch có stamp. Fi
 - `app/projects/[id]/page.tsx`: mode `import` + import xong ⇒ `FptWorkspace` (thêm tab Version/Release + CR); chưa xong ⇒ wizard `/import` (giữ).
 - `lib/constants/step-registry.ts`, `StepProgressBar`, `PhaseNavBar`, `PhaseHeader`: dựng từ danh sách step BE trả (không cứng 51/56, ẩn phase rỗng).
 - Thanh step: step của đầu mục FPT còn thiếu hiện nhãn đỏ **"Thiếu"**; panel **"Step ẩn"** (Brief: nút Bật) — gọi `PATCH /step-plan`.
-- Nút sign-off khoá khi còn cờ đỏ `core_section_missing`, liệt kê đầu mục FPT còn thiếu.
+- Nút sign-off khoá khi còn cờ đỏ `section_empty`, liệt kê đầu mục FPT còn thiếu.
 - `DocumentPane`: section `custom:*`, nhãn "Chưa có nội dung — chạy step X" cho section của step pending; bỏ nút "xem tại S-8.2" với mode 1.
 - Chat: trước v1 ⇒ luồng `/changes` như mode 2 (`DiffPreviewModal`); sau v1 ⇒ V4.
 - Gỡ `Mode1Workspace`, `DocBlockView`; giữ `VersionsPanel`, `GapReportView`, CR workspace.
