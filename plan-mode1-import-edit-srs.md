@@ -7,6 +7,8 @@
 
 ## 0. Trạng thái & bàn giao (đọc mục này trước khi làm tiếp — cập nhật mỗi khi đổi phase)
 
+> **⚠ 2026-09-19: hướng mode 1 đổi — xem `plan-mode1-v2-workspace.md`** (Spine là nguồn sự thật, workspace như mode 2, step theo template, CR sau baseline v1, đọc diagram từ ảnh). Plan này giữ làm lịch sử; §3 của plan v2 ghi phần code P0–P4 dùng lại / bỏ.
+
 **Cập nhật: 2026-09-19.**
 
 | Phase | Trạng thái | Ở đâu |
