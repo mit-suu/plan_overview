@@ -12,25 +12,26 @@
 | Phase | Trạng thái | Ở đâu |
 |---|---|---|
 | P0 | **Xong, Go** (nhóm chốt G1–G9, G3 dùng bookmark ẩn `_ff_<blockId>` làm neo chính) | Báo cáo `reports/mode1-p0-report.md`; mã spike + ảnh `reports/mode1-p0/` |
-| P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#50](https://github.com/mit-suu/flintflow_be/pull/50), FE PR [#29](https://github.com/mit-suu/flintflow_fe/pull/29), nhánh `feat/FLF-171-mode1-p1-schema` (đã push, **chưa merge**) |
-| P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-171-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #50 merge). Việc A (I-4 chạy nền): nhánh `feat/FLF-171-mode1-p2-async-extract`, PR [#52](https://github.com/mit-suu/flintflow_be/pull/52) |
-| P3 | **Sắp làm** (người dùng chốt 2026-09-19: làm việc A trước rồi qua P3) | FE trên nhánh P1 `feat/FLF-171-mode1-p1-schema` (PR #29 chưa merge), mock `flintflow_fe/mocks/mode1/`; #6/#10 trả ngay `extracting`, màn 3.5 poll `GET /import` |
+| P1 | **Xong**, nhóm chốt contract-change 4/4 + đóng băng `import-change-contract.md` | BE PR [#53](https://github.com/mit-suu/flintflow_be/pull/53), FE PR [#30](https://github.com/mit-suu/flintflow_fe/pull/30), nhánh `feat/FLF-172-mode1-p1-schema` (đã push, **chưa merge**) |
+| P2 | **Code xong 2A–2G** (BE, 5 nhánh xếp chồng từ nhánh P1 — phương án A); DoD 9/10, còn kiểm LibreOffice | Báo cáo `reports/mode1-p2-report.md`; nhánh `feat/FLF-172-mode1-p2-ooxml` → `-import` → `-extract` → `-change-request` → `-release-guard` (đã push); BE PR [#54](https://github.com/mit-suu/flintflow_be/pull/54) (`-release-guard` → `develop`, gồm cả commit P1 tới khi #53 merge). Việc A (I-4 chạy nền): nhánh `feat/FLF-172-mode1-p2-async-extract`, PR [#55](https://github.com/mit-suu/flintflow_be/pull/55) |
+| P3 | **Sắp làm** (người dùng chốt 2026-09-19: làm việc A trước rồi qua P3) | FE trên nhánh P1 `feat/FLF-172-mode1-p1-schema` (PR #30 chưa merge), mock `flintflow_fe/mocks/mode1/`; #6/#10 trả ngay `extracting`, màn 3.5 poll `GET /import` |
 | P4 | Chưa | |
 
 **Quy ước đã chốt với người dùng**
 - Ticket: **cả mode 1 dùng chung FLF-171**. Commit `flf-171: <việc>` tiếng Việt, **không** thêm trailer `Co-Authored-By`. PR tiêu đề `[FLF-171] …`.
-- Mỗi phase/cụm một nhánh riêng (không commit tiếp vào nhánh đã có PR). P2 dự kiến 5 nhánh xếp chồng: `feat/FLF-171-mode1-p2-ooxml` (2A) → `-p2-import` (2B+2D) → `-p2-extract` (2C) → `-p2-change-request` (2E) → `-p2-release-guard` (2F+2G).
+- Mỗi phase/cụm một nhánh riêng (không commit tiếp vào nhánh đã có PR). P2 dự kiến 5 nhánh xếp chồng: `feat/FLF-172-mode1-p2-ooxml` (2A) → `-p2-import` (2B+2D) → `-p2-extract` (2C) → `-p2-change-request` (2E) → `-p2-release-guard` (2F+2G).
 - Kiểm tương thích file: máy hiện tại **chỉ có Word 16** (COM qua PowerShell). LibreOffice **không bỏ**, chỉ hoãn — là checkbox trong DoD P2.
 - Push/tạo PR: máy không có `gh`; đã tạo PR qua GitHub API bằng credential git. Repo chưa có nhãn `contract-change`.
+- **Nhánh đổi tên `FLF-171` → `FLF-172`** (người dùng yêu cầu 2026-09-19). GitHub tự đóng PR cũ #50/#51/#52 (BE), #29 (FE) ⇒ đã mở lại thành #53/#54/#55 (BE), #30 (FE). Commit và tiêu đề PR vẫn ghi `flf-171` / `[FLF-171]`.
 - Thay đổi trong `claude_plan` (plan này, `reports/`) **chưa commit** — chờ người dùng bảo.
 
 **Bước tiếp theo (chờ người dùng xác nhận)**
-1. Review + merge BE #50 (P1) → #51 (P2) → #52 (việc A); FE #29.
+1. Review + merge BE #53 (P1) → #54 (P2) → #55 (việc A); FE #30.
 2. DoD P2 còn mở: kiểm LibreOffice (máy chưa có); FE P3 nối API thật (contract không đổi).
 3. Việc P1 đẩy sang P2 đã làm: `snapshotBaseline` tách khỏi `signOff`; `RuleProfile` (loại/hạ luật) cho `runDeterministicCheck`/`recompute`; `purgeProjectData` dọn collection + file mode 1.
-4. Việc A (I-4 chạy nền) **xong** (#52). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
-5. Bắt đầu P3: tách nhánh FE `feat/FLF-171-mode1-p3-ui` từ `feat/FLF-171-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
-6. `claude_plan`: 2 commit trên nhánh `docs/FLF-171-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
+4. Việc A (I-4 chạy nền) **xong** (#55). Còn hoãn **B** giảm credit import ≤ 100 (gộp section nhỏ + trích tất định bảng dọc) — mô tả ở `reports/mode1-p2-report.md` §7.1, không ảnh hưởng FE.
+5. Bắt đầu P3: tách nhánh FE `feat/FLF-172-mode1-p3-ui` từ `feat/FLF-172-mode1-p1-schema`; sửa mock #6/#10 theo hành vi chạy nền trước khi làm màn 3.5.
+6. `claude_plan`: 2 commit trên nhánh `docs/FLF-172-mode1-p0-p2` chưa push được (repo đổi tên `mit-suu/plan_overview`, `TuanAnh164` không có quyền push) — chờ người dùng chọn cách.
 
 **Phát hiện P0 phải nhớ khi viết P2:** styleId heading bị Word bản địa hoá (`Heading1` → `u1`) ⇒ nhận heading qua `styles.xml`; SRS thật của nhóm không dùng style heading ⇒ cần nhận theo số mục; file do `docx` lib sinh không có `w14:paraId`; output AI trích field phải theo thực thể (chi phí, báo cáo P0 §4.8).
 
@@ -242,7 +243,7 @@ Mã lỗi mới (thêm vào contract §0.3): `IMPORT_FILE_REJECTED`, `IMPORT_STA
 - [x] FE types + msw mock chạy được, `npm run typecheck` FE xanh. *(Mock đủ 31 endpoint, 13 ca test đi trọn luồng)*
 - [x] `dependencies` BE thêm `jszip`, `@xmldom/xmldom` (nếu P0 Go). *(npm nâng bản vá: 3.10.2, 0.8.15)*
 
-Nhánh `feat/FLF-171-mode1-p1-schema` (BE 10 commit, FE 2 commit, chưa push). **P1 đóng — P2 mở.** Việc chuyển sang P2 (logic, không phải schema): tách `snapshotBaseline` khỏi `signOff`, hook `excludeRules` cho `runDeterministicCheck`/`recompute`, `purgeProjectData` dọn collection mode 1 (ghi ở `docs/spec-gaps.md`).
+Nhánh `feat/FLF-172-mode1-p1-schema` (BE 10 commit, FE 2 commit, chưa push). **P1 đóng — P2 mở.** Việc chuyển sang P2 (logic, không phải schema): tách `snapshotBaseline` khỏi `signOff`, hook `excludeRules` cho `runDeterministicCheck`/`recompute`, `purgeProjectData` dọn collection mode 1 (ghi ở `docs/spec-gaps.md`).
 
 ---
 

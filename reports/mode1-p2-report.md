@@ -1,18 +1,18 @@
 # BÁO CÁO P2 (Mode 1: upload SRS có sẵn rồi sửa) — Logic BE · Ngày: 2026-09-18
 
-> Plan: `plan-mode1-import-edit-srs.md` §6. Ticket FLF-171. Nền nhánh: phương án **A** (tách từ `feat/FLF-171-mode1-p1-schema`, PR #50 chưa merge).
+> Plan: `plan-mode1-import-edit-srs.md` §6. Ticket FLF-171. Nền nhánh: phương án **A** (tách từ `feat/FLF-172-mode1-p1-schema`, PR #53 chưa merge).
 
 ## 1. Trạng thái
 - Trạng thái: **Xong phần code 2A–2G**; DoD 9/10 (còn kiểm LibreOffice — máy chưa có).
-- Nhánh BE (xếp chồng, đã push; PR [#51](https://github.com/mit-suu/flintflow_be/pull/51) từ nhánh cuối → `develop`; việc A ở PR [#52](https://github.com/mit-suu/flintflow_be/pull/52)):
+- Nhánh BE (xếp chồng, đã push; PR [#54](https://github.com/mit-suu/flintflow_be/pull/54) từ nhánh cuối → `develop`; việc A ở PR [#55](https://github.com/mit-suu/flintflow_be/pull/55)):
 
 | Nhánh | Cụm | Commit cuối |
 |---|---|---|
-| `feat/FLF-171-mode1-p2-ooxml` | 2A | `c523cdb` |
-| `feat/FLF-171-mode1-p2-import` | 2B + 2D | `d6be175` |
-| `feat/FLF-171-mode1-p2-extract` | 2C | `555f4bb` |
-| `feat/FLF-171-mode1-p2-change-request` | 2E | `ba2f067` |
-| `feat/FLF-171-mode1-p2-release-guard` | 2F + 2G, sửa trần input I-4, số đo | `982b59e` |
+| `feat/FLF-172-mode1-p2-ooxml` | 2A | `c523cdb` |
+| `feat/FLF-172-mode1-p2-import` | 2B + 2D | `d6be175` |
+| `feat/FLF-172-mode1-p2-extract` | 2C | `555f4bb` |
+| `feat/FLF-172-mode1-p2-change-request` | 2E | `ba2f067` |
+| `feat/FLF-172-mode1-p2-release-guard` | 2F + 2G, sửa trần input I-4, số đo | `982b59e` |
 
 - Diff so với nhánh P1: 90+ file, ~+8 900 / −134 dòng. FE không đổi (P3).
 
@@ -66,14 +66,14 @@ SRS Report3 của nhóm (md → .docx, 3 450 block), GLM-5.3-Flash, Mongo in-mem
 |---|---|---|
 | Kiểm LibreOffice (DoD P2 cuối) | Người có LibreOffice mở file `0.1`/`1.0` do test sinh | Trung bình |
 | Import SRS đầy đủ tốn 157 credit > gói free 100 | Gộp section nhỏ vào một lượt; trích tất định bảng dọc (đặc tả UC/function) | Trung bình |
-| `/import/extract` đồng bộ ~5,6 phút trên SRS đầy đủ | **Đã làm** (việc A, PR #52): trả `extracting` ngay, FE poll `GET /import` | Xong |
+| `/import/extract` đồng bộ ~5,6 phút trên SRS đầy đủ | **Đã làm** (việc A, PR #55): trả `extracting` ngay, FE poll `GET /import` | Xong |
 | C-3 chạm trần 80 vị trí khi từ khoá rộng | Xếp hạng vị trí (spine_link > mention > keyword), trần theo nguồn | Thấp |
 | Lượt đầu chạy thật: một section ~2,9 triệu token (ảnh base64 trong text) | **Đã sửa**: trần 24k ký tự/lượt, 6k/block | Xong |
-| Push 5 nhánh + mở PR | **Đã làm**: PR #51 → `develop` (gồm commit P1 tới khi #50 merge) | Xong |
+| Push 5 nhánh + mở PR | **Đã làm**: PR #54 → `develop` (gồm commit P1 tới khi #53 merge) | Xong |
 
 ### 7.1 Việc hoãn — làm ở phiên sau (người dùng chốt 2026-09-18)
 
-**Việc A — I-4 chạy nền (job + polling)** — ✅ **Xong 2026-09-19**, nhánh `feat/FLF-171-mode1-p2-async-extract`, BE PR [#52](https://github.com/mit-suu/flintflow_be/pull/52). Làm đúng theo mô tả dưới; `finalize` vẫn đồng bộ (bước check chỉ 1 lượt AI). Contract #6/#10 đổi thời điểm trả (hình không đổi) ⇒ cần nhóm duyệt như contract-change.
+**Việc A — I-4 chạy nền (job + polling)** — ✅ **Xong 2026-09-19**, nhánh `feat/FLF-172-mode1-p2-async-extract`, BE PR [#55](https://github.com/mit-suu/flintflow_be/pull/55). Làm đúng theo mô tả dưới; `finalize` vẫn đồng bộ (bước check chỉ 1 lượt AI). Contract #6/#10 đổi thời điểm trả (hình không đổi) ⇒ cần nhóm duyệt như contract-change.
 - Hiện tại: `POST /import/extract` và `/import/resume` chạy đồng bộ, SRS đầy đủ mất ~5,6 phút trong một request (nguy cơ timeout proxy/trình duyệt).
 - Cách làm: controller đặt trạng thái rồi trả ngay `extractResponseSchema` với `import.status = "extracting"`; `runExtraction` chạy nền (hàng đợi in-process có khoá theo `import_id`, chống chạy trùng; khởi động lại server ⇒ job dở được tiếp tục bằng `/import/resume` nhờ `extract_cursor`). FE poll `GET /import` (đã có `extraction.sections`). Áp tương tự cho `finalize` (bước check AI) nếu chậm.
 - Contract không đổi (response vẫn là `extractResponseSchema`); chỉ đổi nghĩa "trả khi chạy xong" ⇒ "trả ngay, xem tiến độ qua GET". Cần báo FE (P3).
