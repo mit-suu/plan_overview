@@ -6,11 +6,11 @@
 
 ## 0. Trạng thái & bàn giao
 
-**Cập nhật: 2026-09-19.** Plan mới viết xong; D6 đã chốt (mọi đầu mục FPT = cốt lõi, mục ngoài FPT = tuỳ chọn). **Chờ người dùng xác nhận D3** (sửa tự do tới baseline v1) trước khi mở V1.
+**Cập nhật: 2026-09-19.** D1–D6 đã chốt (D3 người dùng xác nhận). Jira: Story **FLF-181**, V0 FLF-182 · V1 FLF-183 · V2 FLF-184 · V3 FLF-185 · V4 FLF-186 · V5 FLF-187 · V6 FLF-188 (assignee Tran Tuan Anh).
 
 | Phase | Trạng thái |
 |---|---|
-| V0 Chốt quyết định + contract-change | Chưa |
+| V0 Chốt quyết định + contract-change | **Code xong** — BE `feat/FLF-182-mode1-v2-contract` `1438f22` (từ nhánh FLF-179), FE cùng tên `249f0f7`; chưa push; **chờ nhóm duyệt 4/4 contract-change** |
 | V1 BE: import → Spine + kế hoạch step | Chưa |
 | V2 BE: render theo template người dùng | Chưa |
 | V3 FE: workspace mode 2 cho project mode 1 | Chưa |
