@@ -57,13 +57,31 @@ Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE
 Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; nếu nhóm chưa cấp key provider có vision thì làm V6 trước, V5 sau).
 
 **Trước khi code**
-1. Đọc §0 + §0.1; `git fetch` + `git pull` `develop` cả hai repo (chuỗi PR đã merge 2026-09-20, **tách nhánh mới từ `develop`**).
-2. Hỏi người dùng: provider vision nào (Gemini / Anthropic / OpenAI) + đã có key trong `.env` chưa — **chặn V5 bước 3**.
+1. Đọc §0 + §0.1; `git fetch` + `git pull` `develop` cả hai repo (chuỗi PR đã merge 2026-09-20).
+   **⚠ Nhánh `chore/mode1-v2-tech-debt` (BE 4 commit, FE 2 commit — dọn nợ T4/T5/T8/T10/T12) tính tới 2026-09-20 vẫn CHƯA push, CHƯA PR.** Kiểm `git log --oneline develop..chore/mode1-v2-tech-debt` ở cả hai repo trước khi làm gì:
+   - Nhánh đó còn commit riêng ⇒ **hỏi người dùng**: push + mở PR về `develop` rồi tách V5 từ `develop`, hay tách V5 thẳng từ `chore/mode1-v2-tech-debt` (xếp chồng như đợt V1–V4).
+   - **Đừng** tách V5 từ `develop` rồi bỏ mặc nhánh kia: V5 sửa lại đúng những file vừa đụng (`import/gap-report.service.ts`, `import/step-plan.ts`, `finalize.service.ts`, FE `GapReportView.tsx` + `types/import.ts`) ⇒ merge sau sẽ conflict.
+   - Nhánh đó đã trống (đã merge) ⇒ tách V5 từ `develop` như thường.
+2. Hỏi người dùng: đọc ảnh diagram bằng cách nào — xem §0.3 (provider vision là phương án chính, **chặn V5 bước 3**, nhưng có phương án thay thế).
 3. FE (nếu phải đụng UI): develop đã thiết kế lại (FLF-189→191) — dùng bảng màu/nút mới của dashboard, không copy màu cũ trong component mode 1.
+
+### 0.3 Đọc ảnh diagram — các cách làm (chốt trước V5 bước 3)
+
+Model đang dùng (GLM-5.3-Flash qua Modal, endpoint tương thích OpenAI ở `MODAL_BASE_URL`) **không có vision**. Năm cách, chọn một (A/B là cách làm thật, E luôn nên làm kèm):
+
+| | Cách | Việc phải làm | Đánh đổi |
+|---|---|---|---|
+| **A** | **Tự dựng model đọc ảnh trên Modal** (giống cách đang chạy GLM): Qwen2.5-VL, InternVL, Llama-3.2-Vision, GLM-4.5V… | Deploy endpoint tương thích OpenAI, thêm `MODAL_VISION_BASE_URL` + tên model; `getAiSdkModel` nhánh `modal` dùng lại được nguyên (`createOpenAI`), ảnh gửi dạng `image_url` của OpenAI | Không cần key vendor mới, dữ liệu không ra ngoài, chi phí theo GPU-giây. Nhưng phải dựng + nuôi endpoint, GPU nặng hơn model text, có cold start, và đọc sơ đồ **kém chính xác hơn** model lớn ⇒ càng phải giữ ngưỡng tin ≤ 0.7 + bước 1.9 xác nhận |
+| **B** | **Provider thương mại có sẵn adapter**: Gemini / Anthropic / OpenAI | Chỉ cần key (`GEMINI_API_KEY` / `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` đã có trong `.env.example`; `gemini.provider.ts`, `anthropic.provider.ts`, `openai.provider.ts` đã có sẵn) | Nhanh nhất, đọc sơ đồ tốt nhất. Tốn tiền theo token và SRS của khách đi ra ngoài |
+| **C** | **Không dùng AI — đọc XML của Word** | Sơ đồ **vẽ bằng shape / SmartArt trong Word** có chữ nằm trong OOXML (`a:graphic`, `wps:txbx`) ⇒ trích tên actor / UC tất định | Miễn phí, chính xác tuyệt đối khi áp dụng được. Nhưng ảnh chèn (png/jpeg/emf — trường hợp phổ biến) thì chịu |
+| **D** | **OCR cục bộ** (Tesseract) | Lấy chữ trong ảnh | Chỉ ra chữ rời, không hiểu quan hệ (ai gọi UC nào, entity nối với nhau ra sao) ⇒ gần như luôn phải sửa tay |
+| **E** | **Bỏ phần đọc ảnh** | Giữ ảnh gốc trong bản render (`image_ref`, đóng T3) + để người dùng tự nhập thực thể từ ảnh ở màn 1.9 | Rẻ nhất, không chặn V6, nhưng mất đúng giá trị chính của V5 |
+
+**Khuyến nghị:** làm **E trước** (nhúng ảnh gốc — đằng nào cũng cần cho ảnh loại `other` và emf/wmf, lại đóng luôn T3), rồi chọn A hay B tuỳ ưu tiên: A nếu muốn tự chủ chi phí + dữ liệu và đã quen Modal, B nếu muốn xong nhanh với chất lượng cao nhất. C đáng thử thêm như một lớp tất định chạy trước AI, không thay thế được.
 
 **V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision` tách từ `develop`**
 1. `DocxPackage.binary(name)` + `blocks.ts` lưu `image_ref` (kể cả ảnh trong đoạn có chữ) + caption kề ±1 — unit test với fixture docx có ảnh png.
-2. `AiActionInput.images`, đường gọi AI SDK có message part `image`, `ActionType.IMPORT_EXTRACT_DIAGRAM` + giá credit, `withMeteredAi` nhận ảnh.
+2. `AiActionInput.images`, đường gọi AI SDK có message part `image`, `ActionType.IMPORT_EXTRACT_DIAGRAM` + giá credit, `withMeteredAi` nhận ảnh — provider theo cách đã chốt ở §0.3.
 3. Skill `import-extract-diagram` (phân loại + trích theo schema) + `extract-targets` thêm `flow_to`, `includes/extends`.
 4. I-4: gọi vision theo section, `origin: vision`, gộp khử trùng theo tên, độ tin ≤ 0.7.
 5. Finalize: section có ảnh đọc được ⇒ diagram render thay ảnh; `other`/emf/wmf ⇒ giữ ảnh gốc qua `image_ref` (đóng T3) + cờ vàng.
