@@ -16,7 +16,7 @@
 | V3 FE: workspace mode 2 cho project mode 1 | **Xong** — FE [#38](https://github.com/mit-suu/flintflow_fe/pull/38) `feat/FLF-185-mode1-v2-workspace` (tách từ V0 FE `feat/FLF-182-mode1-v2-contract`; 3 commit, 431 test xanh, lint/build OK; FLF-185 In Review). `page.tsx`: mode 1 import xong ⇒ `FptWorkspace mode1`, chưa xong ⇒ `/import`. Thanh step đỏ "Thiếu" (plan `missing` + chưa accepted), ẩn phase rỗng. Cột "Kế hoạch & version" (`Mode1WorkspaceTools`/`Mode1PlanPanel`/`useStepPlan`): thiếu mục FPT, Bật/Tắt step ẩn, **Ký baseline v1** (`POST /baseline`, khoá khi còn cờ đỏ), VersionsPanel + tải file gốc, link gap report/CR. DocumentPane: `custom:*`, heading nhóm, gợi ý "chạy step X". Gỡ `Mode1Workspace`, `DocBlockView` (tách `Revisions`). **Còn nợ:** e2e trình duyệt trên BE thật (V6); sau v1 chat vẫn là thẻ tạo CR điền sẵn (V4) |
 | V4 BE+FE: CR trên Spine, điều khiển bằng chat | **Xong** — BE [#65](https://github.com/mit-suu/flintflow_be/pull/65), FE [#39](https://github.com/mit-suu/flintflow_fe/pull/39), nhánh `feat/FLF-186-mode1-v2-cr-spine` (BE tách từ V2, FE tách từ V3; FLF-186 In Review). **Contract-change §4.6 chờ 4/4.** Vị trí CR = phần tử Spine (`spine-location.ts`), khoá theo path (`SpineLock`, `PATH_LOCKED`), C-4 = op Spine, C-5 so giá trị tại path (`CR_VALUE_CHANGED`) + op chỉ chạm phần tử đã khoá, PATCH vị trí `new_value`/`spine_ops`, C-7 ghi Spine (by = CR) + render version minor (Spine ghi cuối — FLF-178), release = render snapshot, blocks/so sánh/re-upload đọc file render (diff khớp theo text), chat sau v1 tạo CR nguồn `chat` (409 kèm `change_request`). BE 1423 / FE 432 test xanh. **Cắt (§11):** bản tải "có đánh dấu" theo section để sau; `comment` chỉ lưu ở CR |
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
-| V6 Test + e2e | Chưa |
+| V6 Test + e2e | **Gần xong** — nhánh `feat/FLF-188-mode1-v2-tests` (tách từ `chore/mode1-v2-tech-debt`, đã push nhánh đó 2026-09-20). Đóng T13 (e2e v2), T1 (so render vs gốc), coverage. Còn lại: chạy e2e thật trên BE + mở PR — xem §0.4 |
 
 **2026-09-20: toàn bộ chuỗi PR đã merge vào `develop`** (BE tới [#66](https://github.com/mit-suu/flintflow_be/pull/66), FE tới [#44](https://github.com/mit-suu/flintflow_fe/pull/44)) — contract-change V0 + V4 §4.6 coi như đã duyệt. Local `develop` hai repo đã reset về `origin/develop` (local chỉ có merge cũ, `git cherry` = 0 commit riêng, không mất gì); **không có conflict phải sửa** — nhóm đã xử lý khi merge. Kiểm lại trên develop: BE typecheck sạch + **1479 test xanh**; FE typecheck sạch (phải xoá `.next` cũ vì còn type của trang đã bỏ), lint 0 lỗi, **568 test xanh**. Upstream có đụng file mode 1 nhưng chỉ đổi bảng màu (FLF-189/190/191 thiết kế lại) và auth (`logoutAndRedirect` thay `clearAuthToken` + `router.push`) — logic mode 1 còn nguyên. Việc mới của nhóm cần biết: FLF-173 `Project.mode` thay `sourceMode`, FLF-174 xác thực OTP, FLF-175 landing sáng, FLF-189→191 thiết kế lại dashboard/auth.
 
@@ -38,9 +38,9 @@ Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE
 
 | # | Nợ | Từ phase | Mức | Hướng xử lý |
 |---|---|---|---|---|
-| T1 | Chưa so thủ công bản tải (render 0.0) trên Word 16 với file gốc | V2 | Trung bình | Làm cùng V6 với 2–3 SRS thật; ghi kết quả vào `reports/` |
+| ~~T1~~ | ~~Chưa so thủ công bản tải (render 0.0) trên Word 16 với file gốc~~ | V2 | — | **Xong 2026-09-20** — `reports/mode1-v2-t1-render-vs-original.md`, đo bằng cách rút cấu trúc OOXML của cả hai file trên SRS thật (61 màn) thay vì nhìn mắt. Thứ tự + tiêu đề mục **giữ đúng 66/66**. Sinh ra nợ mới **T14** (số mục lệch một cấp) và **T15** (mất Record of Changes cũ của khách); nâng **T3** lên Cao (mất 35/39 ảnh). Còn phần mở Word 16 xem trang in — checklist ở §5 báo cáo |
 | T2 | Mất định dạng Word gốc (style, header/footer) | V2 | Chấp nhận (D1) | Mở rộng sau: lấy `styles.xml` + header/footer file gốc làm khung docx-writer |
-| T3 | Khối ảnh trong `custom_sections` chỉ render placeholder | V2 | Trung bình | V5 bước 6 (`image_ref` ⇒ nhúng ảnh gốc) |
+| T3 | Khối ảnh trong `custom_sections` chỉ render placeholder — **đo thật: mất 35/39 ảnh**, bản render 0.0 thiếu gần hết hình (T1) | V2 | **Cao** | V5 bước 6 (`image_ref` ⇒ nhúng ảnh gốc) |
 | ~~T4~~ | ~~Diagram chỉ vẽ ở finalize khi PlantUML reachable; không có ⇒ không vẽ, không báo~~ | V2 | — | **Xong 2026-09-20** — gap report thêm `unrendered_diagrams[]` + ô tổng (chỉ loại có dữ liệu: context/usecase/screen_flow/erd), FE hiện mục "Hình chưa vẽ được". Không sinh cờ, không chặn ký v1 |
 | ~~T5~~ | ~~Phần nối (`custom:<id>` tiêu đề rỗng) hiện trơ mã, người dùng khó thấy vị trí~~ | V2/V4 | — | **Xong 2026-09-20** — `continuationOwnerSection(layout, id)`; `section_title` của vị trí CR + tiêu đề group thành `Phần nối của "<mục chủ>"` |
 | T6 | Bản tải "có đánh dấu" (w:ins/w:del theo section) — cắt khỏi V4; `variant=tracked` hiện trả bản render | V4 | Trung bình | Task riêng sau V6: diff theo section giữa hai render ⇒ `docx-ooxml` (author = CR id) |
@@ -50,21 +50,60 @@ Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE
 | ~~T10~~ | ~~`mention` gắn trùng với `spine_link` trên cùng phần tử~~ | V4 | — | **Xong 2026-09-20** — đã link bằng field tới đích nào thì không gắn thêm `mention` cho chính đích đó (đích khác vẫn có) |
 | T11 | UI xem nội dung một version đã bỏ (V3), chỉ còn tải; `VersionCompare` dùng block đọc từ file render | V3/V4 | Thấp | Nếu cần: modal xem block của version qua `GET …/versions/:v/blocks` |
 | ~~T12~~ | ~~Test trượt: BE I-4 pause/resume; FE `page.test.tsx`~~ | V1/V3 | — | **Xong 2026-09-20** — nguyên nhân là **chờ theo đồng hồ khi máy tải nặng**, không phải logic (3 lượt suite BE trên cây sạch đều xanh; FE test chạy riêng 0,33 s, cả suite > 5 s). BE: helper `extractAndWait` chờ đúng job (`waitForExtraction`) rồi mới đọc. FE: `asyncUtilTimeout` 15 s đặt một chỗ ở `test/setup.ts`, bỏ timeout rải rác |
-| T13 | Chưa có e2e trình duyệt trên BE thật cho luồng v2 | V3 | Cao | V6 |
+| ~~T13~~ | ~~Chưa có e2e trình duyệt trên BE thật cho luồng v2~~ | V3 | — | **Kịch bản xong 2026-09-20** — `e2e/mode1.spec.ts` viết lại theo luồng v2 (import ⇒ workspace ⇒ chạy step ⇒ chat ⇒ ký v1 ⇒ CR ⇒ release), typecheck + `playwright --list` sạch. **Chưa chạy thật** trên BE — cần FE :3000 + BE :5000 + một SRS .docx + credit AI |
+| T14 | Đánh số mục bị đẩy sâu một cấp khi file gốc có mục cấp 1 ngoài chương chính (`I. Record of Changes` + `II. SRS`) ⇒ `3.1.2` render thành `1.3.1.2`, tham chiếu chéo trong văn bản trỏ sai | V2 (T1 tìm ra) | Trung bình | `render/layout-sections.ts`: mục cấp 1 không sinh đầu mục FPT không tính vào dãy số chương |
+| T15 | Record of Changes của file gốc bị thay bằng lịch sử CR của FlintFlow ⇒ mất lịch sử sửa đổi cũ của khách | V2 (T1 tìm ra) | Trung bình | Giữ dòng cũ làm phần đầu bảng, CR mới nối tiếp bên dưới |
 
-### 0.2 Kế hoạch phiên tiếp theo
+### 0.2 V6 đã làm gì (2026-09-20) + việc còn lại
 
-Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; nếu nhóm chưa cấp key provider có vision thì làm V6 trước, V5 sau).
+Người dùng chọn làm **V6 trước V5**. Nhánh: `feat/FLF-188-mode1-v2-tests` cả hai repo, tách từ `chore/mode1-v2-tech-debt` (nhánh này **đã push** 2026-09-20 — trước đó còn 12 commit BE / 9 commit FE chưa lên remote; chưa mở PR).
+
+**Đã làm**
+
+| Việc | Kết quả |
+|---|---|
+| Test hành trình đi một mạch | BE `test/integration/mode1/journey.int.test.ts`: import ⇒ workspace ⇒ chạy step ⇒ chat ⇒ ký v1 ⇒ CR ⇒ 0.1 ⇒ release 1.0 trên **một** dự án. Từng chặng đã có test riêng; cái này kiểm các chặng **nối vào nhau** đúng |
+| e2e trình duyệt (T13) | `e2e/mode1.spec.ts` viết lại theo luồng v2, kiểm luôn cả L11/L11b/L11c. Typecheck + `playwright --list` sạch, **chưa chạy thật** |
+| Coverage BE | Ngưỡng 80% lines cho `modules/{import,change-request,render}` trong `vitest.config.ts`. Đo được: change-request **99,4 %**, import **97,9 %**, render **97,6 %**, pipeline 94,0 %, spine 96,6 % |
+| Coverage FE | Bật coverage v8 (thêm devDep `@vitest/coverage-v8`, script `test:coverage`), chỉ đo vùng mode 1, ngưỡng 80%. Bù test cho file trước đây 0–68 %: `ChangeRequestList`, `useMode1Project`, `Mode1Shell`, `Mode1WorkspaceTools`, `errors.ts`. Đo được: component **98,0 %** (trước 91,9), hook **95,3 %** (trước 84,7) |
+| T1 so render vs file gốc | `reports/mode1-v2-t1-render-vs-original.md` — xem §0.1 |
+
+Test lúc chốt: **BE 1 514 xanh** (158 file), **FE 613 xanh** (89 file), typecheck + lint hai repo sạch.
+
+**Lỗi tìm thêm khi người dùng chạy thật 2026-09-20 (đã sửa cùng nhánh V6, không ticket theo yêu cầu):**
+
+| # | Triệu chứng | Nguyên nhân | Sửa |
+|---|---|---|---|
+| L11 | Chạy step ngay sau khi vừa chạy xong ⇒ `409 SPINE_VERSION_CONFLICT "Tài liệu vừa được thay đổi ở phiên khác"`, phải F5 | Sau `ops_applied` BE còn render diagram + recompute cờ, mỗi lượt một transaction ⇒ version cuối cao hơn cái FE giữ. `gate_ready` **không mang version** nên FE chỉ đặt lịch `GET /spine` bất đồng bộ; bấm chạy trong khoảng chờ đó là 409. FE lại chỉ thử lại với `STEP_NOT_RUNNABLE`, không thử lại với lỗi này | BE: `gate_ready` thêm `spine_version` (version cuối). FE: nhận version từ `gate_ready`; gặp `SPINE_VERSION_CONFLICT` thì đọc lại version rồi chạy lại **đúng một lần**. Đóng luôn các nguồn lệch khác (waive cờ, bật/tắt step, hai tab) |
+| L11b | Chạy step → accept → cờ đỏ vẫn treo → bấm "Mở lại" → lặp lại y hệt, tới khi cạn trần 8 lượt gọi model | Model trả **lô op rỗng** (`draft-to-ops.ts:163` ⇒ `txn: null`) nhưng step vẫn đi tới gate như một lượt chạy thành công. Không có chỗ nào nói ra cho người dùng | `gate_ready` thêm `wrote_ops` + `empty_sections[]` (tính bằng đúng `SECTION_HAS_DATA` mà luật `section_empty` soi); `GateCard` hiện cảnh báo gọi tên mục còn trống và chỉ lối khác (revision / viết qua chat / waive) |
+| L11c | Cờ `unconfirmed_assumption` trỏ tới step đã chốt, mở lại chạy bao nhiêu lần cũng không đóng | `remediation_step = a.origin_step_id` — **step đã SINH ra giả định** (S-7.2), không phải step xử lý được nó. Chỉ **S-9.2 Assumption Sweep** mới đổi được `status` sang `confirmed`. Cộng thêm `flags.service.ts:122` không bao giờ đóng cờ baseline-only bằng recompute thường ⇒ mở ra rồi là nằm đó | Trỏ `S-9.2`; nơi sinh giữ trong `message`. Tìm ra bằng cách đọc DB dev của người dùng (project `6aaf6d18…`): `common_requirements` có 8 dòng, không có cờ `section_empty` nào — giả thiết "mục 5.2 trống" ban đầu là **sai** |
+| L11d | Không có lối thoát khỏi cờ không tự đóng được | Cột kế hoạch chỉ nhắc "mở panel Verification ở thanh phase" | Nút **Waive** ngay trong danh sách "Cờ đỏ đang chặn ký v1" (lý do ≥ 20 ký tự như BE); ba luật `array_empty`/`dead_reference`/`render_error` không hiện nút |
+| — | Hộp lỗi mode 1 đôi khi hiện trắng | `errors.ts` dùng `FRIENDLY[code] ?? err.message ?? fallback`; BE trả `message: ""` là chuỗi **rỗng** chứ không phải null nên `??` trả về rỗng | Đổi sang `||`. Test mới bắt được |
+
+Contract `pipeline-contract.md` §2 bảng sự kiện: `gate_ready` thêm 3 field (chỉ thêm, không đổi cái cũ).
+
+**Còn lại của V6**
+
+1. **Chạy e2e thật** — cần FE `:3000` + BE `:5000` + một SRS `.docx` không mang stamp + credit AI:
+   `E2E_MODE1=1 E2E_MODE1_DOCX=<đường dẫn> npx playwright test e2e/mode1.spec.ts`
+   Ảnh chụp từng bước ra `test-results/mode1/`.
+2. **Mở PR**: `chore/mode1-v2-tech-debt` → `develop` trước, rồi `feat/FLF-188-mode1-v2-tests` → `chore/...` (xếp chồng). `gh` CLI **không có trên máy này**, phải mở bằng web:
+   BE `https://github.com/mit-suu/flintflow_be/compare/develop...chore/mode1-v2-tech-debt` · FE `https://github.com/mit-suu/flintflow_fe/compare/develop...chore/mode1-v2-tech-debt`
+3. Mở Word 16 xem trang in của bản 0.0 — checklist §5 của `reports/mode1-v2-t1-render-vs-original.md`.
+4. Chuyển FLF-188 sang **In Review** sau khi có PR.
+
+### 0.2.1 Kế hoạch phiên tiếp theo (V5)
+
+Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; nếu nhóm chưa cấp key provider có vision thì làm V6 trước, V5 sau). **2026-09-20: đã làm V6 trước — xem §0.2.**
 
 **Trước khi code**
-1. Đọc §0 + §0.1; `git fetch` + `git pull` `develop` cả hai repo (chuỗi PR đã merge 2026-09-20).
-   **⚠ Nhánh `chore/mode1-v2-tech-debt` (BE 12 commit, FE 9 commit — dọn nợ T4/T5/T8/T10/T12, sửa L1–L10, phương án B) tính tới hết 2026-09-20 vẫn CHƯA push, CHƯA PR.** Kiểm `git log --oneline develop..chore/mode1-v2-tech-debt` ở cả hai repo trước khi làm gì:
-   - Nhánh đó còn commit riêng ⇒ **hỏi người dùng**: push + mở PR về `develop` rồi tách V5 từ `develop`, hay tách V5 thẳng từ `chore/mode1-v2-tech-debt` (xếp chồng như đợt V1–V4).
-   - **Đừng** tách V5 từ `develop` rồi bỏ mặc nhánh kia: V5 sửa lại đúng những file vừa đụng (`import/gap-report.service.ts`, `import/step-plan.ts`, `finalize.service.ts`, FE `GapReportView.tsx` + `types/import.ts`) ⇒ merge sau sẽ conflict.
-   - Nhánh đó đã trống (đã merge) ⇒ tách V5 từ `develop` như thường.
+1. Đọc §0 + §0.1 + §0.2; `git fetch` cả hai repo.
+   Chuỗi nhánh tính tới 2026-09-20: `develop` → `chore/mode1-v2-tech-debt` (đã push, **chưa PR**) → `feat/FLF-188-mode1-v2-tests` (V6, **chưa push**). Tách V5 từ **`feat/FLF-188-mode1-v2-tests`** để xếp chồng tiếp, hoặc chờ hai nhánh kia merge rồi tách từ `develop`.
+   **Đừng** tách V5 từ `develop` rồi bỏ mặc hai nhánh kia: V5 sửa lại đúng những file chúng vừa đụng (`import/gap-report.service.ts`, `import/step-plan.ts`, `finalize.service.ts`, `pipeline/step-runner.service.ts`, FE `GapReportView.tsx` + `types/import.ts`) ⇒ merge sau sẽ conflict.
 2. ~~Hỏi provider vision~~ — **chốt 2026-09-20: giữ GLM trên Modal cho text, đọc ảnh bằng Gemini**. `GEMINI_API_KEY` **đã có trong `.env`** (kiểm 2026-09-20), adapter `gemini.provider.ts` sẵn sàng và đã nhận `AbortSignal`.
-   **⚠ Chặn thật sự:** endpoint GLM trên Modal đang trả 429 "Plan credits cannot be applied…" (L8) — chưa xử lý thanh toán thì **không chạy được bước AI nào**, kể cả để thử V5. Hỏi người dùng trạng thái trước khi bắt đầu.
+   ~~Chặn: Modal trả 429~~ — người dùng xác nhận **đã xử lý 2026-09-20, AI chạy được**.
 3. FE (nếu phải đụng UI): develop đã thiết kế lại (FLF-189→191) — dùng bảng màu/nút mới của dashboard, không copy màu cũ trong component mode 1.
+4. V5 làm xong nhớ đóng luôn **T3** (nhúng lại ảnh gốc) — T1 đo được bản render 0.0 mất **35/39 ảnh**, đây là thiệt hại lớn nhất hiện nay của mode 1.
 
 ### 0.3 Đọc ảnh diagram — các cách làm (chốt trước V5 bước 3)
 
@@ -332,6 +371,8 @@ Khảo sát: provider hiện gửi **chỉ text**; model đang dùng (GLM-5.3-Fl
 ## 10. Phase V6 — Test (5 điểm)
 
 Unit: `step-plan` (luật 1–5, ví dụ §7.4), layout, assemble theo layout, finalize seed steps, guard theo v1, CR theo path (lock/verify/write), vision parser. Integration: import ⇒ workspace ⇒ step ⇒ chat ⇒ sign-off v1 ⇒ CR ⇒ release. FE: StepProgressBar động, panel bật step, DocumentPane custom. E2E trình duyệt trên BE thật (sửa `e2e/mode1.spec.ts`). Coverage ≥ 80% cho module mới/sửa.
+
+**Trạng thái 2026-09-20 — xem §0.2 để biết chi tiết.** Đã xong: integration đi một mạch (`journey.int.test.ts`), e2e viết lại theo v2, coverage BE 94–99 % / FE 95–98 % (đều trên ngưỡng 80 %), T1 so render vs file gốc. Chưa xong: chạy e2e thật trên BE, mở PR. `vision parser` thuộc V5, chưa có gì để test.
 
 ## 11. Effort & thứ tự
 
