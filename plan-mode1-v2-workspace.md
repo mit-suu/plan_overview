@@ -95,10 +95,19 @@ Kéo `develop` về rồi merge xuống cả hai nhánh (`develop` → `chore/mo
 1. **Chạy e2e thật** — cần FE `:3000` + BE `:5000` + một SRS `.docx` không mang stamp + credit AI:
    `E2E_MODE1=1 E2E_MODE1_DOCX=<đường dẫn> npx playwright test e2e/mode1.spec.ts`
    Ảnh chụp từng bước ra `test-results/mode1/`.
-2. **Mở PR**: `chore/mode1-v2-tech-debt` → `develop` trước, rồi `feat/FLF-188-mode1-v2-tests` → `chore/...` (xếp chồng). `gh` CLI **không có trên máy này**, phải mở bằng web:
-   BE `https://github.com/mit-suu/flintflow_be/compare/develop...chore/mode1-v2-tech-debt` · FE `https://github.com/mit-suu/flintflow_fe/compare/develop...chore/mode1-v2-tech-debt`
+2. ~~Mở PR~~ — **xong 2026-09-20**, xếp chồng:
+
+   | Repo | PR | Nhánh | Vào |
+   |---|---|---|---|
+   | BE | [#69](https://github.com/mit-suu/flintflow_be/pull/69) | `chore/mode1-v2-tech-debt` | `develop` |
+   | BE | [#70](https://github.com/mit-suu/flintflow_be/pull/70) | `feat/FLF-188-mode1-v2-tests` | `chore/mode1-v2-tech-debt` |
+   | FE | [#51](https://github.com/mit-suu/flintflow_fe/pull/51) | `chore/mode1-v2-tech-debt` | `develop` |
+   | FE | [#52](https://github.com/mit-suu/flintflow_fe/pull/52) | `feat/FLF-188-mode1-v2-tests` | `chore/mode1-v2-tech-debt` |
+
+   Review #69 + #51 trước, #70 + #52 sau. `gh` CLI không có trên máy này — mở bằng GitHub API, token lấy từ Git Credential Manager.
 3. Mở Word 16 xem trang in của bản 0.0 — checklist §5 của `reports/mode1-v2-t1-render-vs-original.md`.
-4. Chuyển FLF-188 sang **In Review** sau khi có PR.
+4. ~~Chuyển FLF-188 sang In Review~~ — **xong**.
+5. **Chờ nhóm duyệt một việc:** PR FE #52 thêm devDependency `@vitest/coverage-v8`. Coding-rules bắt xin duyệt khi thêm dependency; không có nó thì không đo được coverage mà DoD V6 lại đòi ≥ 80 %.
 
 ### 0.2.1 Kế hoạch phiên tiếp theo (V5)
 
