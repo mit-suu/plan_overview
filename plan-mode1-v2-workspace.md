@@ -16,7 +16,7 @@
 | V3 FE: workspace mode 2 cho project mode 1 | **Xong** — FE [#38](https://github.com/mit-suu/flintflow_fe/pull/38) `feat/FLF-185-mode1-v2-workspace` (tách từ V0 FE `feat/FLF-182-mode1-v2-contract`; 3 commit, 431 test xanh, lint/build OK; FLF-185 In Review). `page.tsx`: mode 1 import xong ⇒ `FptWorkspace mode1`, chưa xong ⇒ `/import`. Thanh step đỏ "Thiếu" (plan `missing` + chưa accepted), ẩn phase rỗng. Cột "Kế hoạch & version" (`Mode1WorkspaceTools`/`Mode1PlanPanel`/`useStepPlan`): thiếu mục FPT, Bật/Tắt step ẩn, **Ký baseline v1** (`POST /baseline`, khoá khi còn cờ đỏ), VersionsPanel + tải file gốc, link gap report/CR. DocumentPane: `custom:*`, heading nhóm, gợi ý "chạy step X". Gỡ `Mode1Workspace`, `DocBlockView` (tách `Revisions`). **Còn nợ:** e2e trình duyệt trên BE thật (V6); sau v1 chat vẫn là thẻ tạo CR điền sẵn (V4) |
 | V4 BE+FE: CR trên Spine, điều khiển bằng chat | **Xong** — BE [#65](https://github.com/mit-suu/flintflow_be/pull/65), FE [#39](https://github.com/mit-suu/flintflow_fe/pull/39), nhánh `feat/FLF-186-mode1-v2-cr-spine` (BE tách từ V2, FE tách từ V3; FLF-186 In Review). **Contract-change §4.6 chờ 4/4.** Vị trí CR = phần tử Spine (`spine-location.ts`), khoá theo path (`SpineLock`, `PATH_LOCKED`), C-4 = op Spine, C-5 so giá trị tại path (`CR_VALUE_CHANGED`) + op chỉ chạm phần tử đã khoá, PATCH vị trí `new_value`/`spine_ops`, C-7 ghi Spine (by = CR) + render version minor (Spine ghi cuối — FLF-178), release = render snapshot, blocks/so sánh/re-upload đọc file render (diff khớp theo text), chat sau v1 tạo CR nguồn `chat` (409 kèm `change_request`). BE 1423 / FE 432 test xanh. **Cắt (§11):** bản tải "có đánh dấu" theo section để sau; `comment` chỉ lưu ở CR |
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
-| V6 Test + e2e | **Gần xong** — nhánh `feat/FLF-188-mode1-v2-tests` (tách từ `chore/mode1-v2-tech-debt`, đã push nhánh đó 2026-09-20). Đóng T13 (e2e v2), T1 (so render vs gốc), coverage. Còn lại: chạy e2e thật trên BE + mở PR — xem §0.4 |
+| V6 Test + e2e | **Gần xong** — nhánh `feat/FLF-188-mode1-v2-tests` (tách từ `chore/mode1-v2-tech-debt`; cả hai đã push và **đã merge `develop` mới nhất vào**). Đóng T13 (e2e v2), T1 (so render vs gốc), coverage. Còn lại: chạy e2e thật trên BE + mở PR — xem §0.2 |
 
 **2026-09-20: toàn bộ chuỗi PR đã merge vào `develop`** (BE tới [#66](https://github.com/mit-suu/flintflow_be/pull/66), FE tới [#44](https://github.com/mit-suu/flintflow_fe/pull/44)) — contract-change V0 + V4 §4.6 coi như đã duyệt. Local `develop` hai repo đã reset về `origin/develop` (local chỉ có merge cũ, `git cherry` = 0 commit riêng, không mất gì); **không có conflict phải sửa** — nhóm đã xử lý khi merge. Kiểm lại trên develop: BE typecheck sạch + **1479 test xanh**; FE typecheck sạch (phải xoá `.next` cũ vì còn type của trang đã bỏ), lint 0 lỗi, **568 test xanh**. Upstream có đụng file mode 1 nhưng chỉ đổi bảng màu (FLF-189/190/191 thiết kế lại) và auth (`logoutAndRedirect` thay `clearAuthToken` + `router.push`) — logic mode 1 còn nguyên. Việc mới của nhóm cần biết: FLF-173 `Project.mode` thay `sourceMode`, FLF-174 xác thực OTP, FLF-175 landing sáng, FLF-189→191 thiết kế lại dashboard/auth.
 
@@ -81,6 +81,14 @@ Test lúc chốt: **BE 1 514 xanh** (158 file), **FE 613 xanh** (89 file), typec
 | — | Hộp lỗi mode 1 đôi khi hiện trắng | `errors.ts` dùng `FRIENDLY[code] ?? err.message ?? fallback`; BE trả `message: ""` là chuỗi **rỗng** chứ không phải null nên `??` trả về rỗng | Đổi sang `||`. Test mới bắt được |
 
 Contract `pipeline-contract.md` §2 bảng sự kiện: `gate_ready` thêm 3 field (chỉ thêm, không đổi cái cũ).
+
+**Merge `develop` mới nhất (2026-09-20, sau khi V6 xong code)**
+
+Kéo `develop` về rồi merge xuống cả hai nhánh (`develop` → `chore/mode1-v2-tech-debt` → `feat/FLF-188-mode1-v2-tests`), cả hai repo. **Không conflict nào.**
+
+- BE: develop thêm FLF-194 (gỡ nhiều dự án khỏi thư mục) + gộp lại lịch sử T21/T22/T24. BE 1508 test xanh sau merge.
+- FE: develop thêm **hạ tầng i18n `next-intl`** (FLF-192/194/196) — `messages/{vi,en}.json`, `LocaleSwitcher`, và test chuyển sang `renderWithIntl` (bọc `NextIntlClientProvider`). Test mới của V6 còn gọi `render` trần nên đỏ sau merge; đã đổi sang `renderWithIntl` ở `GateCard`, `StepProgressBar`, `ChangeRequest`, `Mode1Shell`. FE 672 test xanh sau merge.
+- **CLAUDE.md của FE có luật mới**: sửa UI phải kèm key ở cả `messages/vi.json` và `messages/en.json`. **Ngoại lệ là `app/projects/**` và admin** — vùng chưa i18n hoá, vẫn viết thẳng tiếng Việt. Toàn bộ UI mode 1 nằm trong ngoại lệ này, nên V6 không phải thêm key nào; nhưng **V5 và mọi việc mode 1 sau này cần nhớ**: nếu nhóm i18n hoá `app/projects/**` thì luật đổi.
 
 **Còn lại của V6**
 
