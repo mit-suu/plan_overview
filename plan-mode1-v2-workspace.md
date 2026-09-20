@@ -58,11 +58,12 @@ Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; n�
 
 **Trước khi code**
 1. Đọc §0 + §0.1; `git fetch` + `git pull` `develop` cả hai repo (chuỗi PR đã merge 2026-09-20).
-   **⚠ Nhánh `chore/mode1-v2-tech-debt` (BE 4 commit, FE 2 commit — dọn nợ T4/T5/T8/T10/T12) tính tới 2026-09-20 vẫn CHƯA push, CHƯA PR.** Kiểm `git log --oneline develop..chore/mode1-v2-tech-debt` ở cả hai repo trước khi làm gì:
+   **⚠ Nhánh `chore/mode1-v2-tech-debt` (BE 12 commit, FE 9 commit — dọn nợ T4/T5/T8/T10/T12, sửa L1–L10, phương án B) tính tới hết 2026-09-20 vẫn CHƯA push, CHƯA PR.** Kiểm `git log --oneline develop..chore/mode1-v2-tech-debt` ở cả hai repo trước khi làm gì:
    - Nhánh đó còn commit riêng ⇒ **hỏi người dùng**: push + mở PR về `develop` rồi tách V5 từ `develop`, hay tách V5 thẳng từ `chore/mode1-v2-tech-debt` (xếp chồng như đợt V1–V4).
    - **Đừng** tách V5 từ `develop` rồi bỏ mặc nhánh kia: V5 sửa lại đúng những file vừa đụng (`import/gap-report.service.ts`, `import/step-plan.ts`, `finalize.service.ts`, FE `GapReportView.tsx` + `types/import.ts`) ⇒ merge sau sẽ conflict.
    - Nhánh đó đã trống (đã merge) ⇒ tách V5 từ `develop` như thường.
-2. ~~Hỏi provider vision~~ — **người dùng đã chốt 2026-09-20: giữ model text hiện tại (GLM trên Modal), đọc ảnh bằng Gemini** (phương án B ở §0.3; adapter `gemini.provider.ts` + `GEMINI_API_KEY` đã có sẵn, cần key thật). Lưu ý: tài khoản Modal đang bị 429 vì thanh toán (L8) — phải xử trước khi chạy được bước AI nào.
+2. ~~Hỏi provider vision~~ — **chốt 2026-09-20: giữ GLM trên Modal cho text, đọc ảnh bằng Gemini**. `GEMINI_API_KEY` **đã có trong `.env`** (kiểm 2026-09-20), adapter `gemini.provider.ts` sẵn sàng và đã nhận `AbortSignal`.
+   **⚠ Chặn thật sự:** endpoint GLM trên Modal đang trả 429 "Plan credits cannot be applied…" (L8) — chưa xử lý thanh toán thì **không chạy được bước AI nào**, kể cả để thử V5. Hỏi người dùng trạng thái trước khi bắt đầu.
 3. FE (nếu phải đụng UI): develop đã thiết kế lại (FLF-189→191) — dùng bảng màu/nút mới của dashboard, không copy màu cũ trong component mode 1.
 
 ### 0.3 Đọc ảnh diagram — các cách làm (chốt trước V5 bước 3)
@@ -79,7 +80,7 @@ Model đang dùng (GLM-5.3-Flash qua Modal, endpoint tương thích OpenAI ở `
 
 **Khuyến nghị:** làm **E trước** (nhúng ảnh gốc — đằng nào cũng cần cho ảnh loại `other` và emf/wmf, lại đóng luôn T3), rồi chọn A hay B tuỳ ưu tiên: A nếu muốn tự chủ chi phí + dữ liệu và đã quen Modal, B nếu muốn xong nhanh với chất lượng cao nhất. C đáng thử thêm như một lớp tất định chạy trước AI, không thay thế được.
 
-**V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision` tách từ `develop`**
+**V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision`** (tách từ `chore/mode1-v2-tech-debt` nếu nhánh đó chưa merge — xem bước 1). **Provider ảnh: Gemini**; text vẫn GLM.
 1. `DocxPackage.binary(name)` + `blocks.ts` lưu `image_ref` (kể cả ảnh trong đoạn có chữ) + caption kề ±1 — unit test với fixture docx có ảnh png.
 2. `AiActionInput.images`, đường gọi AI SDK có message part `image`, `ActionType.IMPORT_EXTRACT_DIAGRAM` + giá credit, `withMeteredAi` nhận ảnh — provider theo cách đã chốt ở §0.3.
 3. Skill `import-extract-diagram` (phân loại + trích theo schema) + `extract-targets` thêm `flow_to`, `includes/extends`.
