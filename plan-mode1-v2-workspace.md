@@ -31,8 +31,8 @@ Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE
 | ~~N1~~ | ~~Duyệt contract-change V0~~ | — | **Xong** — merge 2026-09-20 |
 | ~~N2~~ | ~~Duyệt contract-change V4 §4.6~~ | — | **Xong** — merge 2026-09-20 |
 | ~~N3~~ | ~~Merge chuỗi PR BE #53→#65, FE #30→#39~~ | — | **Xong** — đều đã vào `develop` |
-| N4 | Push các commit claude_plan (`docs/FLF-172-mode1-p0-p2`, 6 commit V1→V4 + commit này) | Người dùng cho phép | Chưa push |
-| N5 | Xoá các nhánh feature mode 1 đã merge ở local/remote (BE `feat/FLF-172-*`, `feat/FLF-18x-*`; FE tương tự) | Người dùng xác nhận | Local vẫn còn ~20 nhánh; giữ cũng được, chỉ rối |
+| N4 | Push nhánh plan `docs/FLF-172-mode1-p0-p2` (27 commit) | **Chặn: thiếu quyền** | Repo đổi tên `mit-suu/claude_plan` → **`mit-suu/plan_overview`**; TuanAnh164 chỉ có quyền đọc (push = 403). 2026-09-20 người dùng chọn bỏ qua, giữ commit ở local, chưa đổi URL remote. Muốn push: xin quyền write, hoặc fork + PR |
+| ~~N5~~ | ~~Dọn nhánh đã merge~~ | — | **Local xong** 2026-09-20 (BE 23 nhánh, FE 14 nhánh; chỉ còn `develop`, `main` — kiểm `git cherry` = 0 trước khi xoá). **Remote giữ nguyên theo quyết định của người dùng** — 23 nhánh mode 1 trên origin đều nằm trọn trong develop, không còn PR mở, xoá được nhưng không cần |
 
 **Nợ kỹ thuật (đã biết, chưa làm)**
 
