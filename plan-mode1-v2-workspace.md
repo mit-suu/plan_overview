@@ -18,18 +18,21 @@
 | V5 BE: đọc ảnh diagram → Spine → vẽ lại | Chưa |
 | V6 Test + e2e | Chưa |
 
-PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0 → [#63](https://github.com/mit-suu/flintflow_be/pull/63) V1 → [#64](https://github.com/mit-suu/flintflow_be/pull/64) V2 → [#65](https://github.com/mit-suu/flintflow_be/pull/65) V4. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0 → [#38](https://github.com/mit-suu/flintflow_fe/pull/38) V3 → [#39](https://github.com/mit-suu/flintflow_fe/pull/39) V4. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0; V2 `feat/FLF-184-mode1-v2-render` tách từ V1** (người dùng chọn làm tiếp trên nhánh chưa merge).
+**2026-09-20: toàn bộ chuỗi PR đã merge vào `develop`** (BE tới [#66](https://github.com/mit-suu/flintflow_be/pull/66), FE tới [#44](https://github.com/mit-suu/flintflow_fe/pull/44)) — contract-change V0 + V4 §4.6 coi như đã duyệt. Local `develop` hai repo đã reset về `origin/develop` (local chỉ có merge cũ, `git cherry` = 0 commit riêng, không mất gì); **không có conflict phải sửa** — nhóm đã xử lý khi merge. Kiểm lại trên develop: BE typecheck sạch + **1479 test xanh**; FE typecheck sạch (phải xoá `.next` cũ vì còn type của trang đã bỏ), lint 0 lỗi, **568 test xanh**. Upstream có đụng file mode 1 nhưng chỉ đổi bảng màu (FLF-189/190/191 thiết kế lại) và auth (`logoutAndRedirect` thay `clearAuthToken` + `router.push`) — logic mode 1 còn nguyên. Việc mới của nhóm cần biết: FLF-173 `Project.mode` thay `sourceMode`, FLF-174 xác thực OTP, FLF-175 landing sáng, FLF-189→191 thiết kế lại dashboard/auth.
 
-### 0.1 Nợ tồn đọng (cập nhật 2026-09-19, sau V4)
+Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE: #53 P1 → #54 P2 → #55 việc A → [#57](https://github.com/mit-suu/flintflow_be/pull/57) route `/:id` → [#58](https://github.com/mit-suu/flintflow_be/pull/58) e2e-fixes → [#59](https://github.com/mit-suu/flintflow_be/pull/59) P4 → [#60](https://github.com/mit-suu/flintflow_be/pull/60) FLF-178 → [#61](https://github.com/mit-suu/flintflow_be/pull/61) FLF-179 → [#62](https://github.com/mit-suu/flintflow_be/pull/62) V0 → [#63](https://github.com/mit-suu/flintflow_be/pull/63) V1 → [#64](https://github.com/mit-suu/flintflow_be/pull/64) V2 → [#65](https://github.com/mit-suu/flintflow_be/pull/65) V4. FE: #30 P1 → [#33](https://github.com/mit-suu/flintflow_fe/pull/33) P3 → [#34](https://github.com/mit-suu/flintflow_fe/pull/34) P4 → [#35](https://github.com/mit-suu/flintflow_fe/pull/35) FLF-179 → [#36](https://github.com/mit-suu/flintflow_fe/pull/36) V0 → [#38](https://github.com/mit-suu/flintflow_fe/pull/38) V3 → [#39](https://github.com/mit-suu/flintflow_fe/pull/39) V4. **V1 nhánh `feat/FLF-183-mode1-v2-step-plan` tách từ V0; V2 `feat/FLF-184-mode1-v2-render` tách từ V1** (người dùng chọn làm tiếp trên nhánh chưa merge).
+
+### 0.1 Nợ tồn đọng (cập nhật 2026-09-20, sau khi merge develop)
 
 **Chờ người khác / chờ quyết định**
 
 | # | Việc | Ai / điều kiện | Ghi chú |
 |---|---|---|---|
-| N1 | Duyệt contract-change V0 (BE #62 / FE #36) | Nhóm 4/4 | Chặn merge cả chuỗi từ V0 trở lên |
-| N2 | Duyệt contract-change V4 §4.6 (`import-change-contract.md`) | Nhóm 4/4 | `PATH_LOCKED`, `CR_VALUE_CHANGED`, vị trí theo `path`, `meta.change_request` — **đổi mã lỗi, FE cũ gọi `BLOCK_LOCKED` sẽ vỡ** |
-| N3 | Merge chuỗi PR xếp chồng BE #53→#65, FE #30→#39 | Review + CI | Merge từ đáy lên; mỗi lần merge rebase nhánh trên. Chưa quyết định close #53–#55 (khuyên giữ) |
-| N4 | Push các commit claude_plan (`docs/FLF-172-mode1-p0-p2`, 5 commit V1→V4 + commit này) | Người dùng cho phép | Chưa push |
+| ~~N1~~ | ~~Duyệt contract-change V0~~ | — | **Xong** — merge 2026-09-20 |
+| ~~N2~~ | ~~Duyệt contract-change V4 §4.6~~ | — | **Xong** — merge 2026-09-20 |
+| ~~N3~~ | ~~Merge chuỗi PR BE #53→#65, FE #30→#39~~ | — | **Xong** — đều đã vào `develop` |
+| N4 | Push các commit claude_plan (`docs/FLF-172-mode1-p0-p2`, 6 commit V1→V4 + commit này) | Người dùng cho phép | Chưa push |
+| N5 | Xoá các nhánh feature mode 1 đã merge ở local/remote (BE `feat/FLF-172-*`, `feat/FLF-18x-*`; FE tương tự) | Người dùng xác nhận | Local vẫn còn ~20 nhánh; giữ cũng được, chỉ rối |
 
 **Nợ kỹ thuật (đã biết, chưa làm)**
 
@@ -54,10 +57,11 @@ PR xếp chồng (đã push 2026-09-19, **chưa merge**) — BE: #53 P1 → #54 
 Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; nếu nhóm chưa cấp key provider có vision thì làm V6 trước, V5 sau).
 
 **Trước khi code**
-1. Đọc §0 + §0.1; `git fetch` cả BE/FE, xem PR nào đã được review/merge (N1–N3) — nếu chuỗi đã merge thì tách nhánh từ `main` thay vì nhánh V4.
+1. Đọc §0 + §0.1; `git fetch` + `git pull` `develop` cả hai repo (chuỗi PR đã merge 2026-09-20, **tách nhánh mới từ `develop`**).
 2. Hỏi người dùng: provider vision nào (Gemini / Anthropic / OpenAI) + đã có key trong `.env` chưa — **chặn V5 bước 3**.
+3. FE (nếu phải đụng UI): develop đã thiết kế lại (FLF-189→191) — dùng bảng màu/nút mới của dashboard, không copy màu cũ trong component mode 1.
 
-**V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision` tách từ `feat/FLF-186-mode1-v2-cr-spine`**
+**V5 (FLF-187) — BE, nhánh `feat/FLF-187-mode1-v2-vision` tách từ `develop`**
 1. `DocxPackage.binary(name)` + `blocks.ts` lưu `image_ref` (kể cả ảnh trong đoạn có chữ) + caption kề ±1 — unit test với fixture docx có ảnh png.
 2. `AiActionInput.images`, đường gọi AI SDK có message part `image`, `ActionType.IMPORT_EXTRACT_DIAGRAM` + giá credit, `withMeteredAi` nhận ảnh.
 3. Skill `import-extract-diagram` (phân loại + trích theo schema) + `extract-targets` thêm `flow_to`, `includes/extends`.
