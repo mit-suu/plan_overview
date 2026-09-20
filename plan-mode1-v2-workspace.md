@@ -41,15 +41,15 @@ Lịch sử PR xếp chồng (push 2026-09-19, **đã merge 2026-09-20**) — BE
 | T1 | Chưa so thủ công bản tải (render 0.0) trên Word 16 với file gốc | V2 | Trung bình | Làm cùng V6 với 2–3 SRS thật; ghi kết quả vào `reports/` |
 | T2 | Mất định dạng Word gốc (style, header/footer) | V2 | Chấp nhận (D1) | Mở rộng sau: lấy `styles.xml` + header/footer file gốc làm khung docx-writer |
 | T3 | Khối ảnh trong `custom_sections` chỉ render placeholder | V2 | Trung bình | V5 bước 6 (`image_ref` ⇒ nhúng ảnh gốc) |
-| T4 | Diagram chỉ vẽ ở finalize khi PlantUML reachable; không có ⇒ không vẽ, không báo | V2 | Thấp | Thêm cờ vàng "chưa vẽ diagram" hoặc vẽ lại khi assemble; làm ở V5 |
-| T5 | Sửa qua chat nhắm `custom:<id>` của "phần nối" (tiêu đề rỗng) nhưng bản render gộp nó vào section chủ ⇒ người dùng khó thấy vị trí | V2/V4 | Thấp | FE: hiện phần nối dưới section chủ với nhãn "phần nối"; hoặc BE trả `owner_section_id` |
+| ~~T4~~ | ~~Diagram chỉ vẽ ở finalize khi PlantUML reachable; không có ⇒ không vẽ, không báo~~ | V2 | — | **Xong 2026-09-20** — gap report thêm `unrendered_diagrams[]` + ô tổng (chỉ loại có dữ liệu: context/usecase/screen_flow/erd), FE hiện mục "Hình chưa vẽ được". Không sinh cờ, không chặn ký v1 |
+| ~~T5~~ | ~~Phần nối (`custom:<id>` tiêu đề rỗng) hiện trơ mã, người dùng khó thấy vị trí~~ | V2/V4 | — | **Xong 2026-09-20** — `continuationOwnerSection(layout, id)`; `section_title` của vị trí CR + tiêu đề group thành `Phần nối của "<mục chủ>"` |
 | T6 | Bản tải "có đánh dấu" (w:ins/w:del theo section) — cắt khỏi V4; `variant=tracked` hiện trả bản render | V4 | Trung bình | Task riêng sau V6: diff theo section giữa hai render ⇒ `docx-ooxml` (author = CR id) |
 | T7 | Vị trí `comment` của CR chỉ lưu ở CR, không ghi vào file | V4 | Thấp | Đi cùng T6 (comment OOXML) |
-| T8 | `/changes`, `/undo` trong chat sau v1 vẫn trả 409 prefill (chỉ lệnh sửa thường mới tạo CR) | V4 | Thấp | Cho `/changes` tạo CR nhiều vị trí; `/undo` sau v1 ⇒ CR revert |
+| ~~T8~~ | ~~`/changes`, `/undo` sau v1 chỉ trả 409 prefill~~ | V4 | — | **Xong 2026-09-20** — `/changes`, `/reconcile`, `/undo` tạo CR nguồn `verbal` kèm `meta.change_request`; `/changes/preview` (chỉ xem) giữ prefill. Contract §4.7 |
 | T9 | `DocBlock` giờ chỉ còn dùng để truy vết import (`source_block_ids`); `DocBlock.locked_by_cr`, `ChangeLocation.block_id` là field chết | V4 | Thấp | Dọn + migration dữ liệu cho project cũ (P2–P4 đã có CR theo block) — task riêng, cần kiểm DB dev |
-| T10 | Tìm vị trí CR kiểu `mention` có thể gắn trùng với `spine_link` (cùng phần tử tham chiếu hai lần) | V4 | Thấp | Khử trùng theo path trước khi trả |
+| ~~T10~~ | ~~`mention` gắn trùng với `spine_link` trên cùng phần tử~~ | V4 | — | **Xong 2026-09-20** — đã link bằng field tới đích nào thì không gắn thêm `mention` cho chính đích đó (đích khác vẫn có) |
 | T11 | UI xem nội dung một version đã bỏ (V3), chỉ còn tải; `VersionCompare` dùng block đọc từ file render | V3/V4 | Thấp | Nếu cần: modal xem block của version qua `GET …/versions/:v/blocks` |
-| T12 | Test trượt: BE `mode1-extract` I-4 pause/resume (chạy cả suite song song); FE `page.test.tsx` (đã nới timeout 20 s) | V1/V3 | Trung bình | V6: tìm nguyên nhân (nghi chia sẻ Mongo memory server / timer), không chỉ nới timeout |
+| ~~T12~~ | ~~Test trượt: BE I-4 pause/resume; FE `page.test.tsx`~~ | V1/V3 | — | **Xong 2026-09-20** — nguyên nhân là **chờ theo đồng hồ khi máy tải nặng**, không phải logic (3 lượt suite BE trên cây sạch đều xanh; FE test chạy riêng 0,33 s, cả suite > 5 s). BE: helper `extractAndWait` chờ đúng job (`waitForExtraction`) rồi mới đọc. FE: `asyncUtilTimeout` 15 s đặt một chỗ ở `test/setup.ts`, bỏ timeout rải rác |
 | T13 | Chưa có e2e trình duyệt trên BE thật cho luồng v2 | V3 | Cao | V6 |
 
 ### 0.2 Kế hoạch phiên tiếp theo
@@ -71,11 +71,13 @@ Thứ tự đề xuất: **V5 → V6** (V6 cần V5 để test vision parser; n�
 
 **V6 (FLF-188) — BE + FE**
 1. Sửa `e2e/mode1.spec.ts` theo luồng v2: import ⇒ gap review ⇒ workspace ⇒ chạy step ⇒ chat sửa ⇒ ký v1 ⇒ chat tạo CR ⇒ duyệt ⇒ version 0.x ⇒ release 1.0 (đóng T13).
-2. Xử lý test trượt T12 tận gốc.
+2. ~~Xử lý test trượt T12~~ — xong 2026-09-20 (xem §0.1).
 3. Coverage ≥ 80% cho module mới/sửa (`render/layout-sections`, `import/step-plan`, `change-request/*`, `mode1/*` FE).
 4. So thủ công bản tải trên Word 16 (T1), ghi `reports/`.
 
-**Sau V6 (task mới, cần tạo ticket):** T6+T7 bản tải có đánh dấu; T9 dọn DocBlock + migration; T8 `/changes`–`/undo` sau v1.
+**Sau V6 (task mới, cần tạo ticket):** T6+T7 bản tải có đánh dấu; T9 dọn DocBlock + migration.
+
+**Đã dọn 2026-09-20** (nhánh `chore/mode1-v2-tech-debt` hai repo, không ticket theo yêu cầu người dùng; BE 4 commit, FE 2 commit; BE 1483 test xanh, FE 568 test xanh): T4, T5, T8, T10, T12. Contract thêm §4.7 (chỉ thêm field / nới rộng). Còn lại: T1, T2 (chấp nhận), T3 (V5), T6+T7, T9, T11, T13 (V6).
 
 ---
 
