@@ -95,6 +95,14 @@ Model đang dùng (GLM-5.3-Flash qua Modal, endpoint tương thích OpenAI ở `
 
 **Sau V6 (task mới, cần tạo ticket):** T6+T7 bản tải có đánh dấu; T9 dọn DocBlock + migration.
 
+**Lỗi tìm được khi người dùng chạy thật 2026-09-20 (đã sửa, cùng nhánh `chore/mode1-v2-tech-debt`, không ticket theo yêu cầu):**
+| # | Triệu chứng | Nguyên nhân | Sửa |
+|---|---|---|---|
+| L1 | CR bấm "AI đề xuất" chạy mãi; log `GLM_EMPTY_OUTPUT finish_reason=length max_tokens=10240` | `max_tokens` là ngân sách chung cho suy nghĩ + trả lời; lô C-4 12 vị trí × JSON dài ⇒ GLM suy nghĩ hết ngân sách; retry 3 lần y hệt | `glm.provider` nới ngân sách gấp đôi một lần (trần 24576) khi `length`; `GLM_EMPTY_OUTPUT` không còn là lỗi tạm; `PROPOSE_BATCH` 12→4 + lô lỗi tự chia đôi; skill `cr-propose` 4096→6144 |
+| L2 | Reload giữa lúc chạy step ⇒ `STEP_NOT_RUNNABLE: đang được xử lý ở một request khác` | Tầng AI không nhận `AbortSignal` ⇒ lượt gọi model của tab cũ chạy hết mới nhả khoá step | `AbortSignal` đi suốt `runStep → executeAiAction → callLLM → provider` (GLM qua SDK, OpenAI/Anthropic/Gemini qua axios); lỗi huỷ không retry; `GET /steps` thêm `running`; FE khoá nút + tự thử lại 3×1,5 s. **Còn hở:** `/gate` không SSE nên không huỷ được |
+| L3 | "Tìm vị trí ảnh hưởng & khoá" bấm không có gì (CR từ gap report) | C-2 trả đích là **mã section** (`fixed:3.1.1`…) + từ khoá là tiêu đề mục; C-3 bỏ im lặng ⇒ 0 vị trí, CR đứng ở `impact_review`. Gốc: gap report mời tạo CR cho **mục còn thiếu** — mục trống không có phần tử để sửa (theo D6 phải chạy step) | C-3 nhận đích mã section (mọi phần tử section đó); 0 vị trí ⇒ `409 CR_NO_LOCATIONS` kèm `empty_sections[{section_id,title,step_id}]`; FE: gap report tách khối "mục thiếu → chạy step", prefill CR bỏ `section_empty`/mục thiếu, thông báo lỗi chỉ step. **Chưa làm (cần chốt):** phương án B — vị trí kiểu "mục trống" (`arr[]`) để C-4 đề xuất *thêm mới* |
+| L4 | Báo "tạo CR 404" | Không tái hiện được: DB có CR-001…004, API GET/POST đều 200/401 đúng, route FE có. Nghi dev server chạy code cũ sau khi đổi nhánh | Khuyên restart cả hai dev server; thực ra triệu chứng thật là L3 |
+
 **Đã dọn 2026-09-20** (nhánh `chore/mode1-v2-tech-debt` hai repo, không ticket theo yêu cầu người dùng; BE 4 commit, FE 2 commit; BE 1483 test xanh, FE 568 test xanh): T4, T5, T8, T10, T12. Contract thêm §4.7 (chỉ thêm field / nới rộng). Còn lại: T1, T2 (chấp nhận), T3 (V5), T6+T7, T9, T11, T13 (V6).
 
 ---
