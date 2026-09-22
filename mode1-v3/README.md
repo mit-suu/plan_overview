@@ -21,14 +21,27 @@
 
 ## Trạng thái
 
-**Cập nhật: 2026-09-22.** Plan viết lại theo yêu cầu "theo flow mới 100 %" — không còn lệch BPMN có chủ đích; chỗ duy nhất chưa khớp là quyền theo lane (bị chặn vì BE chưa có tổ chức/role). Phase 1, 2 (BE) và 3 (FE) xong 2026-09-22 — xem mục Bàn giao của từng phase. Tiếp: mở PR (BE + FE cùng lúc) rồi phase 6 (test/e2e) và 4.
+**Cập nhật: 2026-09-22 (tối).** Phase 1–3 xong, phase 4 xong phần không bị chặn (4.4 chờ Flow 7–10). **e2e chạy thật PASS** (import ⇒ gap report ⇒ workspace v3 ⇒ chat mời tạo CR ⇒ panel xem trước ⇒ CR 3.2 → 3.14 ⇒ bản 0.1 + bản có đánh dấu ⇒ release bị khoá vì còn cờ đỏ). **4 PR đã mở, chờ review** (contract-change §4.8–4.9 cần 4/4):
+
+| Repo | PR | Nhánh | Vào |
+|---|---|---|---|
+| BE | [#72](https://github.com/mit-suu/flintflow_be/pull/72) | `feat/mode1-v3-flow1` (phase 1) | `feat/FLF-188-mode1-v2-tests` (#70) |
+| BE | [#73](https://github.com/mit-suu/flintflow_be/pull/73) | `feat/mode1-v3-flow3` (phase 2) | #72 |
+| BE | [#74](https://github.com/mit-suu/flintflow_be/pull/74) | `feat/mode1-v3-flow456` (phase 4) | #73 |
+| FE | [#55](https://github.com/mit-suu/flintflow_fe/pull/55) | `feat/mode1-v3-ui` (phase 3) | `feat/FLF-188-mode1-v2-tests` (#52) |
+
+Merge #72 + #73 cùng lúc với FE #55 (BE đổi hành vi mà FE cũ không theo). Phase 4 làm trong worktree `../wt-be-flow456` (node_modules là junction tới `flintflow_be`) — xoá bằng `git worktree remove ../wt-be-flow456` khi PR đã merge.
+
+**Chạy e2e:** file mẫu `doc/sample-draft.docx` mang stamp dự án khác (bị từ chối — đúng thiết kế) ⇒ dùng bản gỡ stamp (script gỡ `flintflow_*` trong `docProps/custom.xml`). Lệnh: `E2E_MODE1=1 E2E_MODE1_DOCX=<file không stamp> npx playwright test e2e/mode1.spec.ts`.
+
+Còn lại: phase 5 (vision, T3), phase 6 phần còn lại (journey BE theo đủ nhánh BPMN, tài liệu luồng mới), 4.4 (chờ Flow 7–10).
 
 | Phase | Việc | Điểm | Phụ thuộc | Trạng thái |
 |---|---|---|---|---|
-| 1 | BE: Flow 1 ⇒ gap report / 3.1, khoá sửa ngoài CR | 4 | PR #69/#70 (BE) | **Xong** — `feat/mode1-v3-flow1` 4 commit, chưa push; PR mở chung với phase 3 |
-| 2 | BE: Flow 3 đủ nút + Track Changes | 5 | 1 | **Xong** — `feat/mode1-v3-flow3` 5 commit, chưa push |
-| 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | **Xong phần chính** — `feat/mode1-v3-ui` 1 commit, chưa push; còn 3.6 (Flow 4/5 UI) chuyển sang phase 4 |
-| 4 | Flow 4/5/6 + quyền lane + T14/T15 | 5 | 1; 4.4 chờ Flow 8–10 | **Xong phần không bị chặn** — `feat/mode1-v3-flow456` (worktree), 3 commit, chưa push; 4.4 chờ Flow 8–10 |
+| 1 | BE: Flow 1 ⇒ gap report / 3.1, khoá sửa ngoài CR | 4 | PR #69/#70 (BE) | **Xong** — PR BE #72 |
+| 2 | BE: Flow 3 đủ nút + Track Changes | 5 | 1 | **Xong** — PR BE #73 |
+| 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | **Xong** — PR FE #55 |
+| 4 | Flow 4/5/6 + quyền lane + T14/T15 | 5 | 1; 4.4 chờ Flow 8–10 | **Xong phần không bị chặn** — PR BE #74; 4.4 chờ Flow 7–10 |
 | 5 | Vision + ảnh gốc | 7 | — (song song) | Chưa |
 | 6 | Test + e2e + tài liệu | 3 | 1–4 | Chưa |
 | | **Tổng** | **29** | | |
