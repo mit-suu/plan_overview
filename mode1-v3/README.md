@@ -25,7 +25,7 @@
 
 | Phase | Việc | Điểm | Phụ thuộc | Trạng thái |
 |---|---|---|---|---|
-| 1 | BE: Flow 1 ⇒ gap report / 3.1, khoá sửa ngoài CR | 4 | PR #69/#70 (BE) | **Code xong** — `feat/mode1-v3-flow1` 3 commit, chưa push; chờ quyết 1.1-a (re-upload không stamp) |
+| 1 | BE: Flow 1 ⇒ gap report / 3.1, khoá sửa ngoài CR | 4 | PR #69/#70 (BE) | **Xong** — `feat/mode1-v3-flow1` 4 commit, chưa push; PR mở chung với phase 3 |
 | 2 | BE: Flow 3 đủ nút + Track Changes | 5 | 1 | Chưa |
 | 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | Chưa |
 | 4 | Flow 4/5/6 + quyền lane + T14/T15 | 5 | 1; 4.4 chờ Flow 8–10 | Chưa |

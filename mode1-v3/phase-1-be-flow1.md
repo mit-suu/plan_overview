@@ -5,18 +5,19 @@
 
 ## Bàn giao
 
-**2026-09-22 — code xong trừ một việc chờ quyết định (1.1-a).** Nhánh BE `feat/mode1-v3-flow1` (tách từ `feat/FLF-188-mode1-v2-tests` vì PR #69/#70 còn mở), 3 commit, **chưa push**:
+**2026-09-22 — xong.** Nhánh BE `feat/mode1-v3-flow1` (tách từ `feat/FLF-188-mode1-v2-tests` vì PR #69/#70 còn mở), 4 commit, **chưa push**:
 
 | Commit | Nội dung |
 |---|---|
 | `d5459f7` | 1.2 — `changesRequireCr` từ v0; bỏ tự tạo CR (xoá `chat-cr.service.ts`); `prefill.source` (`verbal`, chat ⇒ `ref: chat:<id>`); preview chạy + `meta.requires_cr`; `assertNotMode1(mode, "steps"|"signoff"|"waive")` ở run/answer/gate/resume/`PATCH step-plan`/`POST /baseline`/waive — dùng `mode` controller đã nạp, không truy vấn thêm |
 | `8f37a7a` | 1.4 — xem bảng dưới |
 | `2138649` | 1.5 — contract `import-change-contract.md` §4.8 + lịch sử (contract-change, chờ 4/4) |
+| `6335c6a` | 1.1-a — `/reupload` đòi stamp của project ⇒ không stamp `422 IMPORT_REUPLOAD_NO_STAMP` (kiểm sau preflight); test “bản gốc sửa ngoài vẫn so được” đổi thành test từ chối |
 
 Kiểm: typecheck sạch, **BE 1509 test xanh** (repo BE không có script lint).
 
 **1.1 kiểm từng nút 1.1–1.13** — khớp BPMN: máy trạng thái import có đủ `gap_review → delivered | change_requested`; 1.11 AI semantic check có (`check.service.ts`, bước `I-1.11`, qua `withMeteredAi`); gap report + re-upload đã mở **form CR điền sẵn** (đúng 3.1 là việc của BA); mention ghi ở 1.5 (`mentions.ts`). Lệch:
-- **1.1-a (chờ người dùng quyết):** `/reupload` nhận cả file **không có stamp** (test `reupload.int.test.ts:121` cố ý giữ: "bản gốc sửa ngoài vẫn so được"). BPMN chỉ đi 1.4 khi file mang stamp của project; không stamp ⇒ 1.3 (import mới) — mà project đã có baseline thì `/import` chặn. Theo BPMN 100 % ⇒ `/reupload` đòi stamp, gỡ tính năng so file gốc sửa ngoài.
+- **1.1-a (người dùng chốt 2026-09-22: theo BPMN, đã làm):** `/reupload` nhận cả file **không có stamp** (test `reupload.int.test.ts:121` cố ý giữ: "bản gốc sửa ngoài vẫn so được"). BPMN chỉ đi 1.4 khi file mang stamp của project; không stamp ⇒ 1.3 (import mới) — mà project đã có baseline thì `/import` chặn. Theo BPMN 100 % ⇒ `/reupload` đòi stamp, gỡ tính năng so file gốc sửa ngoài.
 - **1.12 thiếu luật S-9** — đã sửa ở 1.4 (bật `atBaseline`).
 - Upload lần đầu mà file có stamp đúng project (chưa baseline) ⇒ bỏ qua 1.3, parse luôn; BPMN nói stamp ⇒ 1.4 nhưng chưa có version để so. Ca biên, giữ.
 
@@ -33,7 +34,7 @@ Kiểm: typecheck sạch, **BE 1509 test xanh** (repo BE không có script lint)
 
 **Lưu ý khi merge:** phase 1 đổi hành vi BE mà FE hiện tại chưa theo (nút chạy step / ký v1 / waive của mode 1 sẽ nhận 409; thẻ CR trong chat chờ `meta.change_request`). **Mở PR phase 1 cùng lúc với phase 3 (FE)**, không merge riêng.
 
-**Bước tiếp theo:** chốt 1.1-a → phase 2 (`feat/mode1-v3-flow3`, tách từ nhánh này).
+**Bước tiếp theo:** phase 2 (`feat/mode1-v3-flow3`, tách từ nhánh này). FE phase 3 phải thêm câu tiếng Việt cho `MODE1_NO_*`, `IMPORT_REUPLOAD_NO_STAMP`.
 
 ## Việc
 
