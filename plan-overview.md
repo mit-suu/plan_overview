@@ -284,7 +284,7 @@ Cách cập nhật: người phụ trách đổi ô Trạng thái của task mì
 ## 9. Wave 6 tuỳ chọn (business-flow.md, chỉ liệt kê)
 
 Chỉ mở khi nhóm chốt business-flow §9 và sau M5. Không chi tiết ở đây.
-- **Bản chi tiết mode 1 (upload SRS có sẵn rồi sửa: I-1…I-4, C-1…C-7, release):** `plan-mode1-import-edit-srs.md` — 5 phase P0 kiểm tra hiện trạng → P1 schema → P2 logic BE → P3 UI → P4 unit test.
+- **Mode 1 (upload SRS có sẵn rồi sửa):** plan hiện hành `mode1-v3/` (README là nguồn trạng thái; khớp BPMN 2026-09-22 — bám 100 %: import xong chỉ còn gap report hoặc CR, panel xem trước mở form 3.1). Lịch sử: `mode1-old/plan-mode1-import-edit-srs.md` (v1, P0–P4), `mode1-old/plan-mode1-v2-workspace.md` (v2, V0–V6), `mode1-old/flow-mode1-upload-srs.md` (luồng v2).
 - P0 thử nghiệm: chèn `w:ins/w:del` vào đoạn + ô bảng, độ ổn định `paraId`; import 1 SRS thật; đo token 1 CR.
 - I-1…I-4: preflight .docx, parse & anchor block, profile match, spine extraction → baseline v0 imported.
 - C-1…C-7: intake, clarify (tái dùng T17 clarification), impact (tái dùng T17), propose (gọi skill của step sở hữu field, tái dùng T14/T18), verify (T15 consistency + T09), approve theo nhóm, write Track Changes + version mới.
