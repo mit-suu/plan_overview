@@ -5,7 +5,35 @@
 
 ## Bàn giao
 
-Chưa bắt đầu.
+**2026-09-22 — code xong trừ một việc chờ quyết định (1.1-a).** Nhánh BE `feat/mode1-v3-flow1` (tách từ `feat/FLF-188-mode1-v2-tests` vì PR #69/#70 còn mở), 3 commit, **chưa push**:
+
+| Commit | Nội dung |
+|---|---|
+| `d5459f7` | 1.2 — `changesRequireCr` từ v0; bỏ tự tạo CR (xoá `chat-cr.service.ts`); `prefill.source` (`verbal`, chat ⇒ `ref: chat:<id>`); preview chạy + `meta.requires_cr`; `assertNotMode1(mode, "steps"|"signoff"|"waive")` ở run/answer/gate/resume/`PATCH step-plan`/`POST /baseline`/waive — dùng `mode` controller đã nạp, không truy vấn thêm |
+| `8f37a7a` | 1.4 — xem bảng dưới |
+| `2138649` | 1.5 — contract `import-change-contract.md` §4.8 + lịch sử (contract-change, chờ 4/4) |
+
+Kiểm: typecheck sạch, **BE 1509 test xanh** (repo BE không có script lint).
+
+**1.1 kiểm từng nút 1.1–1.13** — khớp BPMN: máy trạng thái import có đủ `gap_review → delivered | change_requested`; 1.11 AI semantic check có (`check.service.ts`, bước `I-1.11`, qua `withMeteredAi`); gap report + re-upload đã mở **form CR điền sẵn** (đúng 3.1 là việc của BA); mention ghi ở 1.5 (`mentions.ts`). Lệch:
+- **1.1-a (chờ người dùng quyết):** `/reupload` nhận cả file **không có stamp** (test `reupload.int.test.ts:121` cố ý giữ: "bản gốc sửa ngoài vẫn so được"). BPMN chỉ đi 1.4 khi file mang stamp của project; không stamp ⇒ 1.3 (import mới) — mà project đã có baseline thì `/import` chặn. Theo BPMN 100 % ⇒ `/reupload` đòi stamp, gỡ tính năng so file gốc sửa ngoài.
+- **1.12 thiếu luật S-9** — đã sửa ở 1.4 (bật `atBaseline`).
+- Upload lần đầu mà file có stamp đúng project (chưa baseline) ⇒ bỏ qua 1.3, parse luôn; BPMN nói stamp ⇒ 1.4 nhưng chưa có version để so. Ca biên, giữ.
+
+**1.3** — không đổi code: `GET /steps`, `GET /step-plan` chỉ đọc, FE phase 3 thôi gọi. Không thêm field `remediation` vào cờ (đụng `spine.schema.ts`); FE tự đổi "Chạy step" ⇒ "Tạo CR" theo `mode`.
+
+**1.4 mọi cờ đỏ đóng được bằng CR** (đã có test cho từng dòng):
+
+| Luật | Trước | Sửa |
+|---|---|---|
+| `section_empty` | C-3 coi "trống" = không có phần tử ⇒ lệch với cờ (5.1 chỉ có rule `tier=high`: cờ đỏ, C-3 không mở vị trí thêm mới); `fixed:3.1.1`, `fixed:2.2.1` ⇒ `CR_NO_LOCATIONS` | `emptySections` dùng `sectionHasData`; `SECTION_FIELD_ARRAYS`: nhắm 3.1.1 / 2.2.1 ⇒ mọi `screens` / `use_cases` là vị trí của mục đó, mảng rỗng ⇒ thêm mới. `fixed:1` vốn có vị trí `project` |
+| `unconfirmed_assumption` | Chỉ sinh / đóng khi tính cờ `atBaseline` — import, ghi CR, release đều không bật ⇒ ở mode 1 **không bao giờ hiện, hiện rồi không bao giờ đóng**; `assumptions` không làm được vị trí CR | Bật `atBaseline` ở 1.12, 3.14, 6.1 (hồ sơ luật mode 1 đã loại các luật `*_at_baseline` khác); `assumptions` vào `LOCATION_ARRAYS` |
+| `diagram_stale` / `render_error` | 3.14 **không vẽ lại hình** ⇒ CR sửa use case xong là hình lệch, mode 1 không còn step vẽ lại ⇒ release khoá mãi | `renderAllIfAvailable` (dùng chung với finalize) sau khi ghi Spine; có hình đổi ⇒ in lại file version minor |
+| `dead_reference` | Phần tử chứa tham chiếu hỏng đều nằm trong `LOCATION_ARRAYS` | Không đổi |
+
+**Lưu ý khi merge:** phase 1 đổi hành vi BE mà FE hiện tại chưa theo (nút chạy step / ký v1 / waive của mode 1 sẽ nhận 409; thẻ CR trong chat chờ `meta.change_request`). **Mở PR phase 1 cùng lúc với phase 3 (FE)**, không merge riêng.
+
+**Bước tiếp theo:** chốt 1.1-a → phase 2 (`feat/mode1-v3-flow3`, tách từ nhánh này).
 
 ## Việc
 
