@@ -6,7 +6,24 @@
 
 ## Bàn giao
 
-Chưa bắt đầu.
+**2026-09-22 — xong phần chính.** Nhánh FE `feat/mode1-v3-ui` (tách từ `feat/FLF-188-mode1-v2-tests`), 1 commit `f275a9b` (46 file), **chưa push**. FE **680 test xanh** (105 file), typecheck sạch, lint 0 lỗi, `next build` chạy.
+
+| Việc | Kết quả |
+|---|---|
+| 3.1 khung | `page.tsx` mode 1: ẩn rail tiến độ, nút "Chạy bước", gate/ElicitPanel, gợi ý "chạy step" ở tài liệu; ẩn panel ghi Spine thẳng (Tên riêng, Hàng đợi màn, Brief); VerificationPane không có waive. `Mode1PlanPanel` ⇒ **`Mode1FlagsPanel`** (cờ đỏ chặn release, mỗi cờ nút **Tạo CR** nguồn gap report); `Mode1WorkspaceTools` chỉ còn cờ + link + version. Gỡ `useStepPlan` (hết người dùng) |
+| 3.2 panel xem trước | `ChangePanel requiresCr` (mode 1): ẩn Hoà giải / Undo, dòng giải thích; diff dùng **`CreateCrPreviewModal`** — nút **Tạo CR** ⇒ `/change-requests?new=1&…&preview_id=…` (form 3.1 có sẵn, nguồn gợi ý "Yêu cầu miệng", người yêu cầu để trống cho BA điền). Tách component riêng để panel mode 2 không phụ thuộc router. Form hiện khung "Bản xem trước đính kèm", gửi `preview_id` |
+| 3.3 lối vào khác | Chat: `CrPrefillCard` chỉ còn thẻ mời mở form (bỏ nhánh "đã tạo CR"), nguồn/ref lấy từ `meta.prefill.source`. Gap report: khối mục thiếu có nút **Tạo CR bổ sung mục thiếu** (bỏ "chạy step"). Nguồn trong form đúng 6 nguồn BPMN (`NEW_CR_SOURCE_KINDS`), "verbal" đổi nhãn "Yêu cầu miệng (ghi rõ người yêu cầu)" |
+| 3.4 CR workspace | Vị trí hiện theo mục (path ở tooltip) ở `ProposalCard` + `ChangeGroupPanel`; `manual_fix` ⇒ nút chính **"Sửa trong step <step>"** (`owner-step-draft`), sửa JSON thành "Sửa trực tiếp"; duyệt group cũng mở ô lý do (≥ 10 ký tự); CR có seed hiện khung "Bản xem trước đính kèm"; ghi xong nhắc tải bản có đánh dấu |
+| 3.5 release / tải | `VersionsPanel`: bản nháp sau CR có **Tải bản có đánh dấu** (`has_tracked_file`, tên `…_tracked_DRAFT.docx`); release chỉ bản sạch |
+| Khác | `errors.ts` câu tiếng Việt cho `MODE1_NO_*`, `IMPORT_REUPLOAD_NO_STAMP`, `CR_NO_OWNER_STEP`, `PREVIEW_EXPIRED`; `CR_NO_LOCATIONS` không còn khuyên chạy step. Types + mock MSW theo contract §4.8–4.9 |
+
+**Chưa làm / để phase sau:**
+- **3.6 Flow 4/5 trên UI** — chưa rà từng màn (PausedBanner của CR có sẵn; 3.9 lỗi AI hiện qua hộp lỗi vì `manual_fix` không pause). Làm cùng phase 4.
+- Khối release chưa ghi câu "CR đang chạy không chặn release".
+- `e2e/mode1.spec.ts` vẫn theo luồng v2 (chạy step, ký v1) ⇒ viết lại ở phase 6.
+- Chưa chạy thử trên trình duyệt với BE thật.
+
+**Mở PR:** BE `feat/mode1-v3-flow1` + `feat/mode1-v3-flow3` và FE `feat/mode1-v3-ui` cùng lúc (BE phase 1 đổi hành vi mà FE cũ không theo). Hợp đồng §4.8–4.9 là contract-change ⇒ cần 4/4 duyệt.
 
 ## Việc
 

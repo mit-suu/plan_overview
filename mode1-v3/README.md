@@ -21,13 +21,13 @@
 
 ## Trạng thái
 
-**Cập nhật: 2026-09-22.** Plan viết lại theo yêu cầu "theo flow mới 100 %" — không còn lệch BPMN có chủ đích; chỗ duy nhất chưa khớp là quyền theo lane (bị chặn vì BE chưa có tổ chức/role). Phase 1, 2 (BE) xong 2026-09-22 — xem mục Bàn giao của từng phase. Tiếp: phase 3 (FE).
+**Cập nhật: 2026-09-22.** Plan viết lại theo yêu cầu "theo flow mới 100 %" — không còn lệch BPMN có chủ đích; chỗ duy nhất chưa khớp là quyền theo lane (bị chặn vì BE chưa có tổ chức/role). Phase 1, 2 (BE) và 3 (FE) xong 2026-09-22 — xem mục Bàn giao của từng phase. Tiếp: mở PR (BE + FE cùng lúc) rồi phase 6 (test/e2e) và 4.
 
 | Phase | Việc | Điểm | Phụ thuộc | Trạng thái |
 |---|---|---|---|---|
 | 1 | BE: Flow 1 ⇒ gap report / 3.1, khoá sửa ngoài CR | 4 | PR #69/#70 (BE) | **Xong** — `feat/mode1-v3-flow1` 4 commit, chưa push; PR mở chung với phase 3 |
 | 2 | BE: Flow 3 đủ nút + Track Changes | 5 | 1 | **Xong** — `feat/mode1-v3-flow3` 5 commit, chưa push |
-| 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | Chưa |
+| 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | **Xong phần chính** — `feat/mode1-v3-ui` 1 commit, chưa push; còn 3.6 (Flow 4/5 UI) chuyển sang phase 4 |
 | 4 | Flow 4/5/6 + quyền lane + T14/T15 | 5 | 1; 4.4 chờ Flow 8–10 | Chưa |
 | 5 | Vision + ảnh gốc | 7 | — (song song) | Chưa |
 | 6 | Test + e2e + tài liệu | 3 | 1–4 | Chưa |
