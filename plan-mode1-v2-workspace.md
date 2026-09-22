@@ -90,6 +90,15 @@ Kéo `develop` về rồi merge xuống cả hai nhánh (`develop` → `chore/mo
 - FE: develop thêm **hạ tầng i18n `next-intl`** (FLF-192/194/196) — `messages/{vi,en}.json`, `LocaleSwitcher`, và test chuyển sang `renderWithIntl` (bọc `NextIntlClientProvider`). Test mới của V6 còn gọi `render` trần nên đỏ sau merge; đã đổi sang `renderWithIntl` ở `GateCard`, `StepProgressBar`, `ChangeRequest`, `Mode1Shell`. FE 672 test xanh sau merge.
 - **CLAUDE.md của FE có luật mới**: sửa UI phải kèm key ở cả `messages/vi.json` và `messages/en.json`. **Ngoại lệ là `app/projects/**` và admin** — vùng chưa i18n hoá, vẫn viết thẳng tiếng Việt. Toàn bộ UI mode 1 nằm trong ngoại lệ này, nên V6 không phải thêm key nào; nhưng **V5 và mọi việc mode 1 sau này cần nhớ**: nếu nhóm i18n hoá `app/projects/**` thì luật đổi.
 
+**Merge `develop` lần 2 (2026-09-22) — FE có FLF-197 thiết kế lại khung workspace, BE không có gì mới**
+
+Ba conflict ở FE, gỡ theo hướng giữ thiết kế mới:
+- `PhaseHeader.tsx` bị xoá, nút "Chạy bước" dời sang `WorkspaceHeader` — nhưng bản mới chạy `currentStep`, tức **mở lại lỗi L9**. Đã chuyển sang `WorkspaceHeader` cả ba hành vi: chạy bước **đang xem** (`runnableStep`), nút "Về `<bước hiện tại>`", khoá khi BE báo đang chạy (`stepRunningElsewhere`, L2). Có test mới giữ cả ba.
+- `StepProgressBar.tsx` thành danh sách dọc có tên ⇒ gắn lại gom vòng S-5 thành một dòng "+N màn để lại" (không có thì 305 dòng).
+- e2e: nút chạy giờ tên `Chạy bước <id>`; rail tiến độ **ẩn mặc định**, kịch bản mở trước khi tìm danh sách bước.
+
+Sau merge: FE **686 test xanh**, typecheck + lint sạch; cả bốn nhánh chứa đủ `develop` và đã push (PR #51/#52 tự cập nhật).
+
 **Còn lại của V6**
 
 1. **Chạy e2e thật** — cần FE `:3000` + BE `:5000` + một SRS `.docx` không mang stamp + credit AI:
