@@ -12,8 +12,8 @@ Nguồn: `../mode1-old/plan-mode1-v2-workspace.md` §0.1 (cập nhật 2026-09-2
 | T9 | `DocBlock.locked_by_cr`, `ChangeLocation.block_id` là field chết | Thấp | Ngoài v3 (`npm run migrate:mode1-v2 --clean-data`, cần kiểm DB dev) |
 | T11 | Không xem được nội dung version cũ trên UI | Thấp | Ngoài v3 |
 | T13 | e2e chưa chạy thật | Trung bình | Phase 6.2 |
-| T14 | Số mục bị đẩy sâu một cấp | Trung bình | Phase 4.5 |
-| T15 | Mất Record of Changes cũ của khách | Trung bình | Phase 4.5 |
+| ~~T14~~ | ~~Số mục bị đẩy sâu một cấp~~ | — | **Xong 2026-09-22** (phase 4.5) |
+| ~~T15~~ | ~~Mất Record of Changes cũ của khách~~ | — | **Xong 2026-09-22** (phase 4.5) — chỉ project import sau thay đổi |
 | **T16** (mới) | Kho bản xem trước nằm trong bộ nhớ ⇒ restart / nhiều instance là mất; phase 2 chỉ dùng làm gợi ý nên mất thì CR vẫn tạo được | Thấp | Chấp nhận; nhiều instance ⇒ Mongo TTL collection |
 | **T17** (mới) | Test v1–v4 giả định mode 1 chạy step / sửa tự do / ký v1 / auto CR | — | Sửa ở phase 1–3, không xoá |
 | **T18** (mới) | Quyền theo lane (Lead duyệt, Viewer chỉ tải release) chưa có vì BE chưa có tổ chức/role | Chặn | Phase 4.4, chờ Flow 8–10 |
