@@ -6,8 +6,8 @@ Nguồn: `../mode1-old/plan-mode1-v2-workspace.md` §0.1 (cập nhật 2026-09-2
 |---|---|---|---|
 | T2 | Mất định dạng Word gốc (style, header/footer) | Chấp nhận (D1) | Không làm. Mở rộng sau: `styles.xml` + header/footer file gốc làm khung docx-writer |
 | T3 | Ảnh trong `custom_sections` chỉ render placeholder — mất 35/39 ảnh | **Cao** | Phase 5 bước 1 |
-| T6 | Bản tải "có đánh dấu" chưa có — BPMN 3.14 bắt buộc | **Bắt buộc** | Phase 2.6 |
-| T7 | Vị trí `comment` của CR chỉ lưu ở CR | Bắt buộc (3.14) | Phase 2.6 |
+| ~~T6~~ | ~~Bản tải "có đánh dấu" chưa có~~ | — | **Xong 2026-09-22** (phase 2.6) — so theo đoạn; giới hạn ghi ở Bàn giao phase 2 |
+| ~~T7~~ | ~~Vị trí `comment` của CR chỉ lưu ở CR~~ | — | **Xong 2026-09-22** — comment Word ở tiêu đề mục của bản có đánh dấu |
 | T8 | (đã làm ở v2: `/changes`, `/undo`, chat tự tạo CR) | — | **Gỡ** ở phase 1 — BPMN 3.1 là user task, CR chỉ sinh từ form |
 | T9 | `DocBlock.locked_by_cr`, `ChangeLocation.block_id` là field chết | Thấp | Ngoài v3 (`npm run migrate:mode1-v2 --clean-data`, cần kiểm DB dev) |
 | T11 | Không xem được nội dung version cũ trên UI | Thấp | Ngoài v3 |

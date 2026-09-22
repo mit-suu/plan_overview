@@ -5,7 +5,21 @@
 
 ## Bàn giao
 
-Chưa bắt đầu.
+**2026-09-22 — xong.** Nhánh BE `feat/mode1-v3-flow3` (tách từ `feat/mode1-v3-flow1`), 5 commit, **chưa push**. Typecheck sạch, **BE 1518 test xanh**.
+
+| Việc | Kết quả |
+|---|---|
+| 2.1 3.1 | `NEW_CR_SOURCE_KINDS` (6 nguồn BPMN) cho `POST /change-requests` — `chat` ⇒ 400. `preview_id` ⇒ `seedFromPreview` (kho bản xem trước lưu thêm `instruction` + `userId`, `peekPreview` chỉ đọc); hết hạn / của người khác ⇒ `seed: null` + `meta.seed_dropped`. Model CR thêm `seed`, DTO thêm `seed` |
+| 2.2 seed | `crHeader` nối bản xem trước vào mô tả (C-2, C-4, C-5 cùng thấy); C-2 hợp `seed.targets` vào đích; C-3 gắn `found_by: preview`; C-4 `locationPromptText` kèm op gợi ý của đúng vị trí (`seedOpsFor`). Không bỏ nút nào. Test `test/integration/mode1/cr-seed.int.test.ts` |
+| 2.3 revise | **Không cần đổi** — `reviseCr` đã khoá lại đúng phần tử (3.5) rồi về `proposing`; test `decision.int` giữ. Bỏ ý định thêm cạnh `in_review → impact_review` (đỡ một thay đổi máy trạng thái) |
+| 2.4 3.9 | `POST …/locations/:locId/owner-step-draft { instruction }` — chỉ ở `manual_fix`; skill step sở hữu + hướng của BA; chỉ ghi đề xuất; lỗi AI ⇒ 402/502 (`manual_fix` không pause). Mã mới `CR_NO_OWNER_STEP`. Test trong `verify.int` |
+| 2.5 3.12 | `reason` bắt buộc cả khi duyệt (≥ 10 ký tự); 21 chỗ gọi duyệt trong test đã thêm lý do |
+| 2.6 3.14 | `doc-version/tracked-version.ts` (`pairParagraphs` LCS theo đoạn + `buildTrackedDocx`) — so bản render trước ↔ mới, `w:ins`/`w:del` tác giả CR id, comment ở tiêu đề mục; lưu `DocVersion.tracked_file_ref` (dựng lại khi 3.14 vẽ lại hình); `variant=tracked` trả file đó; `has_tracked_file`. Lỗi dựng ⇒ `null`, không chặn ghi. Test đơn vị + `write.int` (accept-all = bản sạch, tải qua API) |
+| 2.7 | contract §4.9 + lịch sử (contract-change, gom với §4.8) |
+
+**Giới hạn đã biết của bản có đánh dấu:** so theo **đoạn** (kể cả đoạn trong ô bảng); hàng bảng mới hiện là các đoạn được chèn, không đánh dấu "chèn hàng" (`w:trPr/w:ins`). Đoạn đổi mà chứa ảnh / field (không `editable`) giữ nội dung mới, không đánh dấu (`skipped`). Đoạn đổi bị gộp về một run (mất định dạng run riêng trong đoạn đó).
+
+**Bước tiếp theo:** phase 3 (FE) — mở PR BE phase 1 + 2 cùng lúc với FE.
 
 ## Việc
 

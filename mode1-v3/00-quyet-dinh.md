@@ -43,7 +43,7 @@ Flow 5: AI lỗi sau khi tự thử lại ⇒ trả credit đã giữ, giữ out
 | F5 | Panel "Sửa tài liệu có xem trước" không có trong BPMN | Áp thẳng Spine | Panel ở mode 1 = **cách soạn nội dung 3.1**: xem trước diff để BA diễn đạt đúng ⇒ "Tạo CR" mở form 3.1 kèm lệnh + bản xem trước đính kèm. Sau đó CR đi **đủ 3.2 → 3.14** (không bỏ bước AI nào). Bản xem trước chỉ là gợi ý: đích của nó bổ sung vào 3.4, op của nó là gợi ý cho 3.6 |
 | F6 | 3.5 "Khoá block", 3.7 "old text còn khớp block đã khoá" | Khoá theo path Spine, so giá trị tại path | Giữ đơn vị khoá là phần tử Spine **render ra block đó** (block của tài liệu render — tài liệu render từ Spine theo 6.2), C-5 so giá trị ⇔ so text block. Hiển thị trên UI theo **block** (tiêu đề mục + đoạn/bảng), không hiện path trần |
 | F7 | 3.9 sửa tay **trong step sở hữu field** | Sửa trên ô vị trí của CR | Thêm chế độ "sửa trong step sở hữu": mở form/skill của step đó ở chế độ CR, kết quả ghi vào **đề xuất** của vị trí (không ghi Spine), rồi quay lại 3.7 |
-| F8 | Revise CR ⇒ quay lại **3.5 khoá lại** rồi 3.6 | `in_review → proposing`, khoá giữ nguyên | Revise ⇒ `impact_review` khoá lại (chụp lại giá trị gốc), rồi 3.6 |
+| F8 | Revise CR ⇒ quay lại **3.5 khoá lại** rồi 3.6 | `reviseCr` khoá lại đúng phần tử rồi `proposing` | **Đã khớp** (kiểm 2026-09-22) — không đổi |
 | F9 | 3.12 mỗi quyết định **kèm lý do** | Lý do chỉ bắt buộc khi từ chối (`change-request.dto.ts:153`) | Bắt buộc cả khi duyệt |
 | F10 | 3.14 ghi **Track Changes**, tác giả = CR id | Cắt (T6); `variant=tracked` trả bản sạch | Làm T6 + T7 |
 | F11 | 1.11 AI semantic check sau v0 | Cần kiểm | Kiểm, thiếu thì thêm |
