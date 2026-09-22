@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+hide circle
+hide empty members
+entity "Branch" as E01
+entity "Specialty" as E02
+entity "Doctor" as E03
+entity "Shift" as E04
+entity "Patient" as E05
+entity "Staff Account" as E06
+entity "Appointment" as E07
+entity "Deposit" as E08
+entity "Visit Note" as E09
+entity "Notification Log" as E10
+entity "Audit Log" as E11
+E01 ||--o{ E02
+E01 ||--o{ E03
+E01 ||--o{ E04
+E01 ||--o{ E06
+E02 ||--o{ E03
+E03 ||--o{ E04
+E03 ||--o{ E07
+E04 ||--o{ E07
+E05 ||--o{ E07
+E06 ||--o{ E11
+E07 ||--o{ E08
+E07 ||--o{ E09
+E07 ||--o{ E10
+@enduml

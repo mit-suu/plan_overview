@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+hide empty description
+[*] --> S01
+state "Auth Page" as S01 {
+  state "Register" as S01_T1
+  state "Log In" as S01_T2
+  state "Forgot Password" as S01_T3
+}
+state "My Appointments" as S02
+state "Booking Wizard" as S03
+state "Appointment Detail and Payment" as S04
+state "Reception Console" as S05
+state "Doctor Day Schedule" as S06 {
+  state "Schedule" as S06_T1
+  state "Visit Notes" as S06_T2
+}
+state "Admin Console" as S07 {
+  state "Branches" as S07_T1
+  state "Doctors and Shifts" as S07_T2
+  state "Staff Accounts" as S07_T3
+  state "Reports" as S07_T4
+  state "Activity Log" as S07_T5
+}
+S01 --> S02
+S02 --> S03
+S03 --> S04
+S04 --> S02
+S05 --> S03
+@enduml

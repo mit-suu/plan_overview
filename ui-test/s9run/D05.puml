@@ -1,0 +1,9 @@
+@startsalt
+{+
+  <b>My Appointments
+  {#
+    <b>Function | <b>Description
+    List My Appointments | The patient sees only their own appointments, split into upcoming and past groups sorted by time,...
+  }
+}
+@endsalt

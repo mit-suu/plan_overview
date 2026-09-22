@@ -1,0 +1,20 @@
+@startuml
+skinparam monochrome true
+left to right direction
+title Use Cases — Administrator
+actor "Administrator" as A06
+rectangle "Minh An Booking" {
+  usecase "Manage Branches" as UC12
+  usecase "Manage Doctors and Shifts" as UC13
+  usecase "Manage Staff Accounts" as UC14
+  usecase "View Reports" as UC15
+  usecase "Manage Appointments" as UC16
+  usecase "Review Activity Log" as UC17
+}
+A06 -- UC12
+A06 -- UC13
+A06 -- UC14
+A06 -- UC15
+A06 -- UC16
+A06 -- UC17
+@enduml

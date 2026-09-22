@@ -1,0 +1,1635 @@
+{
+  "project": {
+    "name": "Phòng khám Minh An - đặt lịch",
+    "system_name": "Minh An Booking",
+    "vision": "Help patients at Minh An general clinic book appointments easily online, reducing no-shows and front-desk overload across 3 branches in Da Nang.",
+    "goals": [
+      "Cut the no-show rate by 30% (from an estimated 10–20%)",
+      "Reduce queue waiting at the front desk",
+      "Let patients self-book, reschedule and cancel without calling the clinic"
+    ],
+    "type": "internal_business_tool",
+    "domain": "Healthcare — clinic appointment scheduling",
+    "complexity": "medium",
+    "form_factor": "web_app",
+    "stakes": "production",
+    "working_mode": "coaching",
+    "release_scope": {
+      "in": [
+        "Patient self-service booking (branch, specialty, doctor, time slot)",
+        "Reschedule/cancel up to 2 hours before with deposit rules",
+        "50,000 VND deposit via VNPay",
+        "Receptionist check-in and booking on behalf of phone callers",
+        "Doctor day schedule and short visit notes",
+        "Admin management of branches, doctors, shifts and staff accounts",
+        "SMS reminder 24h before, booking confirmation email",
+        "Basic reports (no-show rate, visits per branch/doctor)"
+      ],
+      "out": [
+        "Native mobile apps (responsive web only)",
+        "Full electronic medical records (short visit notes only)",
+        "Migration of existing patient and appointment data",
+        "Integrations other than VNPay"
+      ]
+    }
+  },
+  "progress": {
+    "current_phase": "S-3",
+    "current_step": "S-3.1",
+    "screen_cursor": null,
+    "screen_queue": [],
+    "elicit_turns_this_phase": 1
+  },
+  "steps": [
+    {
+      "id": "B-0.1",
+      "status": "accepted",
+      "first_seq": 2,
+      "last_seq": 63,
+      "accepted_at": "2026-09-22T09:09:09.643Z"
+    },
+    {
+      "id": "B-0.2",
+      "status": "accepted",
+      "first_seq": 70,
+      "last_seq": 70,
+      "accepted_at": "2026-09-22T09:09:41.580Z"
+    },
+    {
+      "id": "B-0.3",
+      "status": "accepted",
+      "first_seq": 77,
+      "last_seq": 79,
+      "accepted_at": "2026-09-22T09:10:09.124Z"
+    },
+    {
+      "id": "B-0.4",
+      "status": "accepted",
+      "first_seq": 86,
+      "last_seq": 86,
+      "accepted_at": "2026-09-22T09:10:35.452Z"
+    },
+    {
+      "id": "B-1.1",
+      "status": "accepted",
+      "first_seq": 95,
+      "last_seq": 97,
+      "accepted_at": "2026-09-22T09:11:07.291Z"
+    },
+    {
+      "id": "B-1.2",
+      "status": "accepted",
+      "first_seq": 104,
+      "last_seq": 110,
+      "accepted_at": "2026-09-22T09:11:48.192Z"
+    },
+    {
+      "id": "B-1.3",
+      "status": "accepted",
+      "first_seq": 117,
+      "last_seq": 120,
+      "accepted_at": "2026-09-22T09:12:26.957Z"
+    },
+    {
+      "id": "B-1.4",
+      "status": "accepted",
+      "first_seq": 127,
+      "last_seq": 137,
+      "accepted_at": "2026-09-22T09:13:39.127Z"
+    },
+    {
+      "id": "B-1.5",
+      "status": "accepted",
+      "first_seq": 144,
+      "last_seq": 148,
+      "accepted_at": "2026-09-22T09:14:33.016Z"
+    },
+    {
+      "id": "B-1.6",
+      "status": "accepted",
+      "first_seq": 155,
+      "last_seq": 159,
+      "accepted_at": "2026-09-22T09:15:29.284Z"
+    },
+    {
+      "id": "B-2.1",
+      "status": "accepted",
+      "first_seq": 169,
+      "last_seq": 171,
+      "accepted_at": "2026-09-22T09:16:42.142Z"
+    },
+    {
+      "id": "B-2.2",
+      "status": "accepted",
+      "first_seq": 178,
+      "last_seq": 180,
+      "accepted_at": "2026-09-22T09:17:13.997Z"
+    },
+    {
+      "id": "B-2.3",
+      "status": "accepted",
+      "first_seq": 187,
+      "last_seq": 192,
+      "accepted_at": "2026-09-22T09:18:13.483Z"
+    },
+    {
+      "id": "S-1.1",
+      "status": "accepted",
+      "first_seq": 201,
+      "last_seq": 205,
+      "accepted_at": "2026-09-22T09:19:04.371Z"
+    },
+    {
+      "id": "S-1.2",
+      "status": "accepted",
+      "first_seq": 212,
+      "last_seq": 212,
+      "accepted_at": "2026-09-22T09:20:13.387Z"
+    },
+    {
+      "id": "S-1.3",
+      "status": "accepted",
+      "first_seq": 219,
+      "last_seq": 224,
+      "accepted_at": "2026-09-22T09:21:31.785Z"
+    },
+    {
+      "id": "S-1.4",
+      "status": "accepted",
+      "first_seq": 231,
+      "last_seq": 238,
+      "accepted_at": "2026-09-22T09:22:33.986Z"
+    },
+    {
+      "id": "S-2.1",
+      "status": "accepted",
+      "first_seq": 247,
+      "last_seq": 247,
+      "accepted_at": "2026-09-22T09:25:47.802Z"
+    },
+    {
+      "id": "S-2.2",
+      "status": "accepted",
+      "first_seq": 254,
+      "last_seq": 254,
+      "accepted_at": "2026-09-22T09:26:17.536Z"
+    },
+    {
+      "id": "S-2.3",
+      "status": "accepted",
+      "first_seq": 261,
+      "last_seq": 263,
+      "accepted_at": "2026-09-22T09:26:49.211Z"
+    },
+    {
+      "id": "S-2.4",
+      "status": "accepted",
+      "first_seq": 274,
+      "last_seq": 281,
+      "accepted_at": "2026-09-22T09:27:28.112Z"
+    },
+    {
+      "id": "S-2.5",
+      "status": "accepted",
+      "first_seq": 288,
+      "last_seq": 288,
+      "accepted_at": "2026-09-22T09:28:24.914Z"
+    },
+    {
+      "id": "S-3.1",
+      "status": "in_progress",
+      "first_seq": 297,
+      "last_seq": 321,
+      "accepted_at": null
+    }
+  ],
+  "features": [],
+  "actors": [
+    {
+      "id": "A01",
+      "name": "VNPay",
+      "kind": "system",
+      "description": "External payment gateway that processes the 50,000 VND booking deposit, refunds on timely cancellation, and carries the deposit over on reschedule."
+    },
+    {
+      "id": "A02",
+      "name": "SMS/Email Notification Service",
+      "kind": "system",
+      "description": "External messaging service that delivers the booking confirmation email and the SMS reminder sent 24 hours before each appointment."
+    },
+    {
+      "id": "A03",
+      "name": "Patient",
+      "kind": "human",
+      "description": "A clinic patient who self-registers with SMS OTP verification, books, reschedules and cancels appointments online, and pays the 50,000 VND deposit via VNPay to get a confirmed slot without phoning the clinic."
+    },
+    {
+      "id": "A04",
+      "name": "Receptionist",
+      "kind": "human",
+      "description": "A front-desk staff member with a clinic-created account who checks patients in on arrival and books appointments on behalf of phone callers without a deposit, to keep the day's arrivals organized."
+    },
+    {
+      "id": "A05",
+      "name": "Doctor",
+      "kind": "human",
+      "description": "A clinic doctor with a clinic-created account who views the day's schedule and writes short visit notes for each appointment with minimal effort."
+    },
+    {
+      "id": "A06",
+      "name": "Administrator",
+      "kind": "human",
+      "description": "A clinic administrator with a provisioned account who manages branches, doctors, shifts and staff accounts, and views reports to track whether the no-show rate is improving."
+    }
+  ],
+  "roles": [
+    {
+      "id": "R01",
+      "name": "Patient",
+      "actor_id": "A03"
+    },
+    {
+      "id": "R02",
+      "name": "Receptionist",
+      "actor_id": "A04"
+    },
+    {
+      "id": "R03",
+      "name": "Doctor",
+      "actor_id": "A05"
+    },
+    {
+      "id": "R04",
+      "name": "Administrator",
+      "actor_id": "A06"
+    }
+  ],
+  "use_cases": [
+    {
+      "id": "UC01",
+      "name": "Register Account",
+      "actor_ids": [
+        "A03",
+        "A02"
+      ],
+      "function_ids": [],
+      "description": "A patient registers with phone number and verifies via an OTP sent by SMS to create a booking account.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC02",
+      "name": "Log In",
+      "actor_ids": [
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "A patient or staff member signs in with their account credentials to access the booking system.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC03",
+      "name": "Reset Password",
+      "actor_ids": [
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "A user who cannot sign in resets their password via a verification code to regain access to their account.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC04",
+      "name": "Book Appointment",
+      "actor_ids": [
+        "A03",
+        "A01",
+        "A02"
+      ],
+      "function_ids": [],
+      "description": "A patient books an appointment by choosing branch, specialty, doctor and time slot, pays the 50,000 VND deposit via VNPay, and receives a confirmation email.",
+      "includes": [
+        "UC07"
+      ],
+      "extends": []
+    },
+    {
+      "id": "UC05",
+      "name": "Reschedule Appointment",
+      "actor_ids": [
+        "A03",
+        "A02"
+      ],
+      "function_ids": [],
+      "description": "A patient changes an existing appointment to another time slot up to 2 hours before, carrying the deposit over, and receives an updated confirmation.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC06",
+      "name": "Cancel Appointment",
+      "actor_ids": [
+        "A03",
+        "A01",
+        "A02"
+      ],
+      "function_ids": [],
+      "description": "A patient cancels an appointment up to 2 hours before and the deposit is refunded via VNPay according to the deposit rules.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC07",
+      "name": "Pay Booking Deposit",
+      "actor_ids": [
+        "A03",
+        "A01"
+      ],
+      "function_ids": [],
+      "description": "The patient pays the 50,000 VND deposit through the VNPay gateway as part of completing a self-service booking.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC08",
+      "name": "Check In Patient",
+      "actor_ids": [
+        "A04"
+      ],
+      "function_ids": [],
+      "description": "A receptionist marks an arriving patient's appointment as checked in to keep the day's arrivals organized.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC09",
+      "name": "Book Appointment for Phone Caller",
+      "actor_ids": [
+        "A04"
+      ],
+      "function_ids": [],
+      "description": "A receptionist books an appointment on behalf of a phone caller without a deposit, with payment collected at check-in.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC10",
+      "name": "View Day Schedule",
+      "actor_ids": [
+        "A05"
+      ],
+      "function_ids": [],
+      "description": "A doctor views the day's appointment schedule for their clinic to see who is coming.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC11",
+      "name": "Write Visit Notes",
+      "actor_ids": [
+        "A05"
+      ],
+      "function_ids": [],
+      "description": "A doctor records short visit notes for a completed appointment to capture what happened in the visit.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC12",
+      "name": "Manage Branches",
+      "actor_ids": [
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "An administrator creates and updates clinic branch records to keep the scheduling setup current across the 3 branches.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC13",
+      "name": "Manage Doctors and Shifts",
+      "actor_ids": [
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "An administrator manages doctor records and work shifts so that bookable slots reflect actual clinic staffing.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC14",
+      "name": "Manage Staff Accounts",
+      "actor_ids": [
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "An administrator creates and manages receptionist and doctor accounts, since staff cannot self-register.",
+      "includes": [],
+      "extends": []
+    },
+    {
+      "id": "UC15",
+      "name": "View Reports",
+      "actor_ids": [
+        "A06"
+      ],
+      "function_ids": [],
+      "description": "An administrator views basic reports on no-show rate and visits per branch and doctor to see whether the no-show problem is improving.",
+      "includes": [],
+      "extends": []
+    }
+  ],
+  "screens": [],
+  "permissions": [],
+  "entities": [],
+  "functions": [],
+  "nfrs": [],
+  "business_rules": [
+    {
+      "id": "BR01",
+      "tier": "high",
+      "statement": "A patient may reschedule or cancel an appointment up to 2 hours before the scheduled time; later changes are not allowed through the system.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR02",
+      "tier": "high",
+      "statement": "A patient may book appointments up to 30 days ahead, one appointment per booking, and holds at most one pending appointment at a time.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR03",
+      "tier": "high",
+      "statement": "Every self-service booking requires a 50,000 VND deposit paid via VNPay; receptionist-assisted bookings require no deposit and are paid at check-in.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR04",
+      "tier": "high",
+      "statement": "Cancelling more than 2 hours ahead triggers an automatic VNPay refund within 1-3 business days; a no-show forfeits the deposit; rescheduling more than 2 hours ahead carries the deposit to the new slot.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR05",
+      "tier": "high",
+      "statement": "A doctor's schedule consists of continuous 15-minute slots within their assigned shifts, and a slot is closed once full.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR06",
+      "tier": "high",
+      "statement": "Staff accounts are created only by administrators; patients self-register, and staff cannot self-register.",
+      "source_validation_ids": []
+    },
+    {
+      "id": "BR07",
+      "tier": "high",
+      "statement": "The system sends a confirmation email on successful booking and an SMS reminder 24 hours before every appointment.",
+      "source_validation_ids": []
+    }
+  ],
+  "common_requirements": [],
+  "messages": [],
+  "other_requirements": [
+    {
+      "id": "OR01",
+      "kind": "risk",
+      "statement": "Risk partially mitigated by user input: most patients use smartphones and are familiar with online payment, so online deposit acceptance is expected to be high. Residual action: still track drop-off at the VNPay payment step after launch (see learning goal on online deposit acceptance) and be ready to adjust the deposit policy if completion is low."
+    },
+    {
+      "id": "OR02",
+      "kind": "risk",
+      "statement": "RESOLVED by user: the 15% no-show baseline is accepted as the working baseline despite being an estimate; the 30% reduction target stands. Re-baseline from the basic reports after a few months of real data."
+    },
+    {
+      "id": "OR03",
+      "kind": "assumption",
+      "statement": "CONFIRMED by user: VNPay has verified that automatic deposit refunds via API are supported. Refunds on cancellation are processed automatically; no manual fallback needed."
+    },
+    {
+      "id": "OR04",
+      "kind": "assumption",
+      "statement": "CONFIRMED by user: a known local SMS provider with good reliability is available for reminders and OTP at 50-150 bookings per day. No further provider quotes needed before development."
+    },
+    {
+      "id": "OR05",
+      "kind": "risk",
+      "statement": "Risk reduced by user input: the SMS provider for reminders and OTP is a known vendor with good delivery reliability. Residual action: monitor OTP failure rates after launch as a routine check."
+    },
+    {
+      "id": "OR06",
+      "kind": "open_question",
+      "statement": "Should the 24h SMS reminder include a confirm/cancel link so patients can act directly from the message? This could further cut no-shows beyond the reminder alone, but adds scope to the notification capability. Decide before S-3 scoping."
+    },
+    {
+      "id": "OR07",
+      "kind": "assumption",
+      "statement": "CONFIRMED by user: patient personal data (names, phone numbers, booking history) is kept indefinitely; no deletion-on-request requirement applies. No retention limit or deletion workflow is in scope."
+    },
+    {
+      "id": "OR08",
+      "kind": "assumption",
+      "statement": "CONFIRMED by user: availability target is 99% per month; scheduled maintenance performed at night does not count against the uptime figure."
+    },
+    {
+      "id": "OR09",
+      "kind": "assumption",
+      "statement": "CONFIRMED by user: an SMS OTP is valid for 5 minutes, with a maximum of 3 resend attempts before the registration must restart."
+    }
+  ],
+  "glossary": [],
+  "addendum": [
+    {
+      "id": "AD01",
+      "topic": "Product overview",
+      "content": "Hệ thống đặt lịch khám cho phòng khám đa khoa Minh An ở Đà Nẵng, 3 chi nhánh. Bệnh nhân tự đăng ký tài khoản trên web/app, chọn chi nhánh, chuyên khoa, bác sĩ và khung giờ để đặt lịch.",
+      "content_en": "Appointment booking system for Minh An general clinic in Da Nang with 3 branches. Patients self-register accounts on web/app and pick branch, specialty, doctor and time slot to book.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD02",
+      "topic": "Booking rules",
+      "content": "Đổi hoặc huỷ lịch trước 2 tiếng; đặt trước tối đa 30 ngày; mỗi lượt đặt 1 lịch; mỗi bệnh nhân chỉ 1 lịch chưa hoàn thành tại một thời điểm; khi khung giờ full, hiện giờ trống + gợi ý khung giờ trống gần nhất.",
+      "content_en": "Reschedule or cancel up to 2 hours before the appointment; book up to 30 days ahead; one appointment per booking; a patient has at most one pending appointment at a time; when a slot is full, show available slots plus the nearest open slot suggestion.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD03",
+      "topic": "Deposit and payment",
+      "content": "Đặt cọc 50.000đ qua cổng thanh toán VNPay. Huỷ lịch trước 2 tiếng: hoàn cọc đầy đủ. Không đến: mất cọc 50.000đ. Đổi lịch trước 2 tiếng: giữ nguyên cọc, chuyển sang lịch mới. Đặt lịch hộ qua lễ tân: không cần cọc, cọc khi check-in.",
+      "content_en": "50,000 VND deposit paid via VNPay. Cancel more than 2 hours ahead: full refund. No-show: deposit forfeited. Reschedule more than 2 hours ahead: deposit carries over to the new slot. Receptionist-assisted bookings: no deposit required, paid at check-in.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD04",
+      "topic": "Roles and workflows",
+      "content": "Lễ tân tại quầy xác nhận check-in khi bệnh nhân đến và có thể đặt lịch hộ cho bệnh nhân gọi điện. Bác sĩ xem lịch khám trong ngày và ghi chú kết quả khám ngắn (chỉ ghi chú ngắn là đủ, không cần hồ sơ bệnh án đầy đủ). Quản trị viên quản lý chi nhánh, bác sĩ, ca làm việc và tạo tài khoản cho bác sĩ, lễ tân (họ không tự đăng ký).",
+      "content_en": "Receptionists check patients in on arrival and can book on behalf of phone callers. Doctors view the day's schedule and write short visit notes (short notes only, no full medical records at this stage). Administrators manage branches, doctors, work shifts and create staff accounts (staff cannot self-register).",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD05",
+      "topic": "Notifications",
+      "content": "Hệ thống gửi SMS nhắc lịch trước 24 giờ và gửi email xác nhận khi đặt lịch thành công.",
+      "content_en": "The system sends an SMS reminder 24 hours before the appointment and a confirmation email on successful booking.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD06",
+      "topic": "Business goals",
+      "content": "Mục tiêu: giảm 30% số ca bệnh nhân không đến (no-show hiện ước tính 10–20%) và giảm hàng chờ tại quầy.",
+      "content_en": "Goals: cut the no-show rate by 30% (currently estimated at 10–20%) and reduce queue waiting at the front desk.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD07",
+      "topic": "Constraints",
+      "content": "Ngân sách vừa phải, muốn ra mắt trong 4 tháng.",
+      "content_en": "Moderate budget, launch within 4 months.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD08",
+      "topic": "Platform and integrations",
+      "content": "Chỉ web responsive (dùng tốt trên điện thoại), không làm app riêng. Hiện tại quản lý hoàn toàn thủ công (sổ tay/Excel). Tích hợp duy nhất là VNPay, không cần hệ thống nào khác.",
+      "content_en": "Responsive web only (works well on phones), no native apps. Current management is fully manual (paper/Excel). VNPay is the only integration; nothing else needed.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD09",
+      "topic": "Scale",
+      "content": "10–25 người dùng nội bộ; dưới 10 bác sĩ, 3–5 chuyên khoa; 50–150 lượt đặt lịch/ngày trên tổng 3 chi nhánh.",
+      "content_en": "10–25 internal users; fewer than 10 doctors across 3–5 specialties; 50–150 bookings per day across all 3 branches.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD10",
+      "topic": "Reports",
+      "content": "Cần báo cáo cơ bản cho quản trị viên: tỷ lệ no-show, lượt khám theo chi nhánh/bác sĩ.",
+      "content_en": "Basic reports for administrators: no-show rate, visits per branch/doctor.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD11",
+      "topic": "Data migration",
+      "content": "Chỉ nhập danh sách bác sĩ và ca làm việc vào hệ thống mới; dữ liệu bệnh nhân và lịch cũ không nhập lại.",
+      "content_en": "Only the doctor list and work shifts are migrated into the new system; existing patient and appointment data is not imported.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD12",
+      "topic": "Data security",
+      "content": "Cần bảo mật dữ liệu cá nhân của bệnh nhân",
+      "content_en": "Personal data of patients must be protected (security requirement).",
+      "target_section": "fixed:5.4",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD13",
+      "topic": "Availability",
+      "content": "Hệ thống chạy 24/7, thời gian chết tối thiểu.",
+      "content_en": "The system runs 24/7 with minimal downtime.",
+      "target_section": "fixed:5.4",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD14",
+      "topic": "Access control",
+      "content": "Phân quyền theo vai trò (lễ tân/bác sĩ/quản trị) là đủ.",
+      "content_en": "Role-based access control (receptionist/doctor/administrator) is sufficient.",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD15",
+      "topic": "Persona: Patient",
+      "content": "Bệnh nhân tự đặt/lịch hẹn, muốn đặt lại hoặc hủy nhanh không cần gọi điện; đặt cọc 50.000 VND qua VNPay; nhận SMS nhắc trước 24h và email xác nhận.",
+      "content_en": "Patient: books appointments self-service (branch, specialty, doctor, slot), needs to reschedule or cancel quickly without calling; pays a 50,000 VND deposit via VNPay; receives an SMS reminder 24h before and a confirmation email. Job to be done: 'Get a confirmed appointment at a time that suits me, without phoning the clinic.'",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD16",
+      "topic": "Persona: Receptionist",
+      "content": "Lễ tân check-in bệnh nhân khi đến, đặt lịch hộ khách gọi điện; không cần cọc cho lịch đặt hộ, thu tiền khi check-in.",
+      "content_en": "Receptionist: checks patients in on arrival and books on behalf of phone callers; receptionist-assisted bookings require no deposit, payment collected at check-in. Job to be done: 'Keep the day's arrivals organized and fill the schedule for phone callers without paperwork.'",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD17",
+      "topic": "Persona: Doctor",
+      "content": "Bác sĩ xem lịch làm việc trong ngày và ghi chú khám ngắn gọn (chỉ ghi chú ngắn, chưa có hồ sơ bệnh án đầy đủ).",
+      "content_en": "Doctor: views the day's schedule and writes short visit notes (short notes only, no full medical records at this stage). Job to be done: 'See who is coming today and record what happened in each visit with minimal effort.'",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD18",
+      "topic": "Persona: Administrator",
+      "content": "Quản trị viên quản lý chi nhánh, bác sĩ, ca làm việc, tạo tài khoản nhân viên (nhân viên không tự đăng ký) và xem báo cáo cơ bản (tỷ lệ no-show, lượt khám theo chi nhánh/bác sĩ).",
+      "content_en": "Administrator: manages branches, doctors, work shifts, creates staff accounts (staff cannot self-register), and views basic reports (no-show rate, visits per branch/doctor). Job to be done: 'Run the clinic's scheduling setup and see whether the no-show problem is actually improving.'",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD19",
+      "topic": "Language",
+      "content": "Giao diện chỉ có tiếng Việt, không đa ngôn ngữ.",
+      "content_en": "The user interface is Vietnamese only; no multi-language support.",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD20",
+      "topic": "Registration authentication",
+      "content": "Khi đăng ký tài khoản, bệnh nhân xác thực qua OTP gửi SMS.",
+      "content_en": "When registering an account, patients verify via an OTP sent by SMS.",
+      "target_section": "fixed:2.1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD21",
+      "topic": "Value proposition",
+      "content": "Đặt lịch 24/7 tự phục vụ kèm xác nhận tức thì và nhắc lịch SMS — thay cho cách gọi điện/giờ hành chính hiện tại, giảm no-show và giảm tải cho lễ tân.",
+      "content_en": "24/7 self-service booking with instant confirmation and an SMS reminder — replacing the current phone-during-office-hours process, cutting no-shows and reducing front-desk load.",
+      "target_section": "fixed:1",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD22",
+      "topic": "MVP capability: self-service booking flow",
+      "content": "Bệnh nhân tự đặt lịch: chọn chi nhánh, chuyên khoa, bác sĩ, khung giờ; đặt trước tối đa 30 ngày; một lịch mỗi lần đặt; mỗi bệnh nhân chỉ có một lịch đang chờ; khi khung giờ đầy, hiển thị các giờ còn trống kèm gợi ý giờ trống gần nhất.",
+      "content_en": "Patients self-book by picking branch, specialty, doctor and time slot; booking up to 30 days ahead; one appointment per booking; at most one pending appointment per patient; when a slot is full, show remaining slots plus the nearest open slot suggestion.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD23",
+      "topic": "MVP capability: deposit and payment",
+      "content": "Cọc 50.000 VND qua VNPay; hủy/trước giờ hơn 2 tiếng được hoàn cọc, no-show mất cọc, dời lịch giữ nguyên cọc; lịch do lễ tân đặt không cần cọc, thanh toán khi check-in.",
+      "content_en": "50,000 VND deposit via VNPay; cancel more than 2 hours ahead for a full refund, no-show forfeits the deposit, reschedule carries the deposit over; receptionist-assisted bookings need no deposit, paid at check-in.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD24",
+      "topic": "MVP capability: receptionist check-in and assisted booking",
+      "content": "Lễ tân check-in bệnh nhân khi đến và đặt lịch hộ người gọi điện; lịch đặt hộ không cần cọc.",
+      "content_en": "Receptionists check patients in on arrival and book on behalf of phone callers; assisted bookings require no deposit.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD25",
+      "topic": "MVP capability: doctor day schedule and visit notes",
+      "content": "Bác sĩ xem lịch trong ngày và ghi chú khám ngắn (chỉ ghi chú ngắn, chưa có hồ sơ bệnh án đầy đủ ở giai đoạn này).",
+      "content_en": "Doctors view the day's schedule and write short visit notes (short notes only, no full medical records at this stage).",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD26",
+      "topic": "MVP capability: administration",
+      "content": "Quản trị viên quản lý chi nhánh, bác sĩ, ca làm việc, tạo tài khoản nhân viên (nhân viên không tự đăng ký) và xem báo cáo cơ bản.",
+      "content_en": "Administrators manage branches, doctors, work shifts, create staff accounts (staff cannot self-register) and view basic reports.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD27",
+      "topic": "MVP capability: notifications",
+      "content": "SMS nhắc lịch trước 24 giờ và email xác nhận khi đặt lịch thành công; xác thực tài khoản bằng OTP qua SMS khi đăng ký.",
+      "content_en": "SMS reminder 24 hours before the appointment and a confirmation email on successful booking; account registration verified via SMS OTP.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD28",
+      "topic": "MVP capability: basic reports",
+      "content": "Báo cáo cơ bản cho quản trị viên: tỷ lệ no-show, lượt khám theo chi nhánh/bác sĩ.",
+      "content_en": "Basic reports for administrators: no-show rate, visits per branch/doctor.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD29",
+      "topic": "Not now (explicit out-of-scope)",
+      "content": "Không làm ở giai đoạn này: ứng dụng di động native (chỉ web responsive), hồ sơ bệnh án đầy đủ, di chuyển dữ liệu bệnh nhân/lịch hẹn cũ, tích hợp ngoài VNPay.",
+      "content_en": "Explicitly out of scope for this release: native mobile apps (responsive web only), full electronic medical records, migration of existing patient and appointment data, integrations other than VNPay.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD30",
+      "topic": "Performance and mobile usability",
+      "content": "Trang tải dưới 3 giây, hỗ trợ tốt trên điện thoại.",
+      "content_en": "Pages load in under 3 seconds and work well on mobile phones.",
+      "target_section": "fixed:5.4",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD31",
+      "topic": "VNPay automatic refund",
+      "content": "VNPay hỗ trợ hoàn tiền cọc tự động qua API — hoàn cọc khi hủy lịch xử lý tự động, không cần thủ công.",
+      "content_en": "VNPay supports automatic deposit refunds via API — refunds on cancellation are processed automatically, not manually.",
+      "target_section": "fixed:3.1.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD32",
+      "topic": "Success metric: no-show rate",
+      "content": "Chưa có số liệu chính xác, lấy 15% làm baseline. Mục tiêu: giảm tỷ lệ no-show 30% so với baseline (từ 15% xuống khoảng 10,5%).",
+      "content_en": "No exact historical data; use 15% as the no-show baseline. Target: cut the no-show rate by 30% against the baseline (from 15% down to about 10.5%), measured from the basic reports after launch.",
+      "target_section": "fixed:4.2.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD33",
+      "topic": "Success metric: booking calls",
+      "content": "Giảm ≥ 50% cuộc gọi đặt lịch đến phòng khám.",
+      "content_en": "Reduce booking phone calls to the clinic by at least 50%, measured by comparing call volume before and after launch.",
+      "target_section": "fixed:4.2.2",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AD34",
+      "topic": "Learning goal: online deposit acceptance",
+      "content": "Bệnh nhân chấp nhận trả cọc online — cần xác nhận qua thực tế sử dụng sau khi ra mắt.",
+      "content_en": "Learning goal: verify that patients actually accept paying the 50,000 VND deposit online (booking completion rate and drop-off at the VNPay payment step after launch).",
+      "target_section": "fixed:4.2.3",
+      "captured_at": "2026-09-16T00:00:00.000Z"
+    }
+  ],
+  "custom_sections": [],
+  "diagrams": [
+    {
+      "id": "D01",
+      "kind": "context",
+      "puml": "@startuml\nskinparam monochrome true\nleft to right direction\nrectangle \"Minh An Booking\" as SYSTEM_\nrectangle \"VNPay\" as A01 <<system>>\nrectangle \"SMS/Email Notification Service\" as A02 <<system>>\nSYSTEM_ -- A01\nSYSTEM_ -- A02\n@enduml\n",
+      "section": "fixed:1",
+      "owner_kind": null,
+      "owner_id": null,
+      "render_status": "ok",
+      "source_hash": "8c08db0dd0744987fd033e7af7a9a3776ab8e5960607fee3059fcd6d710c5146",
+      "rendered_at": "2026-09-22T09:27:41.437Z"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "AS01",
+      "path": "project.stakes",
+      "statement": "Stakes are production: the system serves real patients and handles real payments, so reliability and data protection matter from day one.",
+      "rationale": "User did not state stakes explicitly; inferred from patient-facing booking with VNPay deposits.",
+      "origin_step_id": "B-0.1",
+      "status": "confirmed",
+      "confirmed_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AS02",
+      "path": "project.type",
+      "statement": "The product is an internal business tool for the clinic (not a commercial SaaS sold to other clinics).",
+      "rationale": "Built for one clinic with 3 branches; no mention of multi-tenant offering.",
+      "origin_step_id": "B-0.1",
+      "status": "confirmed",
+      "confirmed_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AS03",
+      "path": "addendum[id=AD32]",
+      "statement": "The 15% no-show baseline is a reasonable stand-in until real data is available.",
+      "rationale": "The user said there is no exact data and chose 15% (midpoint of the estimated 10–20%) as the baseline.",
+      "origin_step_id": "B-1.5",
+      "status": "confirmed",
+      "confirmed_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "AS04",
+      "path": "addendum[id=AD20]",
+      "statement": "CONFIRMED by user: patient account registration requires only a phone number verified by SMS OTP; no email verification or additional identity data at registration.",
+      "rationale": "User answered Q1 affirmatively in S-1.3.",
+      "origin_step_id": "S-1.3",
+      "status": "confirmed",
+      "confirmed_at": "2025-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "AS05",
+      "path": "addendum[id=AD04]",
+      "statement": "CONFIRMED by user: administrators enter doctor work shifts manually, and each booking slot is 30 minutes long.",
+      "rationale": "User answered Q2 in S-1.3; slot granularity was previously unstated.",
+      "origin_step_id": "S-1.3",
+      "status": "confirmed",
+      "confirmed_at": "2025-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "AS06",
+      "path": "project.stakes",
+      "statement": "CONFIRMED by user: the system will run on rented cloud hosting; no on-premise infrastructure at the clinic.",
+      "rationale": "User answered Q3 affirmatively in S-1.3.",
+      "origin_step_id": "S-1.3",
+      "status": "confirmed",
+      "confirmed_at": "2025-01-15T00:00:00.000Z"
+    },
+    {
+      "id": "AS07",
+      "path": "actors[]",
+      "statement": "The first Administrator account is provisioned outside the system (e.g. by direct database setup), and the Administrator invites Receptionist and Doctor accounts; patients self-register with SMS OTP.",
+      "rationale": "AD18 says staff cannot self-register but does not say how the first admin gets an account.",
+      "origin_step_id": "S-3.1",
+      "status": "unconfirmed",
+      "confirmed_at": null
+    }
+  ],
+  "flags": [
+    {
+      "id": "FL001",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:1 chưa có dữ liệu",
+      "remediation_step": "S-2.1",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:08:14.861Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL002",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:2.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:2.1 chưa có dữ liệu",
+      "remediation_step": "S-3.1",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:26:46.000Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL003",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:2.2.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:2.2.1 chưa có dữ liệu",
+      "remediation_step": "S-3.6",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL004",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:2.2.2",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:2.2.2 chưa có dữ liệu",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL005",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:3.1.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:3.1.1 chưa có dữ liệu",
+      "remediation_step": "S-4.2",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL006",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:3.1.2",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:3.1.2 chưa có dữ liệu",
+      "remediation_step": "S-4.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL007",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:3.1.3",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:3.1.3 chưa có dữ liệu",
+      "remediation_step": "S-4.3",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL008",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:3.1.4",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:3.1.4 chưa có dữ liệu",
+      "remediation_step": "S-4.4",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL009",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:3.1.5",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:3.1.5 chưa có dữ liệu",
+      "remediation_step": "S-4.5",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL010",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:4.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:4.1 chưa có dữ liệu",
+      "remediation_step": "S-6.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL011",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:4.2.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:4.2.1 chưa có dữ liệu",
+      "remediation_step": "S-6.2",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL012",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:4.2.2",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:4.2.2 chưa có dữ liệu",
+      "remediation_step": "S-6.3",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL013",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:4.2.3",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:4.2.3 chưa có dữ liệu",
+      "remediation_step": "S-6.4",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL014",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:5.1",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:5.1 chưa có dữ liệu",
+      "remediation_step": "S-7.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL015",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:5.2",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:5.2 chưa có dữ liệu",
+      "remediation_step": "S-7.2",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL016",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:5.3",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:5.3 chưa có dữ liệu",
+      "remediation_step": "S-7.3",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL017",
+      "level": "red",
+      "rule_id": "section_empty",
+      "section_id": "fixed:5.4",
+      "target_id": null,
+      "message": "Section bắt buộc fixed:5.4 chưa có dữ liệu",
+      "remediation_step": "S-7.4",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:15:22.668Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL018",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:2.1",
+      "target_id": "actors",
+      "message": "actors đang rỗng",
+      "remediation_step": "S-3.1",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:26:46.000Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL019",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:2.1",
+      "target_id": "actors[kind=human]",
+      "message": "actors[kind=human] đang rỗng",
+      "remediation_step": "S-3.1",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL020",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:3.1.2",
+      "target_id": "screens",
+      "message": "screens đang rỗng",
+      "remediation_step": "S-4.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL021",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:3.1.5",
+      "target_id": "entities",
+      "message": "entities đang rỗng",
+      "remediation_step": "S-4.5",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL022",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:2.2.2",
+      "target_id": "use_cases",
+      "message": "use_cases đang rỗng",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL023",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:3.1.2",
+      "target_id": "features",
+      "message": "features đang rỗng",
+      "remediation_step": "S-4.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL024",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:3.1.2",
+      "target_id": "functions",
+      "message": "functions đang rỗng",
+      "remediation_step": "S-4.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL025",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:3.1.3",
+      "target_id": "roles",
+      "message": "roles đang rỗng",
+      "remediation_step": "S-3.1",
+      "opened_at_version": 5,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL026",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:4.2.2",
+      "target_id": "nfrs[category=reliability]",
+      "message": "nfrs[category=reliability] đang rỗng",
+      "remediation_step": "S-6.3",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL027",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:4.2.3",
+      "target_id": "nfrs[category=performance]",
+      "message": "nfrs[category=performance] đang rỗng",
+      "remediation_step": "S-6.4",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL028",
+      "level": "red",
+      "rule_id": "array_empty",
+      "section_id": "fixed:5.2",
+      "target_id": "common_requirements",
+      "message": "common_requirements đang rỗng",
+      "remediation_step": "S-7.2",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL029",
+      "level": "red",
+      "rule_id": "nfr_missing_number",
+      "section_id": "fixed:4.2.2",
+      "target_id": null,
+      "message": "Chưa có NFR reliability nào",
+      "remediation_step": "S-6.3",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL030",
+      "level": "red",
+      "rule_id": "nfr_missing_number",
+      "section_id": "fixed:4.2.3",
+      "target_id": null,
+      "message": "Chưa có NFR performance nào",
+      "remediation_step": "S-6.4",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL031",
+      "level": "yellow",
+      "rule_id": "non_english_content",
+      "section_id": "fixed:1",
+      "target_id": null,
+      "message": "Nội dung render vào SRS phải bằng tiếng Anh: project.name",
+      "remediation_step": "S-2.1",
+      "opened_at_version": 5,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL032",
+      "level": "yellow",
+      "rule_id": "orphan_actor",
+      "section_id": "fixed:2.1",
+      "target_id": "A01",
+      "message": "Actor \"VNPay\" không thuộc use case nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 103,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL033",
+      "level": "yellow",
+      "rule_id": "orphan_actor",
+      "section_id": "fixed:2.1",
+      "target_id": "A02",
+      "message": "Actor \"SMS/Email Notification Service\" không thuộc use case nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 103,
+      "resolved_at": "2026-09-22T09:29:30.613Z",
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL034",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC01",
+      "message": "Use case \"Register Account\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL035",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC02",
+      "message": "Use case \"Log In\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL036",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC03",
+      "message": "Use case \"Reset Password\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL037",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC04",
+      "message": "Use case \"Book Appointment\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL038",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC05",
+      "message": "Use case \"Reschedule Appointment\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL039",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC06",
+      "message": "Use case \"Cancel Appointment\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL040",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC07",
+      "message": "Use case \"Pay Booking Deposit\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL041",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC08",
+      "message": "Use case \"Check In Patient\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL042",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC09",
+      "message": "Use case \"Book Appointment for Phone Caller\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL043",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC10",
+      "message": "Use case \"View Day Schedule\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL044",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC11",
+      "message": "Use case \"Write Visit Notes\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL045",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC12",
+      "message": "Use case \"Manage Branches\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL046",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC13",
+      "message": "Use case \"Manage Doctors and Shifts\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL047",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC14",
+      "message": "Use case \"Manage Staff Accounts\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL048",
+      "level": "yellow",
+      "rule_id": "usecase_no_function",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC15",
+      "message": "Use case \"View Reports\" chưa gắn function nào",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL049",
+      "level": "yellow",
+      "rule_id": "usecase_name_style",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC08",
+      "message": "Tên use case \"Check In Patient\" chưa đạt: U4 (không nhắc tên actor trong tên use case)",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL050",
+      "level": "yellow",
+      "rule_id": "usecase_name_semantic",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC12",
+      "message": "Tên use case \"Manage Branches\" chưa đạt: U3 (động từ quá thô, nói mục tiêu cụ thể)",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL051",
+      "level": "yellow",
+      "rule_id": "usecase_name_semantic",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC13",
+      "message": "Tên use case \"Manage Doctors and Shifts\" chưa đạt: U2 (một mục tiêu duy nhất, không gộp bằng \"and\", \"/\" hay dấu phẩy); U3 (động từ quá thô, nói mục tiêu cụ thể)",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    },
+    {
+      "id": "FL052",
+      "level": "yellow",
+      "rule_id": "usecase_name_semantic",
+      "section_id": "fixed:2.2.2",
+      "target_id": "UC14",
+      "message": "Tên use case \"Manage Staff Accounts\" chưa đạt: U3 (động từ quá thô, nói mục tiêu cụ thể)",
+      "remediation_step": "S-3.2",
+      "opened_at_version": 118,
+      "resolved_at": null,
+      "waived_by_user": false,
+      "waive_reason": null,
+      "waived_at_version": null
+    }
+  ],
+  "sections": [],
+  "baselines": [],
+  "spine_version": 119,
+  "projectId": "6ab24325bb1ddd00ca2a403d"
+}

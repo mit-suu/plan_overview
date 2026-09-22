@@ -1,0 +1,9 @@
+@startuml
+skinparam monochrome true
+left to right direction
+rectangle "Minh An Booking" as SYSTEM_
+rectangle "VNPay" as A01 <<system>>
+rectangle "SMS/Email Notification Service" as A02 <<system>>
+SYSTEM_ -- A01
+SYSTEM_ -- A02
+@enduml

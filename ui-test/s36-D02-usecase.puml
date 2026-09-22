@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+left to right direction
+title Use Cases — Patient / Receptionist / Doctor
+actor "Patient" as A03
+actor "Receptionist" as A04
+actor "Doctor" as A05
+actor "Administrator" as A06
+rectangle "Minh An Booking" {
+  usecase "Register Account" as UC01
+  usecase "Log In" as UC02
+  usecase "Reset Password" as UC03
+  usecase "Book Appointment" as UC04
+  usecase "Pay Booking Deposit" as UC07
+  usecase "Reschedule Appointment" as UC05
+  usecase "Cancel Appointment" as UC06
+  usecase "Check In Patient" as UC08
+  usecase "Book Appointment for Phone Caller" as UC09
+  usecase "View Day Schedule" as UC10
+  usecase "Write Visit Notes" as UC11
+}
+actor "VNPay" as A01 <<system>>
+actor "SMS/Email Notification Service" as A02 <<system>>
+UC01 -- A02
+A03 -- UC01
+A03 -- UC02
+A04 -- UC02
+A05 -- UC02
+A06 -- UC02
+A03 -- UC03
+A04 -- UC03
+A05 -- UC03
+A06 -- UC03
+UC04 -- A01
+UC04 -- A02
+A03 -- UC04
+UC07 -- A01
+UC05 -- A02
+A03 -- UC05
+UC06 -- A01
+UC06 -- A02
+A03 -- UC06
+A04 -- UC08
+A04 -- UC09
+A05 -- UC10
+A05 -- UC11
+UC04 ..> UC07 : <<include>>
+@enduml
