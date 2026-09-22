@@ -5,7 +5,17 @@
 
 ## Bàn giao
 
-Chưa bắt đầu.
+**Xong 2026-09-22** — PR BE [#75](https://github.com/mit-suu/flintflow_be/pull/75) (`feat/FLF-187-mode1-v2-vision`, trên #74, worktree `../wt-be-flow456`), FE [#56](https://github.com/mit-suu/flintflow_fe/pull/56) (trên #55). FLF-187 ⇒ In Review. Contract §4.10 (contract-change, gom với §4.8–4.9).
+
+- **1 (T3)**: `DocxPackage.binary`, `OoxmlBlock/DocBlock.image_ref`; ảnh dưới mục FPT ⇒ phần nối nguyên văn; render nhúng lại ảnh gốc qua `render/import-media.ts` (id `media:<part>` đi chung đường ảnh diagram, cache gói theo `file_ref`); `docx-writer` nhận JPEG; EMF ⇒ chỗ giữ ảnh + chú thích. Caption kề: `captionOf` (±1 block) dùng cho prompt vision.
+- **2**: `LlmCallOptions.images` (Gemini `inline_data`; provider khác ⇒ `AI_PROVIDER_NO_VISION`), `ExecuteAiActionOptions.images`, `withMeteredAi(…, { images })`, `ActionType.IMPORT_EXTRACT_DIAGRAM` 2 credit. Đặt ở options thay vì `AiActionInput` (input là biến prompt).
+- **3**: skill `import-extract-diagram` (`gemini-3.5-flash`, `maxTokens` 8192 — 4096 bị cắt ở ảnh 19 UC); `screens.flow_to` thêm vào schema excerpt (`includes/extends` đã có).
+- **4**: chỉ ảnh ở `DIAGRAM_SECTIONS` (`fixed:1, 2.1, 2.2.1, 2.2.2, 3.1.1, 3.1.5`) — ảnh chụp màn ở mục khác không gửi (tiết kiệm credit). `origin: vision`, trần 0.7, `needsConfirm` ⇒ luôn qua 1.9 (dùng chung cho extract / summary / gap report / finalize). Chữ thắng ảnh khi trùng phần tử; `REF_LIST_FIELDS` gộp hợp (cả `collectEntities` xuyên section). Draft lưu `diagram_images[{block_id, kind}]`.
+- **5**: ảnh đọc được ⇒ bỏ khỏi phần nối (PlantUML từ Spine thay); không đọc được ⇒ giữ + cờ vàng `import_image_unread` (thêm vào `MODEL_OWNED_RULES`).
+- **6**: FE 1.9 nhãn "từ ảnh" + nhắc sau v0 chỉ sửa qua CR.
+- **7**: `flintflow_be/docs/measurements.md` — 12 lượt Gemini thật trên ảnh SRS Report3: ~2,2k tokens_in/ảnh, phân loại đúng context/use case/other. **Còn nợ**: đo ERD + luồng màn (key free tier hết quota ngày); môi trường thật cần key trả phí.
+
+Test: BE 1548, FE 682 xanh. DoD phần "sau v0 thêm actor qua panel xem trước ⇒ CR ⇒ diagram vẽ lại" dùng đường phase 2/3 đã có e2e — chưa chạy lại e2e với SRS có ảnh (đưa vào phase 6).
 
 ## Liên quan tới Flow 1 / 3
 

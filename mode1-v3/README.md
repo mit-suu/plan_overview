@@ -21,20 +21,22 @@
 
 ## Trạng thái
 
-**Cập nhật: 2026-09-22 (tối).** Phase 1–3 xong, phase 4 xong phần không bị chặn (4.4 chờ Flow 7–10). **e2e chạy thật PASS** (import ⇒ gap report ⇒ workspace v3 ⇒ chat mời tạo CR ⇒ panel xem trước ⇒ CR 3.2 → 3.14 ⇒ bản 0.1 + bản có đánh dấu ⇒ release bị khoá vì còn cờ đỏ). **4 PR đã mở, chờ review** (contract-change §4.8–4.9 cần 4/4):
+**Cập nhật: 2026-09-22 (tối).** Phase 1–3 xong, phase 4 xong phần không bị chặn (4.4 chờ Flow 7–10), **phase 5 xong** (PR BE #75, FE #56 — FLF-187 In Review). **e2e chạy thật PASS** (import ⇒ gap report ⇒ workspace v3 ⇒ chat mời tạo CR ⇒ panel xem trước ⇒ CR 3.2 → 3.14 ⇒ bản 0.1 + bản có đánh dấu ⇒ release bị khoá vì còn cờ đỏ). **6 PR đã mở, chờ review** (contract-change §4.8–4.10 cần 4/4):
 
 | Repo | PR | Nhánh | Vào |
 |---|---|---|---|
 | BE | [#72](https://github.com/mit-suu/flintflow_be/pull/72) | `feat/mode1-v3-flow1` (phase 1) | `feat/FLF-188-mode1-v2-tests` (#70) |
 | BE | [#73](https://github.com/mit-suu/flintflow_be/pull/73) | `feat/mode1-v3-flow3` (phase 2) | #72 |
 | BE | [#74](https://github.com/mit-suu/flintflow_be/pull/74) | `feat/mode1-v3-flow456` (phase 4) | #73 |
+| BE | [#75](https://github.com/mit-suu/flintflow_be/pull/75) | `feat/FLF-187-mode1-v2-vision` (phase 5) | #74 |
 | FE | [#55](https://github.com/mit-suu/flintflow_fe/pull/55) | `feat/mode1-v3-ui` (phase 3) | `feat/FLF-188-mode1-v2-tests` (#52) |
+| FE | [#56](https://github.com/mit-suu/flintflow_fe/pull/56) | `feat/FLF-187-mode1-vision-ui` (phase 5) | #55 |
 
-Merge #72 + #73 cùng lúc với FE #55 (BE đổi hành vi mà FE cũ không theo). Phase 4 làm trong worktree `../wt-be-flow456` (node_modules là junction tới `flintflow_be`) — xoá bằng `git worktree remove ../wt-be-flow456` khi PR đã merge.
+Merge #72 + #73 cùng lúc với FE #55 (BE đổi hành vi mà FE cũ không theo). Phase 4 + 5 làm trong worktree `../wt-be-flow456` (node_modules là junction tới `flintflow_be`) — xoá bằng `git worktree remove ../wt-be-flow456` khi PR đã merge.
 
 **Chạy e2e:** file mẫu `doc/sample-draft.docx` mang stamp dự án khác (bị từ chối — đúng thiết kế) ⇒ dùng bản gỡ stamp (script gỡ `flintflow_*` trong `docProps/custom.xml`). Lệnh: `E2E_MODE1=1 E2E_MODE1_DOCX=<file không stamp> npx playwright test e2e/mode1.spec.ts`.
 
-Còn lại: phase 5 (vision, T3), phase 6 phần còn lại (journey BE theo đủ nhánh BPMN, tài liệu luồng mới), 4.4 (chờ Flow 7–10).
+Còn lại: phase 6 phần còn lại (journey BE theo đủ nhánh BPMN, tài liệu luồng mới), 4.4 (chờ Flow 7–10).
 
 | Phase | Việc | Điểm | Phụ thuộc | Trạng thái |
 |---|---|---|---|---|
@@ -42,7 +44,7 @@ Còn lại: phase 5 (vision, T3), phase 6 phần còn lại (journey BE theo đ�
 | 2 | BE: Flow 3 đủ nút + Track Changes | 5 | 1 | **Xong** — PR BE #73 |
 | 3 | FE: màn mode 1 theo flow, panel xem trước ⇒ form 3.1 | 5 | 1, 2 (mock được) + PR #51/#52 (FE) | **Xong** — PR FE #55 |
 | 4 | Flow 4/5/6 + quyền lane + T14/T15 | 5 | 1; 4.4 chờ Flow 8–10 | **Xong phần không bị chặn** — PR BE #74; 4.4 chờ Flow 7–10 |
-| 5 | Vision + ảnh gốc | 7 | — (song song) | Chưa |
+| 5 | Vision + ảnh gốc | 7 | — (song song) | **Xong** — PR BE #75, FE #56 (chưa đo ERD / luồng màn: hết quota Gemini) |
 | 6 | Test + e2e + tài liệu | 3 | 1–4 | Chưa |
 | | **Tổng** | **29** | | |
 
