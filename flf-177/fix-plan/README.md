@@ -1,8 +1,8 @@
-# FlintFlow — kế hoạch sửa sau lượt test UI (2026-09-22)
+    # FlintFlow — kế hoạch sửa sau lượt test UI (2026-09-22)
 
 Đầu vào:
-- [../flf-177-ui-test/BUGS.md](../flf-177-ui-test/BUGS.md): 35 lỗi, chia mức P0/P1/P2;
-- [../flf-177-ui-test/s9run/REPORT-UX.md](../flf-177-ui-test/s9run/REPORT-UX.md): nhận xét UX.
+- [../ui-test/BUGS.md](../ui-test/BUGS.md): 35 lỗi, chia mức P0/P1/P2;
+- [../ui-test/s9run/REPORT-UX.md](../ui-test/s9run/REPORT-UX.md): nhận xét UX.
 
 | File | Nội dung |
 |---|---|

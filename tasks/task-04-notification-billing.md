@@ -49,5 +49,5 @@ F3 (notification, billing), E1 (usage thiếu `expires_at`, tặng cứng 100 cr
 - [ ] `POST /ai-actions/estimate-cost` không auth trả 401.
 
 ## Ghi chú / rủi ro
-- ~~Không tích hợp cổng thanh toán thật (Phases §9.2: mock/sandbox).~~ Đã tích hợp `payment_service` thật (VietQR). Hệ quả: dev/test offline cần `PAYMENT_*` env hoặc mock client như `billing.test.ts`; order timeout phía `payment_service` và intent `failed` nhận tiền muộn còn mở (xem `review-t01-t12.md`).
+- ~~Không tích hợp cổng thanh toán thật (Phases §9.2: mock/sandbox).~~ Đã tích hợp `payment_service` thật (VietQR). Hệ quả: dev/test offline cần `PAYMENT_*` env hoặc mock client như `billing.test.ts`; order timeout phía `payment_service` và intent `failed` nhận tiền muộn còn mở (xem `reports/review-t01-t12.md`).
 - `monthly_reset` (cron reset quota) để ngoài vòng một; ghi TODO có tên trong `plan.config.ts`.

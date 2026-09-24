@@ -1,6 +1,6 @@
 # 01 — Kế hoạch sửa 35 lỗi
 
-Chi tiết từng lỗi (bước tái hiện, bằng chứng) nằm trong [BUGS.md](../flf-177-ui-test/BUGS.md). File này gom lỗi thành **9 gói việc** theo nguyên nhân gốc, vì nhiều lỗi chung một gốc: sửa gốc một lần là đóng được nhiều lỗi.
+Chi tiết từng lỗi (bước tái hiện, bằng chứng) nằm trong [BUGS.md](../ui-test/BUGS.md). File này gom lỗi thành **9 gói việc** theo nguyên nhân gốc, vì nhiều lỗi chung một gốc: sửa gốc một lần là đóng được nhiều lỗi.
 
 Đường dẫn viết tắt:
 - `BE` = `flintflow_be/src`
